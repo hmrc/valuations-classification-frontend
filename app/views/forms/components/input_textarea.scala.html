@@ -1,0 +1,52 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@(
+field: Field,
+label: String,
+secondaryLabel: Option[String] = None,
+inputClass: Option[String] = None,
+labelClass: Option[String] = None,
+hintClass: Option[String] = None,
+hint: Option[String] = None,
+autofocus : Boolean = false,
+tabIndex : Option[Int] = None,
+customErrorMessage : Option[String] = None
+)(implicit messages: Messages)
+
+<div class="govuk-form-group @if(field.hasErrors){govuk-form-group--error}">
+    <label class="govuk-label" for="@{field.id}">
+        <span class="@labelClass">@label</span>
+    </label>
+
+    @hint.map { hint =>
+        <span class="govuk-hint" id="@{field.id}-hint">@hint</span>
+    }
+
+    @field.errors.map { error =>
+        <span class="govuk-error-message" id="@{field.id}-error"><span class="govuk-visually-hidden">@messages("error.browser.title.prefix")</span>@customErrorMessage.getOrElse( messages(error.message, error.args: _*))</span>
+    }
+
+    <textarea
+            class="govuk-textarea @inputClass @if(field.hasErrors){govuk-input--error}"
+            id="@{field.id}"
+            name="@{field.id}"
+            @if(field.hasErrors || hint.nonEmpty){ aria-describedby="@if(hint.nonEmpty){@{field.id}-hint}@if(field.hasErrors && hint.nonEmpty){ }@if(field.hasErrors){@{field.id}-error}"}
+            rows="5"
+            @if(autofocus){autofocus}
+    >@{field.value}</textarea>
+
+</div>

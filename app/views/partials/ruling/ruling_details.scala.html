@@ -1,0 +1,174 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import config.AppConfig
+@import controllers.routes.RulingController
+@import models.forms.DecisionFormData
+@import models.request.AuthenticatedRequest
+@import models.{CaseStatus, Permission, StoredAttachment}
+@import models.viewmodels.atar.RulingTabViewModel
+@import utils.Dates
+@import views.html.components.edit_ruling_button
+@import views.html.partials.ruling._
+@import views.html.partials.{attachments_list, tab_heading}
+
+@(ruling: RulingTabViewModel, decisionForm: Option[Form[DecisionFormData]], files: Seq[StoredAttachment], startAtTabIndex : Int = 0)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+    @tab_heading("ruling", messages("case.menu.ruling-advance"))
+
+    @if(request.hasPermission(Permission.EDIT_RULING) ) {
+        @edit_ruling_button(RulingController.editRulingDetails(ruling.caseReference))
+    }
+
+    <div class="govuk-form-group">
+        <h3 class="govuk-heading-m">@messages("case.decision.application.title")</h3>
+
+        <dl class="govuk-summary-list" >
+            <div class="govuk-summary-list__row">
+                <dt id="application_submittedDate" class="govuk-summary-list__key">
+                @messages("pdf.ruling.section.date.submitted")
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span id="application_submittedDateValue">@{Dates.format(ruling.caseCreatedDate)}</span>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt id="application_envisagedCommodityCode" class="govuk-summary-list__key">
+                @messages("case.application.suggested-commodity-code")
+                </dt>
+                <dd class="govuk-summary-list__value">
+                @ruling.suggestedCommodityCode.map { suggestedCommodityCode =>
+                    <span id="envisagedCommodityCodeValue">@suggestedCommodityCode</span>
+                }
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt id="application_goodDescription" class="govuk-summary-list__key">
+                @messages("case.application.ruling-tab-suggested-goods-description")
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span id="application_goodDescriptionValue">@{ruling.goodsDescription}</span>
+                </dd>
+            </div>
+        </dl>
+    </div>
+
+
+    <div class="govuk-form-group">
+        <h3 class="govuk-heading-m">@messages("case.menu.ruling-published-information")</h3>
+        @if(ruling.bindingCommodityCode.flatMap(_.expiry).isDefined) {
+            @ruling_commodity_code_expiry_section_warning_message(ruling,  clazz = "mb-3")
+        }
+
+        @ruling.decision.map { d =>
+            <dl class="govuk-summary-list">
+                @if(d.effectiveEndDate.isDefined){
+                    <div class="govuk-summary-list__row">
+                        <dt id="application_expiryDate" class="govuk-summary-list__key">
+                        @messages("pdf.ruling.section.date.expiry")
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <span id="application_expiryDateValue">@{Dates.format(d.effectiveEndDate.get)}</span>
+                        </dd>
+                    </div>
+                }
+            <div class="govuk-summary-list__row">
+                <dt id="ruling_bindingCommodityCode" class="govuk-summary-list__key">
+                @messages("case.decision.commodity-code")
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span id="ruling_bindingCommodityCodeValue">@d.bindingCommodityCode</span>
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt id="ruling_itemDescription" class="govuk-summary-list__key">
+                @messages("case.decision.goods-description")
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span id="ruling_itemDescriptionValue" class="pre-wrap">@d.goodsDescription</span>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt id="ruling_justification" class="govuk-summary-list__key">
+                @messages("case.decision.justification")
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <span id="ruling_justificationValue" class="pre-wrap">@d.justification</span>
+                </dd>
+            </div>
+            </dl>
+
+            <h3 class="govuk-heading-m">@messages("case.menu.ruling-not-published-information")</h3>
+
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt id="ruling_methodCommercialDenomination" class="govuk-summary-list__key">
+                    @messages("case.decision.method-commercial-denomination")
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <span id="ruling_methodCommercialDenominationValue" class="pre-wrap">@d.methodCommercialDenomination.getOrElse("")</span>
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt id="ruling_searches" class="govuk-summary-list__key">
+                    @messages("case.decision.method-search")
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <span id="ruling_searchesValue" class="pre-wrap">@d.methodSearch.getOrElse("")</span>
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt id="ruling_exclusions" class="govuk-summary-list__key">
+                    @messages("case.decision.method-exclusion")
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <span id="ruling_exclusionsValue" class="pre-wrap">@d.methodExclusion.getOrElse("")</span>
+                    </dd>
+                </div>
+            </dl>
+
+        }.getOrElse {
+            <span id="no-ruling-information" class="govuk-body">@messages("case.decision.empty")</span>
+        }
+    </div>
+
+    <div class="govuk-form-group">
+        @ruling_explanation(ruling.decision,Some(startAtTabIndex+50))
+
+        @ruling_certificate_link(ruling,Some(startAtTabIndex+51))
+
+        @if(ruling.caseStatus == CaseStatus.COMPLETED || ruling.caseStatus == CaseStatus.CANCELLED) {
+            @ruling_commodity_code_expiry_section(ruling)
+        }
+    </div>
+
+    <div class="govuk-form-group">
+        <h3 class="govuk-heading-m">@messages("case.decision.attachments.ruling")</h3>
+
+        @attachments_list(
+            "attachments",
+            files.filter(_.shouldPublishToRulings),
+            caseRef = ruling.caseReference,
+            startAtTabIndex = Some(startAtTabIndex+2)
+        )
+    </div>
+
+    <div class="govuk-form-group" id="ruling-actions">
+        @if(request.hasPermission(Permission.CANCEL_CASE)) {
+            @cancel_ruling_section(ruling,Some(startAtTabIndex+53))
+        }
+    </div>

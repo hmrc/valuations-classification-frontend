@@ -1,0 +1,65 @@
+$red: #B10E1E;
+$blue: #005EA5;
+$white: #FFF;
+$black: #0b0c0c;
+$gray: #dee0e2;
+$gray-dark: #57585C;
+$gray-very-dark: #6F777B;
+$grey-text: #626a6e;
+$red-dark: #aa2a16;
+$red-very-dark: #55150b;
+
+
+.text-red {
+  color: $red;
+}
+
+.text-blue {
+  color: $blue;
+}
+
+.text-white {
+  color: $white;
+}
+
+.text-grey {
+  color: $grey-text;
+}
+
+.bg-red {
+  background-color: $red;
+}
+
+.bg-blue {
+  background-color: $blue;
+}
+
+.bg-gray {
+  background-color: $gray;
+}
+
+.bg-gray--dark {
+  background-color: $gray-dark;
+}
+
+a.button-gray, button.button-gray, .button-gray:visited {
+  background-color: $gray;
+  color: $black !important;
+  box-shadow: 0 2px 0 $gray-very-dark;
+
+  &:hover, &:focus {
+    background-color: $gray-dark;
+    color: $black;
+  }
+}
+
+a.button-red, button.button-red, .button-red:visited {
+  background-color: $red !important;
+  color: white !important;
+  box-shadow: 0 2px 0 $red-very-dark;
+
+  &:hover, &:focus {
+    background-color: $red-dark !important;
+    color: $white;
+  }
+}
