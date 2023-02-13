@@ -1,0 +1,63 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import config.AppConfig
+@import controllers.routes
+@import models.Case
+@import models.request.AuthenticatedRequest
+@import models.viewmodels.NoTabSelected
+@import views.forms.components.RadioOption
+@import views.html.forms.components.input_radiogroup
+@import views.html.includes.main
+@import views.html.partials.{case_heading, back_link}
+
+@this(
+    main: main,
+    backLink: back_link
+)
+
+@(c: Case, form: Form[Boolean])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+@main(
+    pageTitle = messages("page.title.extended.use"),
+    customPrimaryNavTab = NoTabSelected,
+    backLink = Some(backLink())
+) {
+
+<div class="govuk-notification-banner-width">
+    @case_heading(c, messageKey = Some("case.extend.heading"))
+
+    <p class="govuk-body">Before you change this, <a id="change_extended_use_status-attachment_link" class="govuk-link" href="@routes.CaseController.attachmentsDetails(c.reference)">attach</a> any relevant documentation to the case.</p>
+
+    @helper.form(action = routes.ExtendedUseCaseController.updateStatus(c.reference), Symbol("id") -> "extended_use_form", Symbol("novalidate") -> "novalidate") {
+        @helper.CSRF.formField
+        @input_radiogroup(
+            field = form("state"),
+            options = Seq(RadioOption("true", "Yes"), RadioOption("false", "No")),
+            id = "review_status_form",
+            label = Some(messages("case.extend.heading", c.application.goodsName)),
+            labelClass = Some ("govuk-visually-hidden")
+        )
+        <div class="govuk-form-group">
+            <button id="change_extended_use_status-submit" class="govuk-button" type="submit">Save changes</button>
+            <p class="govuk-body">
+                <a id="change_extended_use_status-cancel" class="govuk-link" href="@routes.AppealCaseController.appealDetails(c.reference)">Cancel this action</a>
+            </p>
+        </div>
+    }
+</div>
+
+}

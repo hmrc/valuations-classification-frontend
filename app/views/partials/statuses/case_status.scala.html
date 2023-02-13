@@ -1,0 +1,61 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models.CaseStatus.CaseStatus
+@import models.{CancelReason, Case, CaseStatus}
+
+@(c: Case, id: String, suppressLiveIndicator: Boolean = false)
+
+@if(c.application.isLiveLiabilityOrder && !suppressLiveIndicator) {
+    <span class="govuk-visually-hidden">liability type</span>
+    <span id = "@id-liability-status" class="govuk-tag govuk-tag--pink">LIVE</span>
+}
+
+@c.status match {
+    case CaseStatus.CANCELLED => {
+        <span id ="@id" class="govuk-tag govuk-tag--red">
+            CANCELLED@{c.decision.flatMap(_.cancellation).flatMap(c => CancelReason.code(c.reason)).map(s => s" - $s").getOrElse("")}
+        </span>
+    }
+    case CaseStatus.COMPLETED if c.hasExpiredRuling => {
+        <span class="govuk-visually-hidden">case status</span>
+        <span id ="@id" class="govuk-tag govuk-tag--green">
+            EXPIRED
+        </span>
+    }
+    case CaseStatus.REFERRED | CaseStatus.SUSPENDED => {
+        <span class="govuk-visually-hidden">case status</span>
+        <span id="@id" class="govuk-tag govuk-tag--yellow">
+            @{c.status}
+        </span>
+    }
+    case CaseStatus.OPEN => {
+        <span class="govuk-visually-hidden">case status</span>
+        <span id="@id" class="govuk-tag govuk-tag--blue">
+             @{c.status}
+        </span>
+    }
+    case CaseStatus.REJECTED => {
+    <span class="govuk-visually-hidden">case status</span>
+    <span id="@id" class="govuk-tag govuk-tag--red">
+                 @{c.status}
+            </span>
+    }
+    case s : CaseStatus => {
+        <span class="govuk-visually-hidden">case status</span>
+        <span id="@id" class="govuk-tag govuk-tag--green">@s</span>
+    }
+}
