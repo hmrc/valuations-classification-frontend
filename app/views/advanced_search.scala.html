@@ -1,0 +1,205 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import config.AppConfig
+@import models.request.AuthenticatedRequest
+@import models.PseudoCaseStatus.PseudoCaseStatus
+@import models.{ApplicationType, Paged, PseudoCaseStatus, Search}
+@import views.SearchTab
+@import views.SearchTab.SearchTab
+@import views.forms.components.CheckOption
+@import views.html.forms.components.{input_checkbox_group, input_text}
+
+@import views.html.partials._
+@import views.partials.SearchResult
+@import models.viewmodels.NoTabSelected
+@import views.html.includes.main
+@import views.html.layouts.full_main_content_layout
+
+@this(
+        main: main,
+        fullMainContent: full_main_content_layout
+)
+
+
+@(form: Form[Search], results: Option[Paged[SearchResult]] = None, keywords: Seq[String], selectedTab: SearchTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+@formHasStatus(status: PseudoCaseStatus) = @{
+    form.value.flatMap(_.status).exists(_.contains(status))
+}
+
+@formHasApplicationType(status: ApplicationType) = @{
+    form.value.flatMap(_.applicationType).exists(_.contains(status))
+}
+
+@useSelectedTab() = @{
+    selectedTab match {
+        case SearchTab.SEARCH_BOX => SearchTab.DETAILS
+        case _ => selectedTab
+    }
+}
+
+@additionalCSS = {
+    <link rel="stylesheet" href='@routes.Assets.at("stylesheets/autocomplete.css")'/>
+    <link rel="stylesheet" href='@routes.Assets.at("stylesheets/advanced-search.css")'/>
+    @*<link rel="stylesheet" href='@routes.Assets.at("stylesheets/search.css")'/>*@
+}
+
+@additionalJS = {
+    <script src="@routes.Assets.at("javascripts/accessible-autocomplete.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/search.js")" type="text/javascript"></script>
+}
+
+@main(
+    pageTitle = messages("page.title.advanced.search"),
+    customPrimaryNavTab = NoTabSelected,
+    optCustomLayout = Some(fullMainContent(_)),
+    additionalJS = Some(additionalJS),
+    additionalCSS = Some(additionalCSS)
+) {
+
+    @error_summary(form.errors, keySwaps = Map("application_type" -> "application_type-0", "status" -> "status-0"))
+
+    <h1 id="advanced_search-heading" class="govuk-heading-xl">Advanced search</h1>
+    <p class="govuk-body">To narrow your search, enter multiple search terms.<p>
+
+    @helper.form(action = controllers.routes.SearchController.search().withFragment("advanced_search-results_and_filters"),
+        Symbol("id") -> "advanced_search-form", Symbol("novalidate") -> "novalidate") {
+        @input_text(
+            field = form("case_details"),
+            label = "Case details",
+            hint = Some("Search the goods name or case description"),
+            inputClass = Some("govuk-!-width-three-quarters")
+        )
+
+        @input_text(
+            field = form("commodity_code"),
+            label = "Commodity code",
+            hint = Some("Search by 2 digits or more"),
+            inputClass = Some("govuk-!-width-three-quarters")
+        )
+
+        @input_text(
+            field = form("case_source"),
+            label = "Case source",
+            hint= Some("Search the trader name, case source or case contact"),
+            inputClass = Some("govuk-!-width-three-quarters")
+        )
+
+        @input_text(
+            field = form("decision_details"),
+            label = "Ruling details",
+            hint = Some("Search the goods description, justification or commercial denomination"),
+            inputClass = Some("govuk-!-width-three-quarters")
+        )
+
+        @advanced_search_keywords(form, keywords)
+
+        <div class="govuk-button-group">
+            <button id="advanced_search-search_button" class="govuk-button" type="submit" name="addToSearch" value="false" data-prevent-double-click="true">
+                Search
+            </button>
+            <a id="advanced_search-reset_button" class="govuk-button govuk-button--secondary" href="@controllers.routes.SearchController.search()">New search</a>
+        </div>
+
+        @if(results.isEmpty) {
+            @*
+                Hack to ensure the checkbox is checked when search results aren't present
+                This is only required for form elements that are rendered when results are present and which need a default value.
+            *@
+            <input type="hidden" value="OPEN" name="status[0]"/>
+            <input type="hidden" value="LIVE" name="status[1]"/>
+            <input type="hidden" value="LIABILITY_ORDER" name="application_type[0]"/>
+            <input type="hidden" value="BTI" name="application_type[1]"/>
+        }
+
+        @if(results.isDefined && !form.hasErrors) {
+            <div id="advanced_search-results_and_filters">
+
+                <h2 class="govuk-heading-l">Search results</h2>
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-quarter">
+                        <div class="advanced_search--filters_container">
+                            <div class="advanced_search--filters">
+                                @input_checkbox_group(
+                                    field = form("application_type"),
+                                    options = Seq(
+                                        CheckOption("ATaR", ApplicationType.ATAR.name, checked = formHasApplicationType(ApplicationType.ATAR)),
+                                        CheckOption("Liability", ApplicationType.LIABILITY.name, checked = formHasApplicationType(ApplicationType.LIABILITY)),
+                                        CheckOption("Corres", ApplicationType.CORRESPONDENCE.name, checked = formHasApplicationType(ApplicationType.CORRESPONDENCE)),
+                                        CheckOption("Misc", ApplicationType.MISCELLANEOUS.name, checked = formHasApplicationType(ApplicationType.MISCELLANEOUS))
+                                    ),
+                                    legend = Some("Apply filters"),
+                                    submitOnChange = true,
+                                    divClass = Some("advanced_search--filters-checkbox"),
+                                    legendClass = Some("govuk-fieldset__legend--m")
+                                )
+
+                                @input_checkbox_group(
+                                    field = form("status"),
+                                    options = Seq(
+                                        CheckOption("Open", PseudoCaseStatus.OPEN.toString, checked = formHasStatus(PseudoCaseStatus.OPEN)),
+                                        CheckOption("Completed", PseudoCaseStatus.COMPLETED.toString, checked = formHasStatus(PseudoCaseStatus.COMPLETED)),
+                                        CheckOption("Expired", PseudoCaseStatus.EXPIRED.toString, checked = formHasStatus(PseudoCaseStatus.EXPIRED)),
+                                        CheckOption("Cancelled", PseudoCaseStatus.CANCELLED.toString, checked = formHasStatus(PseudoCaseStatus.CANCELLED)),
+                                        CheckOption("New", PseudoCaseStatus.NEW.toString, checked = formHasStatus(PseudoCaseStatus.NEW)),
+                                        CheckOption("Referred", PseudoCaseStatus.REFERRED.toString, checked = formHasStatus(PseudoCaseStatus.REFERRED)),
+                                        CheckOption("Suspended", PseudoCaseStatus.SUSPENDED.toString, checked = formHasStatus(PseudoCaseStatus.SUSPENDED)),
+                                        CheckOption("Rejected", PseudoCaseStatus.REJECTED.toString, checked = formHasStatus(PseudoCaseStatus.REJECTED)),
+                                        CheckOption("Suppressed", PseudoCaseStatus.SUPPRESSED.toString, checked = formHasStatus(PseudoCaseStatus.SUPPRESSED))
+                                    ),
+                                    submitOnChange = true,
+                                    divClass = Some("advanced_search--filters-checkbox"),
+                                    customGroupClasses = Some("border-top")
+                                )
+                            </div>
+                        </div>
+                    </div>
+
+                    @defining(results.get) { searchResults: Paged[SearchResult] =>
+                        <div class="govuk-grid-column-three-quarters">
+
+                            @pagination(
+                                id = "advanced_search-pagination_top",
+                                singularName = "case",
+                                pluralName = "cases",
+                                pager = searchResults,
+                                onChange = page => controllers.routes.SearchController.search(selectedTab, search = form.get, page = page).withFragment("advanced_search_keywords")
+                            )
+
+                            @advanced_search_results_tabs(
+                                searchResults,
+                                useSelectedTab(),
+                                onChange = selected => controllers.routes.SearchController.search(selected, search = form.get, page = searchResults.pageIndex).withFragment("advanced_search_keywords")
+                            )
+
+                            @pagination(
+                                id = "advanced_search-pagination_bottom",
+                                singularName = "case",
+                                pluralName = "cases",
+                                pager = searchResults,
+                                onChange = page => controllers.routes.SearchController.search(selectedTab, search = form.get, page = page).withFragment("advanced_search_keywords")
+                            )
+
+                            <a class="govuk-link" href="#advanced_search-results_and_filters">Back to top</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+}

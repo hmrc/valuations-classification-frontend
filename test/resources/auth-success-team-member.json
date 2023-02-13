@@ -1,0 +1,16 @@
+{
+  "optionalCredentials": {
+    "providerId": "111",
+    "providerType": "PrivilegedApplication"
+  },
+  "optionalName": {
+    "name": "Forename Surname"
+  },
+  "allEnrolments": [
+    {
+      "key": "classification",
+      "identifiers": [],
+      "state": "state"
+    }
+  ]
+}
