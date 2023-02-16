@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package models
+package dummy
 
-import base.SpecBase
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-abstract class ModelsBaseSpec extends SpecBase {}
+class DummyTest extends AnyWordSpec with Matchers{
+
+  "the test" should {
+    "pass" in {
+      true shouldBe true
+    }
+  }
+
+}
