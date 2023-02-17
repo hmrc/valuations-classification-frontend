@@ -45,9 +45,9 @@ sm --start PDF_GENERATOR_SERVICE -r 1.20.0
 
 Use `sbt run` to boot the app or run it with Service Manager using `sm --start valuations_CLASSIFICATION_FRONTEND -r`.
 
-This application runs on port 9582.
+This application runs on port 9587.
 
-Open `http://localhost:9582/manage-valuations-classifications`.
+Open `http://localhost:9587/manage-valuations-classifications`.
 
 You can also run the `DIGITAL_valuationsS` profile using `sm --start DIGITAL_valuationsS -r` and then stop the Service Manager instance of this service using `sm --stop valuations_CLASSIFICATION_FRONTEND` before running with sbt.
 
