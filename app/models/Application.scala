@@ -27,7 +27,7 @@ sealed trait Application {
   val `type`: ApplicationType
   val contact: Contact
 
-  def asATAR: BTIApplication =
+  def asAVAR: BTIApplication =
     this.asInstanceOf[BTIApplication]
 
   def asLiabilityOrder: LiabilityOrder =
@@ -56,7 +56,7 @@ sealed trait Application {
 
   def businessName: Option[String] =
     `type` match {
-      case ApplicationType.ATAR           => Some(asATAR.holder.businessName)
+      case ApplicationType.AVAR           => Some(asAVAR.holder.businessName)
       case ApplicationType.LIABILITY      => Some(asLiabilityOrder.traderName)
       case ApplicationType.CORRESPONDENCE => asCorrespondence.correspondenceStarter
       case ApplicationType.MISCELLANEOUS  => asMisc.contactName
@@ -65,7 +65,7 @@ sealed trait Application {
 
   def caseSource: Option[String] =
     `type` match {
-      case ApplicationType.ATAR           => Some(asATAR.holder.businessName)
+      case ApplicationType.AVAR           => Some(asAVAR.holder.businessName)
       case ApplicationType.LIABILITY      => Some(asLiabilityOrder.traderName)
       case ApplicationType.CORRESPONDENCE => asCorrespondence.correspondenceStarter
       case ApplicationType.MISCELLANEOUS  => Some(asMisc.caseType.toString())
@@ -74,7 +74,7 @@ sealed trait Application {
 
   def goodsName: String =
     `type` match {
-      case ApplicationType.ATAR           => asATAR.goodName
+      case ApplicationType.AVAR           => asAVAR.goodName
       case ApplicationType.LIABILITY      => asLiabilityOrder.goodName.getOrElse("")
       case ApplicationType.CORRESPONDENCE => asCorrespondence.summary
       case ApplicationType.MISCELLANEOUS  => asMisc.name
@@ -82,7 +82,7 @@ sealed trait Application {
 
   def getType: String =
     `type` match {
-      case ApplicationType.ATAR           => "ATaR"
+      case ApplicationType.AVAR           => "AVaR"
       case ApplicationType.LIABILITY      => "Liability"
       case ApplicationType.CORRESPONDENCE => "Correspondence"
       case ApplicationType.MISCELLANEOUS  => "Miscellaneous"
@@ -98,7 +98,7 @@ sealed trait Application {
 
 sealed abstract class ApplicationType(val name: String) extends Product with Serializable {
   def prettyName: String = this match {
-    case ApplicationType.ATAR           => "ATaR"
+    case ApplicationType.AVAR           => "AVaR"
     case ApplicationType.LIABILITY      => "Liability"
     case ApplicationType.CORRESPONDENCE => "Correspondence"
     case ApplicationType.MISCELLANEOUS  => "Miscellaneous"
@@ -106,11 +106,11 @@ sealed abstract class ApplicationType(val name: String) extends Product with Ser
 }
 
 object ApplicationType {
-  val values = Set(ATAR, LIABILITY, CORRESPONDENCE, MISCELLANEOUS)
+  val values = Set(AVAR, LIABILITY, CORRESPONDENCE, MISCELLANEOUS)
 
   def withName(name: String) = values.find(_.name.equalsIgnoreCase(name)).getOrElse(throw new NoSuchElementException)
 
-  case object ATAR extends ApplicationType("BTI")
+  case object AVAR extends ApplicationType("BTI")
 
   case object LIABILITY extends ApplicationType("LIABILITY_ORDER")
 
@@ -152,7 +152,7 @@ case class BTIApplication(
   sampleToBeReturned: Boolean,
   applicationPdf: Option[Attachment]
 ) extends Application {
-  override val `type`: models.ApplicationType = ApplicationType.ATAR
+  override val `type`: models.ApplicationType = ApplicationType.AVAR
 }
 
 case class AgentDetails(

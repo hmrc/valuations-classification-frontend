@@ -39,10 +39,10 @@ class AllOpenCasesController @Inject() (
 ) extends FrontendController(mcc)
     with I18nSupport {
 
-  def displayAllOpenCases(activeSubNav: SubNavigationTab = ATaRTab): Action[AnyContent] =
+  def displayAllOpenCases(activeSubNav: SubNavigationTab = AVaRTab): Action[AnyContent] =
     (verify.authenticated andThen verify.mustHave(Permission.VIEW_QUEUE_CASES)).async { implicit request =>
       val applicationType = activeSubNav match {
-        case ATaRTab           => ApplicationType.ATAR
+        case AVaRTab           => ApplicationType.AVAR
         case LiabilitiesTab    => ApplicationType.LIABILITY
         case CorrespondenceTab => ApplicationType.CORRESPONDENCE
         case MiscellaneousTab  => ApplicationType.MISCELLANEOUS

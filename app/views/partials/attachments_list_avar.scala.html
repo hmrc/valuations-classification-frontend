@@ -17,8 +17,8 @@
 @import models.{Case, Permission, StoredAttachment}
 @import models.request.AuthenticatedRequest
 @import models.response.ScanStatus
-@import models.viewmodels.atar.AttachmentsTabViewModel
-@import views.html.partials.attachment_atar
+@import models.viewmodels.avar.AttachmentsTabViewModel
+@import views.html.partials.attachment_avar
 @import controllers.v2.routes.AttachmentsController
 
 
@@ -44,7 +44,7 @@
                 <tr id="@{id}-row-@{index}" class="govuk-table__row">
                     <span class="pre-wrap">
                         <td id="@{id}-row-@{index}-title" class="govuk-table__cell">
-                           @attachment_atar(attachments.caseReference, s"$id-row-$index", file)
+                           @attachment_avar(attachments.caseReference, s"$id-row-$index", file)
                         </td>
                     </span>
 

@@ -37,7 +37,7 @@
     </thead>
     <tbody class="govuk-table__body">
         @for((result, index) <- caseTab.searchResult.results.zipWithIndex) {
-            @defining(result.application.asATAR) { atar =>
+            @defining(result.application.asAVAR) { avar =>
                 <tr id="@{caseTab.tabMessageKey}-details-@index" class="govuk-table__row">
                     <td id="@{caseTab.tabMessageKey}-reference-@index" class="govuk-table__cell">
                         @if(result.queueId.isDefined && !result.assignee.map(_.id).contains(request.operator.id)) {
@@ -50,8 +50,8 @@
                             <a href="@CaseController.get(result.reference)" class="govuk-visually-hidden">@result.reference</a>
                         }
                     </td>
-                    <td id="@{caseTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{atar.goodName}</td>
-                    <td id="@{caseTab.tabMessageKey}-trader-@index" class="govuk-table__cell">@{atar.holder.businessName}</td>
+                    <td id="@{caseTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{avar.goodName}</td>
+                    <td id="@{caseTab.tabMessageKey}-trader-@index" class="govuk-table__cell">@{avar.holder.businessName}</td>
                     <td id="@{caseTab.tabMessageKey}-elapsed-days-@index" class="govuk-table__cell">@{result.daysElapsed}</td>
                     <td id="@{caseTab.tabMessageKey}-status-@index" class="govuk-table__cell">@case_status(result, s"${caseTab.tabMessageKey}-status-label-$index", true)</td>
                 </tr>

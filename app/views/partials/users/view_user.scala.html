@@ -29,13 +29,13 @@
     fullMainContent: full_main_content_layout,
     user_heading: views.html.v2.user_heading,
     user_details: views.html.partials.users.user_details,
-        backLink: back_link
+    backLink: back_link
 )
 
 @(
         detailsTab: Operator,
         applicationTabViewModel: ApplicationTabViewModel,
-        atarForm: Form[Set[String]],
+        avarForm: Form[Set[String]],
         liabForm: Form[Set[String]],
         corrForm: Form[Set[String]],
         miscForm: Form[Set[String]],
@@ -58,7 +58,7 @@
         </div>
     }
 
-    <div id="atar_tabs" class="govuk-tabs" data-module="govuk-tabs">
+    <div id="avar_tabs" class="govuk-tabs" data-module="govuk-tabs">
         <ul class="govuk-tabs__list">
             <li class="govuk-tabs__list-item">
                 <a class="govuk-tabs__tab" href="#user_details_tab">
@@ -91,7 +91,7 @@
                 <div class="govuk-body">
                     @{(caseTab.applicationType, caseTab.searchResult.results.size) match {
                             case (_, 0) => messages("users.user.noCases", caseTab.applicationType.prettyName)
-                            case (ApplicationType.ATAR, _) => atar_table(caseTab, atarForm, detailsTab.id)
+                            case (ApplicationType.AVAR, _) => avar_table(caseTab, avarForm, detailsTab.id)
                             case (ApplicationType.LIABILITY, _) => liability_table(caseTab, liabForm, detailsTab.id)
                             case (ApplicationType.CORRESPONDENCE, _) => correspondence_table(caseTab, corrForm, detailsTab.id)
                             case (ApplicationType.MISCELLANEOUS, _) => misc_table(caseTab, miscForm, detailsTab.id)

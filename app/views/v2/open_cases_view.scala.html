@@ -16,7 +16,7 @@
 
 @import config.AppConfig
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.{ATaRTab, CasesTabViewModel, OpenCasesTab, SubNavigationTab}
+@import models.viewmodels.{AVaRTab, CasesTabViewModel, OpenCasesTab, SubNavigationTab}
 @import views.html.components.{cases_tab, open_cases_secondary_navigation}
 @import views.html.includes.main
 @import views.html.layouts.full_main_content_layout
@@ -27,7 +27,7 @@
 )
 
 
-@(cases : CasesTabViewModel, activeSubNav : SubNavigationTab = ATaRTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@(cases : CasesTabViewModel, activeSubNav : SubNavigationTab = AVaRTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
  pageTitle = messages(s"cases.opencases.${cases.caseType.prettyName.toLowerCase}.title"),

@@ -20,7 +20,7 @@ import config.AppConfig
 import controllers.{RequestActions, Tab}
 import models.forms._
 import models.request._
-import models.viewmodels.atar._
+import models.viewmodels.avar._
 import models.viewmodels.miscellaneous.DetailsViewModel
 import models.viewmodels.{AttachmentsTabViewModel => _, _}
 import models.{Case, EventType, NoPagination}

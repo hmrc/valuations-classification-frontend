@@ -26,7 +26,7 @@ case class ReportingTabViewModel(
   headingMessageKey: String,
   summaryReportTab: ReportTab,
   statusReportTab: ReportTab,
-  atarReportTab: ReportTab,
+  avarReportTab: ReportTab,
   liabilityReportTab: ReportTab,
   correspondenceReportTab: ReportTab,
   miscReportTab: ReportTab
@@ -43,9 +43,9 @@ object ReportingTabViewModel {
       ReportTabRow("number-of-cases-in-teams", "number-of-cases-in-teams"),
       ReportTabRow("number-of-cases-per-user", "number-of-cases-per-user"),
       ReportTabRow("working-days-non-live-liabilities", "working-days-non-live-liabilities"),
-      ReportTabRow("calendar-days-atar-cases", "calendar-days-atar-cases"),
+      ReportTabRow("calendar-days-avar-cases", "calendar-days-avar-cases"),
       ReportTabRow("rejection-breakdown", "rejection-breakdown"),
-      ReportTabRow("atar-summary", "atar-summary"),
+      ReportTabRow("avar-summary", "avar-summary"),
       ReportTabRow("liabilities-summary", "liabilities-summary")
     ).filter(reportImplemented)
 
@@ -66,11 +66,11 @@ object ReportingTabViewModel {
       ReportTabRow("cancelled-cases-by-assigned-user", "cancelled-cases-by-assigned-user")
     ).filter(reportImplemented)
 
-  def atarTabRows: List[ReportTabRow] =
+  def avarTabRows: List[ReportTabRow] =
     List(
-      ReportTabRow("new-atar-cases", "new-atar-cases"),
-      ReportTabRow("atar-summary", "atar-summary"),
-      ReportTabRow("calendar-days-atar-cases", "calendar-days-atar-cases")
+      ReportTabRow("new-avar-cases", "new-avar-cases"),
+      ReportTabRow("avar-summary", "avar-summary"),
+      ReportTabRow("calendar-days-avar-cases", "calendar-days-avar-cases")
     ).filter(reportImplemented)
 
   def liabilityTabRows: List[ReportTabRow] =
@@ -97,7 +97,7 @@ object ReportingTabViewModel {
       "Reporting dashboard",
       summaryReportTab        = ReportTab("summary", "summary_report_tab", summaryTabRows),
       statusReportTab         = ReportTab("status", "status_report_tab", statusTabRows),
-      atarReportTab           = ReportTab("atar", "atar_report_tab", atarTabRows),
+      avarReportTab           = ReportTab("avar", "avar_report_tab", avarTabRows),
       liabilityReportTab      = ReportTab("liability", "liability_report_tab", liabilityTabRows),
       correspondenceReportTab = ReportTab("correspondence", "correspondence_report_tab", correspondenceTabRows),
       miscReportTab           = ReportTab("miscellaneous", "misc_report_tab", miscTabRows)

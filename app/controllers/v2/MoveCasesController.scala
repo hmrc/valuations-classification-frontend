@@ -60,7 +60,7 @@ class MoveCasesController @Inject() (
     with I18nSupport
     with Logging {
 
-  private val moveATaRCasesForm = MoveCasesForm.moveCasesForm("atarCases")
+  private val moveAVaRCasesForm = MoveCasesForm.moveCasesForm("avarCases")
   private val moveLiabCasesForm = MoveCasesForm.moveCasesForm("liabilityCases")
   private val moveCorrCasesForm = MoveCasesForm.moveCasesForm("corrCases")
   private val moveMiscCasesForm = MoveCasesForm.moveCasesForm("miscCases")
@@ -73,10 +73,10 @@ class MoveCasesController @Inject() (
   private val chooseTeamForm    = TeamToMoveCaseForm.form
   private val chooseUserForm    = UserToMoveCaseForm.form
 
-  def postMoveATaRCases(pid: String, activeSubNav: SubNavigationTab = ManagerToolsUsersTab): Action[AnyContent] =
+  def postMoveAVaRCases(pid: String, activeSubNav: SubNavigationTab = ManagerToolsUsersTab): Action[AnyContent] =
     (verify.authenticated andThen verify.mustHave(Permission.MANAGE_USERS)).async { implicit request =>
       val userAnswers = UserAnswers(MoveCasesCacheKey)
-      moveATaRCasesForm
+      moveAVaRCasesForm
         .bindFromRequest()
         .fold(
           errors => renderViewUserPageWithErrors(pid, errors, moveLiabCasesForm, moveCorrCasesForm, moveMiscCasesForm),
@@ -90,7 +90,7 @@ class MoveCasesController @Inject() (
       moveLiabCasesForm
         .bindFromRequest()
         .fold(
-          errors => renderViewUserPageWithErrors(pid, moveATaRCasesForm, errors, moveCorrCasesForm, moveMiscCasesForm),
+          errors => renderViewUserPageWithErrors(pid, moveAVaRCasesForm, errors, moveCorrCasesForm, moveMiscCasesForm),
           casesIds => redirectAfterPostingCaseRefs(casesIds, pid, userAnswers)
         )
     }
@@ -101,7 +101,7 @@ class MoveCasesController @Inject() (
       moveCorrCasesForm
         .bindFromRequest()
         .fold(
-          errors => renderViewUserPageWithErrors(pid, moveATaRCasesForm, moveLiabCasesForm, errors, moveMiscCasesForm),
+          errors => renderViewUserPageWithErrors(pid, moveAVaRCasesForm, moveLiabCasesForm, errors, moveMiscCasesForm),
           casesIds => redirectAfterPostingCaseRefs(casesIds, pid, userAnswers)
         )
     }
@@ -112,7 +112,7 @@ class MoveCasesController @Inject() (
       moveMiscCasesForm
         .bindFromRequest()
         .fold(
-          errors => renderViewUserPageWithErrors(pid, moveATaRCasesForm, moveLiabCasesForm, moveCorrCasesForm, errors),
+          errors => renderViewUserPageWithErrors(pid, moveAVaRCasesForm, moveLiabCasesForm, moveCorrCasesForm, errors),
           casesIds => redirectAfterPostingCaseRefs(casesIds, pid, userAnswers)
         )
     }
@@ -435,7 +435,7 @@ class MoveCasesController @Inject() (
 
   private def renderViewUserPageWithErrors(
     pid: String,
-    atarForm: Form[Set[String]],
+    avarForm: Form[Set[String]],
     liabForm: Form[Set[String]],
     corrForm: Form[Set[String]],
     miscForm: Form[Set[String]]
@@ -445,7 +445,7 @@ class MoveCasesController @Inject() (
       cases   <- casesService.getCasesByAssignee(Operator(pid), NoPagination())
       userCaseTabs = ApplicationsTab.casesByTypes(cases.results)
     } yield userTab
-      .map(user => Ok(viewUser(user, userCaseTabs, atarForm, liabForm, corrForm, miscForm)))
+      .map(user => Ok(viewUser(user, userCaseTabs, avarForm, liabForm, corrForm, miscForm)))
       .getOrElse(NotFound(user_not_found(pid)))
 
   private def moveToUser(

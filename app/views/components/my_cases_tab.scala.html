@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import views.html.components.atarsTable
+@import views.html.components.avarsTable
 @import views.html.components.liabilitiesTable
 @import views.html.components.correspondenceTable
 @import views.html.components.miscellaneousTable
@@ -39,7 +39,7 @@
         <div class="govuk-tabs__panel govuk-body" id="@caseTab.elementId">
             @{(caseTab.applicationType, caseTab.searchResult.results.size) match {
                 case (_, 0) => messages("cases.table.empty")
-                case (ApplicationType.ATAR, _) => atarsTable(caseTab, applicationTabViewModel.headingMessageKey, applicationTabViewModel.headingMessageKey)
+                case (ApplicationType.AVAR, _) => avarsTable(caseTab, applicationTabViewModel.headingMessageKey, applicationTabViewModel.headingMessageKey)
                 case (ApplicationType.LIABILITY, _) => liabilitiesTable(caseTab, applicationTabViewModel.headingMessageKey, applicationTabViewModel.headingMessageKey)
                 case (ApplicationType.CORRESPONDENCE, _) => correspondenceTable(caseTab, applicationTabViewModel.headingMessageKey, applicationTabViewModel.headingMessageKey)
                 case (ApplicationType.MISCELLANEOUS, _) => miscellaneousTable(caseTab, applicationTabViewModel.headingMessageKey, applicationTabViewModel.headingMessageKey)

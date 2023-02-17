@@ -15,7 +15,7 @@
  */
 
 package models
-package viewmodels.atar
+package viewmodels.avar
 
 case class SampleTabViewModel(
   caseReference: String,
@@ -29,12 +29,12 @@ case class SampleTabViewModel(
 
 object SampleTabViewModel {
   def fromCase(cse: Case, activity: Paged[Event]): SampleTabViewModel = {
-    val atarApplication = cse.application.asATAR
+    val avarApplication = cse.application.asAVAR
 
     SampleTabViewModel(
       caseReference      = cse.reference,
-      sampleToBeProvided = atarApplication.sampleToBeProvided,
-      sampleToBeReturned = atarApplication.sampleToBeReturned,
+      sampleToBeProvided = avarApplication.sampleToBeProvided,
+      sampleToBeReturned = avarApplication.sampleToBeReturned,
       sampleRequestedBy  = cse.sample.requestedBy.flatMap(_.name),
       sampleReturnStatus = SampleReturn.format(cse.sample.returnStatus),
       sampleStatus       = SampleStatus.format(cse.sample.status),

@@ -31,15 +31,15 @@ case class ApplicationTabViewModel(headingMessageKey: String, applicationTabs: L
 
 object ApplicationsTab {
 
-  def atar(
+  def avar(
     searchResult: Paged[Case]                  = Paged.empty,
     referralEvent: Option[Map[String, Event]]  = None,
     completedEvent: Option[Map[String, Event]] = None
   ) =
     ApplicationsTab(
-      "applicationTab.atar",
-      ApplicationType.ATAR,
-      "atar_tab",
+      "applicationTab.avar",
+      ApplicationType.AVAR,
+      "avar_tab",
       searchResult,
       referralEvent,
       completedEvent
@@ -92,7 +92,7 @@ object ApplicationsTab {
     val assignedCases =
       cases.filter(aCase => aCase.status == CaseStatus.OPEN)
 
-    val atars = assignedCases.filter(_.application.isBTI)
+    val avars = assignedCases.filter(_.application.isBTI)
 
     val liabilities = assignedCases.filter(_.application.isLiabilityOrder)
 
@@ -103,7 +103,7 @@ object ApplicationsTab {
     ApplicationTabViewModel(
       "applicationTab.assignedToMe",
       List(
-        ApplicationsTab.atar(Paged(atars)),
+        ApplicationsTab.avar(Paged(avars)),
         ApplicationsTab.liability(Paged(liabilities)),
         ApplicationsTab.correspondence(Paged(correspondence)),
         ApplicationsTab.miscellaneous(Paged(miscellaneous))
@@ -116,7 +116,7 @@ object ApplicationsTab {
     val referredCases =
       cases.filter(aCase => aCase.status == CaseStatus.REFERRED || aCase.status == CaseStatus.SUSPENDED)
 
-    val atars: Seq[Case] = referredCases.filter(_.application.isBTI)
+    val avars: Seq[Case] = referredCases.filter(_.application.isBTI)
 
     val liabilities = referredCases.filter(_.application.isLiabilityOrder)
 
@@ -127,7 +127,7 @@ object ApplicationsTab {
     ApplicationTabViewModel(
       "applicationTab.referredByMe",
       List(
-        ApplicationsTab.atar(Paged(atars), Some(referralEvent)),
+        ApplicationsTab.avar(Paged(avars), Some(referralEvent)),
         ApplicationsTab.liability(Paged(liabilities), Some(referralEvent)),
         ApplicationsTab.correspondence(Paged(correspondence)),
         ApplicationsTab.miscellaneous(Paged(miscellaneous), Some(referralEvent))
@@ -140,7 +140,7 @@ object ApplicationsTab {
     val completeByMe =
       cases.filter(aCase => aCase.status == CaseStatus.COMPLETED)
 
-    val atars: Seq[Case] = completeByMe.filter(_.application.isBTI)
+    val avars: Seq[Case] = completeByMe.filter(_.application.isBTI)
 
     val liabilities = completeByMe.filter(_.application.isLiabilityOrder)
 
@@ -151,7 +151,7 @@ object ApplicationsTab {
     ApplicationTabViewModel(
       "applicationTab.completedByMe",
       List(
-        ApplicationsTab.atar(Paged(atars), None, Some(completedEvent)),
+        ApplicationsTab.avar(Paged(avars), None, Some(completedEvent)),
         ApplicationsTab.liability(Paged(liabilities), None, Some(completedEvent)),
         ApplicationsTab.correspondence(Paged(correspondence), None, Some(completedEvent)),
         ApplicationsTab.miscellaneous(Paged(miscellaneous), None, Some(completedEvent))
@@ -164,7 +164,7 @@ object ApplicationsTab {
     val gatewayCases =
       cases.filter(aCase => aCase.status == CaseStatus.NEW)
 
-    val atars = gatewayCases.filter(_.application.isBTI)
+    val avars = gatewayCases.filter(_.application.isBTI)
 
     val liabilities = gatewayCases.filter(_.application.isLiabilityOrder)
 
@@ -175,7 +175,7 @@ object ApplicationsTab {
     ApplicationTabViewModel(
       "applicationTab.gateway",
       List(
-        ApplicationsTab.atar(Paged(atars)),
+        ApplicationsTab.avar(Paged(avars)),
         ApplicationsTab.liability(Paged(liabilities)),
         ApplicationsTab.correspondence(Paged(correspondenceCases)),
         ApplicationsTab.miscellaneous(Paged(miscellaneous))
@@ -185,7 +185,7 @@ object ApplicationsTab {
 
   def casesByTypes(cases: Seq[Case]): ApplicationTabViewModel = {
 
-    val atars = cases
+    val avars = cases
       .filter(_.application.isBTI)
       .sortBy(aCase => (aCase.status.toString, aCase.daysElapsed, aCase.reference))(
         Ordering.Tuple3(Ordering.String.reverse, Ordering.Long.reverse, Ordering.String)
@@ -212,7 +212,7 @@ object ApplicationsTab {
     ApplicationTabViewModel(
       "applicationTab.userCases",
       List(
-        ApplicationsTab.atar(Paged(atars)),
+        ApplicationsTab.avar(Paged(avars)),
         ApplicationsTab.liability(Paged(liabilities)),
         ApplicationsTab.correspondence(Paged(correspondence)),
         ApplicationsTab.miscellaneous(Paged(miscellaneous))

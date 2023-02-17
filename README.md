@@ -1,7 +1,7 @@
 
 # valuations-classification-frontend
 
-The frontend for the internal Advance valuations Rulings Case Manager service for reviewing & answering ATaR applications.
+The frontend for the internal Advance valuations Rulings Case Manager service for reviewing & answering AVaR applications.
 
 ### Running
 
@@ -45,9 +45,9 @@ sm --start PDF_GENERATOR_SERVICE -r 1.20.0
 
 Use `sbt run` to boot the app or run it with Service Manager using `sm --start valuations_CLASSIFICATION_FRONTEND -r`.
 
-This application runs on port 9581.
+This application runs on port 12590.
 
-Open `http://localhost:9581/manage-valuations-classifications`.
+Open `http://localhost:12590/manage-valuations-classifications`.
 
 You can also run the `DIGITAL_valuationsS` profile using `sm --start DIGITAL_valuationsS -r` and then stop the Service Manager instance of this service using `sm --stop valuations_CLASSIFICATION_FRONTEND` before running with sbt.
 

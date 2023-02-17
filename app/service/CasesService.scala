@@ -236,7 +236,7 @@ class CasesService @Inject() (
   def completeCase(original: Case, operator: Operator)(implicit hc: HeaderCarrier, messages: Messages): Future[Case] = {
 
     def setCaseCompleted(original: Case): Case = original.application.`type` match {
-      case ApplicationType.ATAR | ApplicationType.LIABILITY =>
+      case ApplicationType.AVAR | ApplicationType.LIABILITY =>
         val startDate = LocalDate
           .now(appConfig.clock)
           .atStartOfDay(appConfig.clock.getZone)
@@ -339,13 +339,13 @@ class CasesService @Inject() (
     def createRulingPdf(pdf: PdfFile): FileUpload = {
       val tempFile = SingletonTemporaryFileCreator.create(completedCase.reference, "pdf")
       Files.write(tempFile.path, pdf.content, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)
-      FileUpload(tempFile, s"ATaRRuling_${completedCase.reference}.pdf", pdf.contentType)
+      FileUpload(tempFile, s"AVaRRuling_${completedCase.reference}.pdf", pdf.contentType)
     }
 
     def createCoverLetterPdf(pdf: PdfFile): FileUpload = {
       val tempFile = SingletonTemporaryFileCreator.create(completedCase.reference, "pdf")
       Files.write(tempFile.path, pdf.content, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)
-      FileUpload(tempFile, s"ATaRCoverLetter_${completedCase.reference}.pdf", pdf.contentType)
+      FileUpload(tempFile, s"AVaRCoverLetter_${completedCase.reference}.pdf", pdf.contentType)
     }
 
     def createLiabilityDecisionPdf(pdf: PdfFile): FileUpload = {
@@ -355,7 +355,7 @@ class CasesService @Inject() (
     }
 
     def generatePdf: Future[FileUpload] = completedCase.application.`type` match {
-      case ATAR =>
+      case AVAR =>
         pdfService
           .generatePdf(ruling_template(completedCase, decision, getCountryName))
           .map(createRulingPdf)
@@ -366,13 +366,13 @@ class CasesService @Inject() (
     }
 
     def generateLetter: Future[FileUpload] = completedCase.application.`type` match {
-      case ATAR =>
+      case AVAR =>
         pdfService
           .generatePdf(cover_letter_template(completedCase, decision, getCountryName))
           .map(createCoverLetterPdf)
     }
 
-    if (completedCase.application.`type` == ATAR) {
+    if (completedCase.application.`type` == AVAR) {
       for {
         // Generate the decision PDF
         pdfFile <- generatePdf

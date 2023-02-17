@@ -15,7 +15,7 @@
  */
 
 package models
-package viewmodels.atar
+package viewmodels.avar
 
 case class AttachmentsTabViewModel(
   caseReference: String,

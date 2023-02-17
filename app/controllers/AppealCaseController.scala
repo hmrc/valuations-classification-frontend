@@ -52,7 +52,7 @@ class AppealCaseController @Inject() (
   def appealDetails(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)).async { implicit request =>
       request.`case`.application.`type` match {
-        case ApplicationType.ATAR =>
+        case ApplicationType.AVAR =>
           successful(Redirect(v2.routes.AtarController.displayAtar(reference).withFragment(Tab.APPEALS_TAB.name)))
         case ApplicationType.LIABILITY => {
           successful(

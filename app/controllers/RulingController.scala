@@ -59,7 +59,7 @@ class RulingController @Inject() (
       .async { implicit request =>
         getCaseAndThen(c =>
           c.application.`type` match {
-            case ApplicationType.ATAR =>
+            case ApplicationType.AVAR =>
               val formData = mapper.caseToDecisionFormData(c)
               val df       = decisionForm.btiForm().fill(formData)
               editBTIRulingView(df, c)
@@ -77,7 +77,7 @@ class RulingController @Inject() (
       .async { implicit request =>
         getCaseAndThen(c =>
           c.application.`type` match {
-            case ApplicationType.ATAR =>
+            case ApplicationType.AVAR =>
               val formData               = mapper.caseToDecisionFormData(c)
               val decisionFormWithErrors = decisionForm.btiCompleteForm.fillAndValidate(formData)
               editBTIRulingView(decisionFormWithErrors, c)
@@ -99,7 +99,7 @@ class RulingController @Inject() (
       .async { implicit request =>
         getCaseAndThen(c =>
           c.application.`type` match {
-            case ApplicationType.ATAR =>
+            case ApplicationType.AVAR =>
               decisionForm
                 .btiForm()
                 .bindFromRequest()

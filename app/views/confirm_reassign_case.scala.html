@@ -16,7 +16,7 @@
 
 @import controllers.v2.routes.MyCasesController
 @import controllers.v2.routes.AllOpenCasesController
-@import models.viewmodels.{CorrespondenceTab, MiscellaneousTab, ATaRTab, LiabilitiesTab}
+@import models.viewmodels.{CorrespondenceTab, MiscellaneousTab, AVaRTab, LiabilitiesTab}
 @import config.AppConfig
 @import models.{Case, Queue}
 @import models.request.AuthenticatedRequest
@@ -43,7 +43,7 @@
     } else if(c.application.isMisc) {
         AllOpenCasesController.displayAllOpenCases(MiscellaneousTab)
     } else if(c.application.isBTI){
-        AllOpenCasesController.displayAllOpenCases(ATaRTab)
+        AllOpenCasesController.displayAllOpenCases(AVaRTab)
     }else {
         AllOpenCasesController.displayAllOpenCases(LiabilitiesTab)
     }

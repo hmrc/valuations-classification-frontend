@@ -21,7 +21,7 @@ import controllers.{RequestActions, Tab}
 import models._
 import models.forms._
 import models.request._
-import models.viewmodels.atar._
+import models.viewmodels.avar._
 import models.viewmodels.{AppealTabViewModel => _, AttachmentsTabViewModel => _, _}
 import play.api.data.Form
 import play.api.i18n.I18nSupport
@@ -30,7 +30,7 @@ import play.twirl.api.Html
 import service._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2.atar_view
+import views.html.v2.avar_view
 
 import java.util.UUID
 import javax.inject.{Inject, Singleton}
@@ -46,7 +46,7 @@ class AtarController @Inject() (
   countriesService: CountriesService,
   decisionForm: DecisionForm,
   mcc: MessagesControllerComponents,
-  val atarView: atar_view,
+  val avarView: avar_view,
   implicit val appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends FrontendController(mcc)
@@ -66,32 +66,32 @@ class AtarController @Inject() (
   )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = {
 
     val uploadFileId: String                       = fileId.getOrElse(UUID.randomUUID().toString)
-    val atarCase: Case                             = request.`case`
-    val atarViewModel: CaseViewModel               = CaseViewModel.fromCase(atarCase, request.operator)
+    val avarCase: Case                             = request.`case`
+    val avarViewModel: CaseViewModel               = CaseViewModel.fromCase(avarCase, request.operator)
     val countryNames: Map[String, Country]         = countriesService.getAllCountriesById
-    val applicantTab: ApplicantTabViewModel        = ApplicantTabViewModel.fromCase(atarCase, countryNames)
-    val goodsTab: GoodsTabViewModel                = GoodsTabViewModel.fromCase(atarCase)
-    val rulingTab: RulingTabViewModel              = RulingTabViewModel.fromCase(atarCase)
+    val applicantTab: ApplicantTabViewModel        = ApplicantTabViewModel.fromCase(avarCase, countryNames)
+    val goodsTab: GoodsTabViewModel                = GoodsTabViewModel.fromCase(avarCase)
+    val rulingTab: RulingTabViewModel              = RulingTabViewModel.fromCase(avarCase)
     val rulingForm: Option[Form[DecisionFormData]] = decisionForm.bindFrom(rulingTab.decision)
-    val appealTab: Option[AppealTabViewModel]      = AppealTabViewModel.fromCase(atarCase)
+    val appealTab: Option[AppealTabViewModel]      = AppealTabViewModel.fromCase(avarCase)
 
-    val sampleTabViewModel: Future[SampleTabViewModel]           = getSampleTab(atarCase)
-    val attachmentsTabViewModel: Future[AttachmentsTabViewModel] = getAttachmentTab(atarCase)
-    val activityTabViewModel: Future[ActivityViewModel]          = getActivityTab(atarCase)
-    val keywordsTabViewModel: Future[KeywordsTabViewModel]       = getKeywordsTab(atarCase)
-    val storedAttachments: Future[Seq[StoredAttachment]]         = fileService.getAttachments(atarCase)
+    val sampleTabViewModel: Future[SampleTabViewModel]           = getSampleTab(avarCase)
+    val attachmentsTabViewModel: Future[AttachmentsTabViewModel] = getAttachmentTab(avarCase)
+    val activityTabViewModel: Future[ActivityViewModel]          = getActivityTab(avarCase)
+    val keywordsTabViewModel: Future[KeywordsTabViewModel]       = getKeywordsTab(avarCase)
+    val storedAttachments: Future[Seq[StoredAttachment]]         = fileService.getAttachments(avarCase)
     val activeNavTab: PrimaryNavigationTab =
       PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
-        atarCase.status,
-        atarCase.assignee.exists(_.id == request.operator.id)
+        avarCase.status,
+        avarCase.assignee.exists(_.id == request.operator.id)
       )
 
     val fileUploadSuccessRedirect: String =
-      appConfig.host + controllers.routes.CaseController.addAttachment(atarCase.reference, uploadFileId).path
+      appConfig.host + controllers.routes.CaseController.addAttachment(avarCase.reference, uploadFileId).path
 
     val fileUploadErrorRedirect: String =
       appConfig.host + routes.AtarController
-        .displayAtar(atarCase.reference, Some(uploadFileId))
+        .displayAtar(avarCase.reference, Some(uploadFileId))
         .withFragment(Tab.ATTACHMENTS_TAB.name)
         .path
 
@@ -110,8 +110,8 @@ class AtarController @Inject() (
                            )
                          )
     } yield {
-      atarView(
-        atarViewModel,
+      avarView(
+        avarViewModel,
         applicantTab,
         goodsTab,
         sampleTab,
@@ -131,22 +131,22 @@ class AtarController @Inject() (
     }
   }
 
-  private def getSampleTab(atarCase: Case)(implicit request: AuthenticatedRequest[_]) =
-    eventsService.getFilteredEvents(atarCase.reference, NoPagination(), Some(EventType.sampleEvents)).map { events =>
-      SampleTabViewModel.fromCase(atarCase, events)
+  private def getSampleTab(avarCase: Case)(implicit request: AuthenticatedRequest[_]) =
+    eventsService.getFilteredEvents(avarCase.reference, NoPagination(), Some(EventType.sampleEvents)).map { events =>
+      SampleTabViewModel.fromCase(avarCase, events)
     }
 
-  private def getAttachmentTab(atarCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] =
-    fileService.getAttachments(atarCase).map(attachments => AttachmentsTabViewModel.fromCase(atarCase, attachments))
+  private def getAttachmentTab(avarCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] =
+    fileService.getAttachments(avarCase).map(attachments => AttachmentsTabViewModel.fromCase(avarCase, attachments))
 
-  private def getActivityTab(atarCase: Case)(implicit request: AuthenticatedRequest[_]): Future[ActivityViewModel] =
+  private def getActivityTab(avarCase: Case)(implicit request: AuthenticatedRequest[_]): Future[ActivityViewModel] =
     for {
-      events <- eventsService.getFilteredEvents(atarCase.reference, NoPagination(), Some(EventType.nonSampleEvents))
+      events <- eventsService.getFilteredEvents(avarCase.reference, NoPagination(), Some(EventType.nonSampleEvents))
       queues <- queuesService.getAll
-    } yield ActivityViewModel.fromCase(atarCase, events, queues)
+    } yield ActivityViewModel.fromCase(avarCase, events, queues)
 
-  private def getKeywordsTab(atarCase: Case): Future[KeywordsTabViewModel] =
+  private def getKeywordsTab(avarCase: Case): Future[KeywordsTabViewModel] =
     keywordsService.findAll.map { globalKeywords =>
-      KeywordsTabViewModel.fromCase(atarCase, globalKeywords.map(_.name))
+      KeywordsTabViewModel.fromCase(avarCase, globalKeywords.map(_.name))
     }
 }

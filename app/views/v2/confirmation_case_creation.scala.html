@@ -44,7 +44,7 @@
     }   else if(c.application.isMisc) {
         messages("page.title.create_miscellaneous.confirmation")
     } else if(c.application.isBTI) {
-        messages("page.title.create_atar.confirmation")
+        messages("page.title.create_avar.confirmation")
     } else {
         messages("page.title.create_liability.confirmation")
     }
@@ -67,7 +67,7 @@
             <div class="govuk-panel__body">The case status is now </br><strong>OPEN</strong></div>
         }
     }else{
-        <h1 class="govuk-panel__title">@messages("release_case.released_dynamic_message.atar", c.application.goodsName, queueName)</h1>
+        <h1 class="govuk-panel__title">@messages("release_case.released_dynamic_message.avar", c.application.goodsName, queueName)</h1>
         <div class="govuk-panel__body">The case status is now </br><strong>OPEN</strong></div>
 
     }

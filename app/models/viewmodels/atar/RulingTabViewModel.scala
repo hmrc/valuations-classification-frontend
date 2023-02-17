@@ -15,7 +15,7 @@
  */
 
 package models
-package viewmodels.atar
+package viewmodels.avar
 
 import java.time.Instant
 
@@ -36,8 +36,8 @@ object RulingTabViewModel {
     caseStatus             = cse.status,
     caseCreatedDate        = cse.createdDate,
     caseHasExpiredRuling   = cse.hasExpiredRuling,
-    suggestedCommodityCode = cse.application.asATAR.envisagedCommodityCode,
-    goodsDescription       = cse.application.asATAR.goodDescription,
+    suggestedCommodityCode = cse.application.asAVAR.envisagedCommodityCode,
+    goodsDescription       = cse.application.asAVAR.goodDescription,
     // Commodity code expiry is not checked until we can integrate with the UK Global valuations
     bindingCommodityCode = cse.decision.map(_.bindingCommodityCode).map(CommodityCode(_)),
     decision             = cse.decision

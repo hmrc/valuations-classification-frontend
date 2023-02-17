@@ -27,7 +27,7 @@ object Tab {
   case object RULING_TAB extends Tab("ruling_tab")
   case object APPEALS_TAB extends Tab("appeal_tab")
 
-  // ATaRs
+  // AVaRs
   case object APPLICANT_TAB extends Tab("applicant_tab")
   case object GOODS_TAB extends Tab("goods_tab")
 
@@ -40,7 +40,7 @@ object Tab {
   case object MESSAGES_TAB extends Tab("messages_tab")
 
   case object USER_DETAIS_TAB extends Tab("user_details_tab")
-  case object ATAR_TAB extends Tab("atar_tab")
+  case object AVAR_TAB extends Tab("avar_tab")
   case object LIABILITY_TAB extends Tab("liability_tab")
   case object CORRESPONDENCE_TAB extends Tab("correspondence_tab")
   case object MISCELLANEOUS_TAB extends Tab("miscellaneous_tab")
@@ -63,7 +63,7 @@ object Tab {
 
   val userTabs = Set(
     USER_DETAIS_TAB,
-    ATAR_TAB,
+    AVAR_TAB,
     LIABILITY_TAB,
     CORRESPONDENCE_TAB,
     MISCELLANEOUS_TAB

@@ -62,14 +62,14 @@ case class Case(
 
   def sampleToBeProvided: Boolean =
     application.`type` match {
-      case ApplicationType.ATAR      => application.asATAR.sampleToBeProvided
+      case ApplicationType.AVAR      => application.asAVAR.sampleToBeProvided
       case ApplicationType.LIABILITY => sample.status.isDefined
 
     }
 
   def sampleToBeReturned: Boolean =
     application.`type` match {
-      case ApplicationType.ATAR      => application.asATAR.sampleToBeReturned
+      case ApplicationType.AVAR      => application.asAVAR.sampleToBeReturned
       case ApplicationType.LIABILITY => sample.returnStatus.contains(SampleReturn.YES)
     }
 

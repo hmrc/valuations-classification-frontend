@@ -56,7 +56,7 @@ lazy val microservice = (project in file("."))
       "models.Search",
       "models.ApplicationType",
       "models.viewmodels.AssignedToMeTab",
-      "models.viewmodels.ATaRTab",
+      "models.viewmodels.AVaRTab",
       "models.viewmodels.SubNavigationTab",
       "models.viewmodels.ManagerToolsReportsTab",
       "models.viewmodels.ManagerToolsUsersTab",

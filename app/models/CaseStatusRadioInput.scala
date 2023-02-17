@@ -30,8 +30,8 @@ object CaseStatusRadioInput extends Enumerable.Implicits {
 
   case object Complete extends CaseStatusRadioInput("complete", ApplicationType.values)
   case object Refer extends CaseStatusRadioInput("refer", ApplicationType.values)
-  case object Reject extends CaseStatusRadioInput("reject", Set(ATAR, LIABILITY))
-  case object Suspend extends CaseStatusRadioInput("suspend", Set(ATAR, LIABILITY))
+  case object Reject extends CaseStatusRadioInput("reject", Set(AVAR, LIABILITY))
+  case object Suspend extends CaseStatusRadioInput("suspend", Set(AVAR, LIABILITY))
   case object MoveBackToQueue extends CaseStatusRadioInput("move_back_to_queue", ApplicationType.values)
   case object Release extends CaseStatusRadioInput("release", ApplicationType.values)
   case object Suppress extends CaseStatusRadioInput("suppress", ApplicationType.values)

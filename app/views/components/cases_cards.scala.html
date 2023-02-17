@@ -66,10 +66,10 @@
 
     <h2 class="govuk-heading-m ">@messages("operator.dashboard.classification.all-open-cases")</h2>
     <div class="flex-container govuk-body">
-        <a id="bti-cases-id" class="link-text" href="@AllOpenCasesController.displayAllOpenCases(ATaRTab)">
+        <a id="bti-cases-id" class="link-text" href="@AllOpenCasesController.displayAllOpenCases(AVaRTab)">
             <div class="card">
                 <h3 class="card-heading govuk-!-font-size-19">
-                    @messages("operator.dashboard.classification.all-open-cases.atar")</h3>
+                    @messages("operator.dashboard.classification.all-open-cases.avar")</h3>
                 <p class="card-body">@messages("operator.dashboard.classification.all-open-cases.list-all")</p>
             </div>
         </a>
@@ -199,10 +199,10 @@
     </div>
     <h2 class="govuk-heading-m ">@messages("operator.dashboard.classification.all-open-cases")</h2>
     <div class="flex-container govuk-body">
-        <a id="bti-cases-id" class="link-text" href="@AllOpenCasesController.displayAllOpenCases(ATaRTab)">
+        <a id="bti-cases-id" class="link-text" href="@AllOpenCasesController.displayAllOpenCases(AVaRTab)">
             <div class="card">
                 <h3 class="card-heading govuk-!-font-size-19">
-                    @messages("operator.dashboard.classification.all-open-cases.atar")</h3>
+                    @messages("operator.dashboard.classification.all-open-cases.avar")</h3>
                 <p class="card-body">@messages("operator.dashboard.classification.all-open-cases.list-all")</p>
             </div>
         </a>
@@ -237,7 +237,7 @@
                 <h3 class="card-heading govuk-!-font-size-19">@messages("page.title.case.queues.gateway")</h3>
                 <p class="card-body">
                     @defining(
-                    casesByTeam.getOrElse((None, ApplicationType.ATAR), 0) +
+                    casesByTeam.getOrElse((None, ApplicationType.AVAR), 0) +
                     casesByTeam.getOrElse((None, ApplicationType.LIABILITY), 0) +
                     casesByTeam.getOrElse((None, ApplicationType.CORRESPONDENCE), 0) +
                     casesByTeam.getOrElse((None, ApplicationType.MISCELLANEOUS), 0)

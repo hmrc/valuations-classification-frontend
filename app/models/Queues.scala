@@ -39,7 +39,7 @@ object Queues {
   def allQueuesBySlug: Map[String, Queue] = allQueues.map(q => q.slug -> q).toMap
 
   private val queuesByType = Map(
-    ApplicationType.ATAR           -> Queues.allAtarQueues,
+    ApplicationType.AVAR           -> Queues.allAtarQueues,
     ApplicationType.LIABILITY      -> Queues.allLiabilityQueues,
     ApplicationType.CORRESPONDENCE -> Queues.allCorresMiscQueues,
     ApplicationType.MISCELLANEOUS  -> Queues.allCorresMiscQueues

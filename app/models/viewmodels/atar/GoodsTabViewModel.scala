@@ -15,7 +15,7 @@
  */
 
 package models
-package viewmodels.atar
+package viewmodels.avar
 
 case class GoodsTabViewModel(
   caseReference: String,
@@ -34,24 +34,24 @@ case class GoodsTabViewModel(
 
 object GoodsTabViewModel {
   def fromCase(cse: Case): GoodsTabViewModel = {
-    val atarApplication = cse.application.asATAR
+    val avarApplication = cse.application.asAVAR
     GoodsTabViewModel(
       cse.reference,
-      atarApplication.goodName,
-      atarApplication.goodDescription,
-      atarApplication.confidentialInformation,
+      avarApplication.goodName,
+      avarApplication.goodDescription,
+      avarApplication.confidentialInformation,
       cse.attachments.nonEmpty,
       cse.attachments.exists(_.operator.isEmpty),
-      atarApplication.sampleToBeProvided,
-      atarApplication.envisagedCommodityCode,
-      atarApplication.knownLegalProceedings,
-      atarApplication.reissuedBTIReference,
-      if (atarApplication.relatedBTIReferences.nonEmpty) {
-        atarApplication.relatedBTIReferences
+      avarApplication.sampleToBeProvided,
+      avarApplication.envisagedCommodityCode,
+      avarApplication.knownLegalProceedings,
+      avarApplication.reissuedBTIReference,
+      if (avarApplication.relatedBTIReferences.nonEmpty) {
+        avarApplication.relatedBTIReferences
       } else {
-        atarApplication.relatedBTIReference.toList
+        avarApplication.relatedBTIReference.toList
       },
-      atarApplication.otherInformation
+      avarApplication.otherInformation
     )
   }
 }
