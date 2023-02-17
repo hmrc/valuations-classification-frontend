@@ -21,7 +21,7 @@
 @(c: Case, d: Decision, getCountryName: String => Option[String],
         compositeMode: Boolean = false)(implicit messages: Messages, appConfig: AppConfig)
 
-@defining(c.application.asATAR) { btiApp: BTIApplication =>
+@defining(c.application.asAVAR) { btiApp: BTIApplication =>
 <html>
     <head>
         <style>
@@ -74,7 +74,7 @@
                     font-weight: 600;
                 }
 
-                .crown-logo-atar{
+                .crown-logo-avar{
                     height: 100px;
                     width:auto;
                     padding-left: 0px;
@@ -389,7 +389,7 @@ border: 1px solid #00703C;
             <div id="ruling-certificate" class="print-document" id="print-document">
                 <div class="grid-row print-header">
                     <div class="column-one-third">
-                        <img class="crown-logo-atar" alt="HM Revenue and Customs" src="@messages("logo.encoded")"/>
+                        <img class="crown-logo-avar" alt="HM Revenue and Customs" src="@messages("logo.encoded")"/>
                     </div>
                     <div>
                         <h2 class="heading-medium margin-top-small no-margin-bottom print-header__heading">
@@ -399,7 +399,7 @@ border: 1px solid #00703C;
                 </div>
                 <div class="grid-row mt-40">
                     <div class="column-full">
-                        <span class="govuk-caption-xl">Advance valuations Ruling (ATaR) for @{c.reference}</span>
+                        <span class="govuk-caption-xl">Advance valuations Ruling (AVaR) for @{c.reference}</span>
                         <h1 class="govuk-heading-xlarge">@c.application.goodsName</h1>
                         <p>Issued by: HMRC valuations Classification Team</p>
                     </div>

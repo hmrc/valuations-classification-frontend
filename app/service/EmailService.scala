@@ -39,7 +39,7 @@ class EmailService @Inject() (connector: EmailConnector) {
       CaseCompletedEmailParameters(
         recipientName_line1 = c.application.contact.name,
         reference           = c.reference,
-        goodsName           = c.application.asATAR.goodName,
+        goodsName           = c.application.asAVAR.goodName,
         officerName         = operator.name.getOrElse(""),
         dateSubmitted       = Dates.format(c.createdDate)
       )

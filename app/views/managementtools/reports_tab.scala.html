@@ -37,8 +37,8 @@
                 </a>
             </li>
             <li class="govuk-tabs__list-item">
-                <a class="govuk-tabs__tab" href="#@reportingViewModel.atarReportTab.elementId">
-                @messages("reporting.atar.tab.heading")
+                <a class="govuk-tabs__tab" href="#@reportingViewModel.avarReportTab.elementId">
+                @messages("reporting.avar.tab.heading")
                 </a>
             </li>
             <li class="govuk-tabs__list-item">
@@ -68,9 +68,9 @@
             @report_tab_view(reportingViewModel.statusReportTab)
         </div>
 
-        <div class="govuk-tabs__panel" id="@reportingViewModel.atarReportTab.elementId">
-            <h2 class="govuk-heading-l">@messages("reporting.atar.heading")</h2>
-            @report_tab_view(reportingViewModel.atarReportTab)
+        <div class="govuk-tabs__panel" id="@reportingViewModel.avarReportTab.elementId">
+            <h2 class="govuk-heading-l">@messages("reporting.avar.heading")</h2>
+            @report_tab_view(reportingViewModel.avarReportTab)
         </div>
 
         <div class="govuk-tabs__panel" id="@reportingViewModel.liabilityReportTab.elementId">

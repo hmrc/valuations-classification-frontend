@@ -21,11 +21,11 @@ import models.reporting._
 
 object Reports {
   val queueReportResults = Seq(
-    QueueResultGroup(7, None, ApplicationType.ATAR),
+    QueueResultGroup(7, None, ApplicationType.AVAR),
     QueueResultGroup(3, None, ApplicationType.LIABILITY),
-    QueueResultGroup(4, Some("2"), ApplicationType.ATAR),
+    QueueResultGroup(4, Some("2"), ApplicationType.AVAR),
     QueueResultGroup(6, Some("2"), ApplicationType.LIABILITY),
-    QueueResultGroup(2, Some("3"), ApplicationType.ATAR),
+    QueueResultGroup(2, Some("3"), ApplicationType.AVAR),
     QueueResultGroup(1, Some("4"), ApplicationType.LIABILITY)
   )
 

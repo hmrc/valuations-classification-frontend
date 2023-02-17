@@ -19,9 +19,9 @@
 @import models.{Case, Permission, StoredAttachment}
 @import models.request.AuthenticatedRequest
 @import models.response.FileStoreInitiateResponse
-@import models.viewmodels.atar.AttachmentsTabViewModel
+@import models.viewmodels.avar.AttachmentsTabViewModel
 @import views.html.components.input_file
-@import views.html.partials.{attachments_list_atar, attachments_state_message, tab_heading, error_summary}
+@import views.html.partials.{attachments_list_avar, attachments_state_message, tab_heading, error_summary}
 
 @(attachments: AttachmentsTabViewModel, form : Form[String], initiateResponse: FileStoreInitiateResponse, startAtTabIndex : Int = 0)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
@@ -33,7 +33,7 @@
 
     @attachments_state_message(attachments = attachments.allAttachments, autoRefresh = true, displayStateMessage = false)
 
-    @attachments_list_atar("classification-team", attachments, startAtTabIndex = Some(startAtTabIndex+31))
+    @attachments_list_avar("classification-team", attachments, startAtTabIndex = Some(startAtTabIndex+31))
 
     @if(request.hasPermission(Permission.ADD_ATTACHMENT)) {
         @helper.form(

@@ -62,7 +62,7 @@ class ManageUserController @Inject() (
 
   private val userEditTeamForm                   = UserEditTeamForm.editTeamsForm
   private lazy val removeUserForm: Form[Boolean] = RemoveUserForm.form
-  private val moveATaRCasesForm                  = MoveCasesForm.moveCasesForm("atarCases")
+  private val moveAVaRCasesForm                  = MoveCasesForm.moveCasesForm("avarCases")
   private val moveLiabCasesForm                  = MoveCasesForm.moveCasesForm("liabilityCases")
   private val moveCorrCasesForm                  = MoveCasesForm.moveCasesForm("corrCases")
   private val moveMiscCasesForm                  = MoveCasesForm.moveCasesForm("miscCases")
@@ -108,7 +108,7 @@ class ManageUserController @Inject() (
           userCaseTabs = ApplicationsTab.casesByTypes(cases.results)
         } yield userTab
           .map(user =>
-            Ok(viewUser(user, userCaseTabs, moveATaRCasesForm, moveLiabCasesForm, moveCorrCasesForm, moveMiscCasesForm))
+            Ok(viewUser(user, userCaseTabs, moveAVaRCasesForm, moveLiabCasesForm, moveCorrCasesForm, moveMiscCasesForm))
           )
           .getOrElse(NotFound(user_not_found(pid)))
     }

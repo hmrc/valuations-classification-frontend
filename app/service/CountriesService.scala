@@ -202,7 +202,7 @@ class CountriesService {
     Country("PL", "title.poland", "PL", Nil),
     Country("PT", "title.portugal", "PT", Nil),
     Country("PR", "title.puerto_rico", "PR", Nil),
-    Country("QA", "title.qatar", "QA", Nil),
+    Country("QA", "title.qavar", "QA", Nil),
     Country("RO", "title.romania", "RO", Nil),
     Country("RU", "title.russia", "RU", List("USSR", "Soviet Union")),
     Country("RW", "title.rwanda", "RW", Nil),

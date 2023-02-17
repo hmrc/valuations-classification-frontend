@@ -25,67 +25,67 @@
 @import views.html.partials.error_summary
 @import controllers.Tab
 
-@(atarTab: ApplicationsTab, form: Form[Set[String]], userID:String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-    @error_summary(form.errors, keySwaps = Map("atarCases" -> "atarCases-0"))
-    <h2 class="govuk-heading-l">@messages("users.user.atar.heading")</h2>
-    @helper.form(action = MoveCasesController.postMoveATaRCases(userID).withFragment(Tab.ATAR_TAB.name), Symbol("id") -> "atarCases", Symbol("novalidate") -> "novalidate") {
+@(avarTab: ApplicationsTab, form: Form[Set[String]], userID:String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+    @error_summary(form.errors, keySwaps = Map("avarCases" -> "avarCases-0"))
+    <h2 class="govuk-heading-l">@messages("users.user.avar.heading")</h2>
+    @helper.form(action = MoveCasesController.postMoveAVaRCases(userID).withFragment(Tab.AVAR_TAB.name), Symbol("id") -> "avarCases", Symbol("novalidate") -> "novalidate") {
         @helper.CSRF.formField
         <div class="govuk-form-group">
-            <button id="move-atar-cases" class="govuk-button" type="submit">Move selected cases</button>
+            <button id="move-avar-cases" class="govuk-button" type="submit">Move selected cases</button>
         </div>
-        @form("atarCases").errors.map { error =>
+        @form("avarCases").errors.map { error =>
             <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                     <legend class="advanced_search--filters_heading">
-                        <span class="govuk-error-message" id="error-message-@{form("atarCases").id}-input"><span class="govuk-visually-hidden">@messages("error.browser.title.prefix")</span>@messages(error.message)</span>
+                        <span class="govuk-error-message" id="error-message-@{form("avarCases").id}-input"><span class="govuk-visually-hidden">@messages("error.browser.title.prefix")</span>@messages(error.message)</span>
                     </legend>
                 </fieldset>
             </div>
         }
-        <table id="@{atarTab.tabMessageKey}-table" class="govuk-table">
-            <caption class="govuk-visually-hidden">@messages("users.user.atar.heading")</caption>
+        <table id="@{avarTab.tabMessageKey}-table" class="govuk-table">
+            <caption class="govuk-visually-hidden">@messages("users.user.avar.heading")</caption>
             <thead class="govuk-table__head">
-                <tr id="@{atarTab.tabMessageKey}-details" class="govuk-table__row">
-                    <th id="@{atarTab.tabMessageKey}-select" class="govuk-table__header" scope="col">
+                <tr id="@{avarTab.tabMessageKey}-details" class="govuk-table__row">
+                    <th id="@{avarTab.tabMessageKey}-select" class="govuk-table__header" scope="col">
                         Select
                     </th>
-                    <th id="@{atarTab.tabMessageKey}-reference" class="govuk-table__header" scope="col">
+                    <th id="@{avarTab.tabMessageKey}-reference" class="govuk-table__header" scope="col">
                         Reference
                     </th>
-                    <th id="@{atarTab.tabMessageKey}-goods" class="govuk-table__header" scope="col">
+                    <th id="@{avarTab.tabMessageKey}-goods" class="govuk-table__header" scope="col">
                         Goods
                     </th>
-                    <th id="@{atarTab.tabMessageKey}-trader" class="govuk-table__header" scope="col">
+                    <th id="@{avarTab.tabMessageKey}-trader" class="govuk-table__header" scope="col">
                         Trader
                     </th>
-                    <th id="@{atarTab.tabMessageKey}-elapsed-days" class="govuk-table__header" scope="col">
+                    <th id="@{avarTab.tabMessageKey}-elapsed-days" class="govuk-table__header" scope="col">
                         Elapsed days
                     </th>
-                    <th id="@{atarTab.tabMessageKey}-total-days" class="govuk-table__header" scope="col">
+                    <th id="@{avarTab.tabMessageKey}-total-days" class="govuk-table__header" scope="col">
                         Total days
                     </th>
-                    <th id="@{atarTab.tabMessageKey}-status" class="govuk-table__header" scope="col">
+                    <th id="@{avarTab.tabMessageKey}-status" class="govuk-table__header" scope="col">
                         Status
                     </th>
-                    <th id="@{atarTab.tabMessageKey}-team" class="govuk-table__header" scope="col">
+                    <th id="@{avarTab.tabMessageKey}-team" class="govuk-table__header" scope="col">
                         Team
                     </th>
                 </tr>
             </thead>
             <tbody>
 
-            @for((result, index) <- atarTab.searchResult.results.zipWithIndex) {
+            @for((result, index) <- avarTab.searchResult.results.zipWithIndex) {
 
-                @defining(result.application.asATAR) { atar =>
-                    <tr id="@{atarTab.tabMessageKey}-details-@index" class="govuk-table__row @if(form("atarCases").hasErrors){govuk-form-group--error}">
-                        <td id="@{atarTab.tabMessageKey}-select-@index" class="govuk-table__cell">
+                @defining(result.application.asAVAR) { avar =>
+                    <tr id="@{avarTab.tabMessageKey}-details-@index" class="govuk-table__row @if(form("avarCases").hasErrors){govuk-form-group--error}">
+                        <td id="@{avarTab.tabMessageKey}-select-@index" class="govuk-table__cell">
                         @if(result.status == CaseStatus.OPEN || result.status == CaseStatus.REFERRED || result.status == CaseStatus.SUSPENDED){
                             <div class="multiple-choice">
                                 <fieldset  class="govuk-fieldset">
-                                @defining(s"${form("atarCases").id}-$index") { id: String =>
+                                @defining(s"${form("avarCases").id}-$index") { id: String =>
                                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                                         <div class="govuk-checkboxes__item">
-                                            <input class="govuk-checkboxes__input" id="@{id}" name="@{form("atarCases").name}[@index]" type="checkbox" value="@{result.reference}" @if(form("atarCases").hasErrors){aria-describedby="error-message-@{form("atarCases").id}-input"} @if(form("atarCases").value.contains(result.reference)){checked="checked"}>
+                                            <input class="govuk-checkboxes__input" id="@{id}" name="@{form("avarCases").name}[@index]" type="checkbox" value="@{result.reference}" @if(form("avarCases").hasErrors){aria-describedby="error-message-@{form("avarCases").id}-input"} @if(form("avarCases").value.contains(result.reference)){checked="checked"}>
                                             <label for="@{id}" class="govuk-label govuk-checkboxes__label"><span class="govuk-visually-hidden">@result.reference</span></label>
                                         </div>
                                     </div>
@@ -93,15 +93,15 @@
                             </div>
                         }
                         </td>
-                        <td id="@{atarTab.tabMessageKey}-reference-@index" class="govuk-table__cell"><a href="@routes.CaseController.get(result.reference)">@{result.reference}</a></td>
-                        <td id="@{atarTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{atar.goodName}</td>
-                        <td id="@{atarTab.tabMessageKey}-trader-@index" class="govuk-table__cell">@{atar.holder.businessName}</td>
-                        <td id="@{atarTab.tabMessageKey}-elapsed-days-@index" class="govuk-table__cell @if(result.isCaseOverdue){live-red-text}">@{result.daysElapsed}</td>
-                        <td id="@{atarTab.tabMessageKey}-total-days-@index" class="govuk-table__cell">@{Dates.daysCount(result.createdDate)}</td>
-                        <td id="@{atarTab.tabMessageKey}-status-@index" class="govuk-table__cell">
-                            @case_status_tab(result, s"${atarTab.tabMessageKey}-status-label-$index")
+                        <td id="@{avarTab.tabMessageKey}-reference-@index" class="govuk-table__cell"><a href="@routes.CaseController.get(result.reference)">@{result.reference}</a></td>
+                        <td id="@{avarTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{avar.goodName}</td>
+                        <td id="@{avarTab.tabMessageKey}-trader-@index" class="govuk-table__cell">@{avar.holder.businessName}</td>
+                        <td id="@{avarTab.tabMessageKey}-elapsed-days-@index" class="govuk-table__cell @if(result.isCaseOverdue){live-red-text}">@{result.daysElapsed}</td>
+                        <td id="@{avarTab.tabMessageKey}-total-days-@index" class="govuk-table__cell">@{Dates.daysCount(result.createdDate)}</td>
+                        <td id="@{avarTab.tabMessageKey}-status-@index" class="govuk-table__cell">
+                            @case_status_tab(result, s"${avarTab.tabMessageKey}-status-label-$index")
                         </td>
-                        <td id="@{atarTab.tabMessageKey}-team-@index" class="govuk-table__cell">
+                        <td id="@{avarTab.tabMessageKey}-team-@index" class="govuk-table__cell">
                             @{result.queueId.map(qId => Queues.queueById(qId).map(q=>q.name))}
                         </td>
                     </tr>

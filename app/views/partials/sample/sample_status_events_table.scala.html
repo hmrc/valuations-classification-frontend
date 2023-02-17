@@ -17,7 +17,7 @@
 @import config.AppConfig
 @import models._
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.atar.SampleTabViewModel
+@import models.viewmodels.avar.SampleTabViewModel
 @import utils.Dates
 @import views.html.partials.progressive_disclosure
 
@@ -44,7 +44,7 @@
                             val body = event.details.asInstanceOf[SampleStatusChange]
                             progressive_disclosure(
                                 id = s"sample-status-events-row-$index",
-                                summary = body.renderSummaryFor(ApplicationType.ATAR),
+                                summary = body.renderSummaryFor(ApplicationType.AVAR),
                                 body = body.comment.map(Html(_)),
                                 useTabIndex = Some(startAtTabIndex + (index * 2))
                             )

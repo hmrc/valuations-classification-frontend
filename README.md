@@ -1,7 +1,7 @@
 
 # valuations-classification-frontend
 
-The frontend for the internal Advance valuations Rulings Case Manager service for reviewing & answering ATaR applications.
+The frontend for the internal Advance valuations Rulings Case Manager service for reviewing & answering AVaR applications.
 
 ### Running
 

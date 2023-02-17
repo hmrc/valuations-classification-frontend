@@ -18,12 +18,12 @@ package models
 
 object RejectReason extends Enumeration {
   type RejectReason = Value
-  val APPLICATION_WITHDRAWN, ATAR_RULING_ALREADY_EXISTS, DUPLICATE_APPLICATION, NO_INFO_FROM_TRADER, OTHER = Value
+  val APPLICATION_WITHDRAWN, AVAR_RULING_ALREADY_EXISTS, DUPLICATE_APPLICATION, NO_INFO_FROM_TRADER, OTHER = Value
 
   def format(reason: RejectReason): String =
     reason match {
       case APPLICATION_WITHDRAWN      => "Application withdrawn"
-      case ATAR_RULING_ALREADY_EXISTS => "ATaR ruling already exists"
+      case AVAR_RULING_ALREADY_EXISTS => "AVaR ruling already exists"
       case DUPLICATE_APPLICATION      => "Duplicate application"
       case NO_INFO_FROM_TRADER        => "No information from trader"
       case OTHER                      => "Other"

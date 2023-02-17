@@ -19,7 +19,7 @@
 @import models.Case
 
 @import views.html.partials.{days_elapsed_paused, case_heading}
-@import models.viewmodels.{NoTabSelected, CorrespondenceTab, LiabilitiesTab, ATaRTab, MiscellaneousTab}
+@import models.viewmodels.{NoTabSelected, CorrespondenceTab, LiabilitiesTab, AVaRTab, MiscellaneousTab}
 
 @import views.html.components.success_panel
 @import views.html.includes.main
@@ -36,7 +36,7 @@
         }   else if(c.application.isMisc) {
             messages("page.title.case_miscellaneous.referred")
         } else if(c.application.isBTI) {
-            messages("page.title.case_atar.referred")
+            messages("page.title.case_avar.referred")
         } else {
             messages("page.title.case_liability.referred")
         }
@@ -46,13 +46,13 @@
         pageTitle = customHeading,
         customPrimaryNavTab = NoTabSelected
 ) {
-        @if(c.application.`type` == ApplicationType.ATAR) {
+        @if(c.application.`type` == ApplicationType.AVAR) {
             @success_panel(
                 messages("case.referred.confirm_referred", c.application.goodsName),
                 None,
                 Some(days_elapsed_paused(c)),
-                "Back to open ATaR cases",
-                ATaRTab
+                "Back to open AVaR cases",
+                AVaRTab
             )
         } else if (c.application.`type` == ApplicationType.LIABILITY) {
         @success_panel(

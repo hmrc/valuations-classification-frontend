@@ -22,7 +22,7 @@ sealed abstract class SubNavigationTab(val id: String) extends Product with Seri
 
 object SubNavigationTab {
   val values = Set(
-    ATaRTab,
+    AVaRTab,
     LiabilitiesTab,
     CorrespondenceTab,
     MiscellaneousTab,
@@ -54,7 +54,7 @@ object SubNavigationTab {
 
 }
 
-case object ATaRTab extends SubNavigationTab("sub_nav_atar_tab")
+case object AVaRTab extends SubNavigationTab("sub_nav_avar_tab")
 
 case object LiabilitiesTab extends SubNavigationTab("sub_nav_liability_tab")
 

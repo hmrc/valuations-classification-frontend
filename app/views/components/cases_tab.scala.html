@@ -15,7 +15,7 @@
  *@
 
 @import views.html.partials.create_case_button
-@import views.html.components.atarCaseTable
+@import views.html.components.avarCaseTable
 @import views.html.components.liabilityCaseTable
 @import views.html.components.correspondenceCaseTable
 @import views.html.components.miscellaneousCaseTable
@@ -55,7 +55,7 @@
             <div class="govuk-tabs__panel govuk-body" id="@caseTab.elementId">
             @{(cases.caseType, caseTab.searchResult.results.size) match {
                 case (_, 0) => messages("cases.table.empty")
-                case (ApplicationType.ATAR, _) => atarCaseTable(caseTab, cases.headingMessageKey)
+                case (ApplicationType.AVAR, _) => avarCaseTable(caseTab, cases.headingMessageKey)
                 case (ApplicationType.LIABILITY, _) => liabilityCaseTable(caseTab, cases.headingMessageKey)
                 case (ApplicationType.CORRESPONDENCE, _) => correspondenceCaseTable(caseTab, cases.headingMessageKey)
                 case (ApplicationType.MISCELLANEOUS, _) => miscellaneousCaseTable(caseTab, cases.headingMessageKey)

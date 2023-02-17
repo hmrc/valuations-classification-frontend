@@ -48,7 +48,7 @@
     customPrimaryNavTab = NoTabSelected,
     backLink = Some(backLink())
 ) {
-    @defining(c.application.asATAR) { btiApp: BTIApplication =>
+    @defining(c.application.asAVAR) { btiApp: BTIApplication =>
 
         @error_summary(form.errors, keySwaps = Map("complete-case" -> "complete-case-true"))
         @case_heading(c, messageKey = Some("complete_case.areYouSure"))

@@ -107,7 +107,7 @@ class PdfDownloadController @Inject() (
     caseService.getOne(reference).flatMap {
       case Some(cse) =>
         val pdfResult = for {
-          pdf      <- OptionT.fromOption[Future](cse.application.asATAR.applicationPdf)
+          pdf      <- OptionT.fromOption[Future](cse.application.asAVAR.applicationPdf)
           meta     <- OptionT(fileStore.getFileMetadata(pdf.id))
           url      <- OptionT.fromOption[Future](meta.url)
           fileName <- OptionT.fromOption[Future](meta.fileName)

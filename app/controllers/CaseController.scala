@@ -41,7 +41,7 @@ class CaseController @Inject() (
   caseService: CasesService,
   mcc: MessagesControllerComponents,
   liabilityController: LiabilityController,
-  atarController: AtarController,
+  avarController: AtarController,
   correspondenceController: CorrespondenceController,
   miscellaneousController: MiscellaneousController,
   implicit val appConfig: AppConfig
@@ -53,7 +53,7 @@ class CaseController @Inject() (
   def get(reference: String): Action[AnyContent] = (verify.authenticated andThen verify.casePermissions(reference)) {
     implicit request =>
       request.`case`.application.`type` match {
-        case ApplicationType.ATAR =>
+        case ApplicationType.AVAR =>
           Redirect(controllers.v2.routes.AtarController.displayAtar(reference)).flashing(request2flash)
         case ApplicationType.LIABILITY =>
           Redirect(controllers.v2.routes.LiabilityController.displayLiability(reference)).flashing(request2flash)
@@ -69,7 +69,7 @@ class CaseController @Inject() (
   def sampleDetails(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
-        case ApplicationType.ATAR =>
+        case ApplicationType.AVAR =>
           Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.SAMPLE_TAB.name))
         case ApplicationType.LIABILITY =>
           Redirect(
@@ -93,7 +93,7 @@ class CaseController @Inject() (
   def rulingDetails(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
-        case ApplicationType.ATAR =>
+        case ApplicationType.AVAR =>
           Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.RULING_TAB.name))
         case ApplicationType.LIABILITY =>
           Redirect(
@@ -105,7 +105,7 @@ class CaseController @Inject() (
   def activityDetails(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
-        case ApplicationType.ATAR =>
+        case ApplicationType.AVAR =>
           Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.ACTIVITY_TAB.name))
             .flashing(request2flash)
         case ApplicationType.LIABILITY =>
@@ -130,7 +130,7 @@ class CaseController @Inject() (
   def keywordsDetails(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
-        case ApplicationType.ATAR =>
+        case ApplicationType.AVAR =>
           Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.KEYWORDS_TAB.name))
             .flashing(request2flash)
         case ApplicationType.LIABILITY =>
@@ -143,7 +143,7 @@ class CaseController @Inject() (
   def attachmentsDetails(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
-        case ApplicationType.ATAR =>
+        case ApplicationType.AVAR =>
           Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.ATTACHMENTS_TAB.name))
         case ApplicationType.LIABILITY =>
           Redirect(
@@ -169,8 +169,8 @@ class CaseController @Inject() (
       .async { implicit request =>
         def onError: Form[ActivityFormData] => Future[Result] = errorForm => {
           val renderView = request.`case`.application.`type` match {
-            case ApplicationType.ATAR =>
-              atarController.renderView(activityForm = errorForm)
+            case ApplicationType.AVAR =>
+              avarController.renderView(activityForm = errorForm)
             case ApplicationType.LIABILITY =>
               liabilityController.renderView(activityForm = errorForm)
             case ApplicationType.CORRESPONDENCE =>
@@ -227,8 +227,8 @@ class CaseController @Inject() (
       .async { implicit request =>
         def onError: Form[String] => Future[Result] = (errorForm: Form[String]) => {
           val renderView = request.`case`.application.`type` match {
-            case ApplicationType.ATAR =>
-              atarController.renderView(keywordForm = errorForm)
+            case ApplicationType.AVAR =>
+              avarController.renderView(keywordForm = errorForm)
             case ApplicationType.LIABILITY =>
               liabilityController.renderView(keywordForm = errorForm)
           }

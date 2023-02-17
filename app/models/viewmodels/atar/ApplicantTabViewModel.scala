@@ -15,7 +15,7 @@
  */
 
 package models
-package viewmodels.atar
+package viewmodels.avar
 
 case class ApplicantTabViewModel(
   caseReference: String,
@@ -30,10 +30,10 @@ object ApplicantTabViewModel {
   def fromCase(cse: Case, countryNames: Map[String, Country]) =
     ApplicantTabViewModel(
       caseReference        = cse.reference,
-      eoriDetails          = cse.application.asATAR.holder,
+      eoriDetails          = cse.application.asAVAR.holder,
       contact              = cse.application.contact,
-      countryName          = countryNames.get(cse.application.asATAR.holder.country).map(_.countryName).getOrElse(""),
+      countryName          = countryNames.get(cse.application.asAVAR.holder.country).map(_.countryName).getOrElse(""),
       caseBoardsFileNumber = cse.caseBoardsFileNumber,
-      agentDetails         = cse.application.asATAR.agent
+      agentDetails         = cse.application.asAVAR.agent
     )
 }

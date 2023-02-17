@@ -84,7 +84,7 @@ object JsonFormatters {
   implicit val btiApplicationFormat: OFormat[BTIApplication]             = Json.using[Json.WithDefaultValues].format[BTIApplication]
   implicit val applicationFormat: Format[Application] = Union
     .from[Application]("type")
-    .and[BTIApplication](ApplicationType.ATAR.name)
+    .and[BTIApplication](ApplicationType.AVAR.name)
     .and[LiabilityOrder](ApplicationType.LIABILITY.name)
     .and[CorrespondenceApplication](ApplicationType.CORRESPONDENCE.name)
     .and[MiscApplication](ApplicationType.MISCELLANEOUS.name)

@@ -582,7 +582,7 @@ object Cases {
     sampleToBeReturned: Boolean             = false
   ): Case => Case = { c =>
     c.copy(application =
-      c.application.asATAR.copy(
+      c.application.asAVAR.copy(
         offline                 = offline,
         goodName                = goodName,
         goodDescription         = goodDescription,
@@ -608,7 +608,7 @@ object Cases {
     country: String      = "country"
   ): Case => Case = { c =>
     c.copy(application =
-      c.application.asATAR.copy(holder =
+      c.application.asAVAR.copy(holder =
         EORIDetails(
           eori,
           businessName,
@@ -632,7 +632,7 @@ object Cases {
     envisagedCommodityCode: Option[String]  = None
   ): Case => Case = { c =>
     c.copy(
-      application = c.application.asATAR.copy(
+      application = c.application.asAVAR.copy(
         confidentialInformation = confidentialInformation,
         otherInformation        = otherInformation,
         reissuedBTIReference    = reissuedBTIReference,
@@ -650,7 +650,7 @@ object Cases {
   def withStatus(status: CaseStatus): Case => Case =
     _.copy(status = status)
 
-  def withoutAgent(): Case => Case = { c => c.copy(application = c.application.asATAR.copy(agent = None)) }
+  def withoutAgent(): Case => Case = { c => c.copy(application = c.application.asAVAR.copy(agent = None)) }
 
   def withAgent(
     eori: String               = "agent-eori",
@@ -664,13 +664,13 @@ object Cases {
   ): Case => Case = { c =>
     val eoriDetails  = EORIDetails(eori, businessName, addressLine1, addressLine2, addressLine3, postcode, country)
     val agentDetails = AgentDetails(eoriDetails, letter)
-    c.copy(application = c.application.asATAR.copy(agent = Some(agentDetails)))
+    c.copy(application = c.application.asAVAR.copy(agent = Some(agentDetails)))
   }
 
   def withAttachment(attachment: Attachment): Case => Case = { c => c.copy(attachments = c.attachments :+ attachment) }
 
   def withContact(contact: Contact): Case => Case = { c =>
-    c.copy(application = c.application.asATAR.copy(contact = contact))
+    c.copy(application = c.application.asAVAR.copy(contact = contact))
   }
 
   def withoutAttachments(): Case => Case =

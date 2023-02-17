@@ -66,13 +66,13 @@
             labelClass = Some ("govuk-visually-hidden"),
             contentHtml = Some(contents),
             options = Seq(
-                // ATARs and LIABILITY
+                // AVARs and LIABILITY
                 RadioOption(
                     "Applicant",
                     "Applicant (the main contact for this case)",
                     Some("reason-detail"),
                     Some(refer_reason_checkbox(form)),
-                    Set(ATAR, LIABILITY)),
+                    Set(AVAR, LIABILITY)),
                 RadioOption(
                     "Laboratory analyst",
                     "Laboratory analyst",
@@ -84,7 +84,7 @@
                     "Other",
                     Some("other-detail"),
                     Some(inputTextContent(messages("change_case_status.referred.refer_details"))),
-                    Set(ATAR, LIABILITY)),
+                    Set(AVAR, LIABILITY)),
                 // CORRESPONDENCE and MISC
                 RadioOption(
                     "DTU",

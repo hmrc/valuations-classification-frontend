@@ -55,7 +55,7 @@ class CompleteCaseController @Inject() (
       .async { implicit request =>
         validateAndRespond(c =>
           c.application.`type` match {
-            case ApplicationType.ATAR =>
+            case ApplicationType.AVAR =>
               successful(Ok(complete_case(c, completeCaseForm)))
 
             case ApplicationType.LIABILITY | ApplicationType.CORRESPONDENCE | ApplicationType.MISCELLANEOUS =>
@@ -95,7 +95,7 @@ class CompleteCaseController @Inject() (
   override protected def isValidCase(c: Case)(implicit request: AuthenticatedRequest[_]): Boolean = hasValidDecision(c)
 
   private def hasValidDecision(c: Case): Boolean = c.application.`type` match {
-    case ApplicationType.ATAR =>
+    case ApplicationType.AVAR =>
       decisionForm.bindFrom(c.decision).map(_.errors).exists(_.isEmpty)
     case ApplicationType.LIABILITY =>
       liabilityDetailsForm.liabilityDetailsCompleteForm(c).errors.isEmpty && decisionForm

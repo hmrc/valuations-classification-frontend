@@ -20,7 +20,7 @@
 @(c: Case, d: Decision, getCountryName: String => Option[String],
 compositeMode: Boolean = false)(implicit messages: Messages, appConfig: AppConfig)
 
-@defining(c.application.asATAR) { btiApp: BTIApplication =>
+@defining(c.application.asAVAR) { btiApp: BTIApplication =>
 <html>
 <head>
     <style>
@@ -72,7 +72,7 @@ compositeMode: Boolean = false)(implicit messages: Messages, appConfig: AppConfi
                     font-weight: 600;
                 }
 
-                .crown-logo-atar{
+                .crown-logo-avar{
                     height: 100px;
                     width:auto;
                     padding-left: 0px;
@@ -386,7 +386,7 @@ border: 1px solid #00703C;
     <div id="cover-letter1" class="print-document">
         <div class="grid-row print-header">
             <div class="column-one-third">
-                <img class="crown-logo-atar" alt="HM Revenue and Customs" src="@messages("logo.encoded")"/>
+                <img class="crown-logo-avar" alt="HM Revenue and Customs" src="@messages("logo.encoded")"/>
             </div>
             <div class="column-two-thirds">
                 <h2 class="margin-top-small no-margin-bottom print-header__heading">
@@ -429,7 +429,7 @@ border: 1px solid #00703C;
                     Dear @btiApp.contact.name
                 </p>
                 <p class="govuk-body-s">
-                    Thank you for your Advance valuations Ruling (ATaR) application dated @Dates.format(c.createdDate)
+                    Thank you for your Advance valuations Ruling (AVaR) application dated @Dates.format(c.createdDate)
                 </p>
                 <p class="govuk-body-s">
                     You asked for an Advance valuations Ruling for <strong>@c.application.goodsName</strong>. This ruling certificate is for you to keep for your records. This tells you the commodity code I have decided is appropriate for your goods and the reasons for the decision.
@@ -461,7 +461,7 @@ border: 1px solid #00703C;
                         Samples that are not collected or that do not have return postage will be destroyed after 60 days from the date of your ruling email. If you would like to collect your samples (or arrange for courier collection) then email <strong>@messages("pdf.ruling.email")</strong> giving 48 hours notice.
                     </p>
                     <p class="govuk-body-s">
-                        You must quote the ATaR reference number <strong>@c.reference</strong> and give the time that the samples are being collected.
+                        You must quote the AVaR reference number <strong>@c.reference</strong> and give the time that the samples are being collected.
                     </p>
                 </div>
             </div>
@@ -484,7 +484,7 @@ border: 1px solid #00703C;
     <div id="cover-letter2" class="print-document">
         <div class="grid-row print-header">
             <div class="column-one-third">
-                <img class="crown-logo-atar" alt="HM Revenue and Customs" src="@messages("logo.encoded")"/>
+                <img class="crown-logo-avar" alt="HM Revenue and Customs" src="@messages("logo.encoded")"/>
             </div>
             <div>
                 <h2 class="heading-medium margin-top-small no-margin-bottom print-header__heading">

@@ -15,21 +15,21 @@
  *@
 
 @import models.viewmodels.SubNavigationTab
-@import models.viewmodels.ATaRTab
+@import models.viewmodels.AVaRTab
 @import models.viewmodels.LiabilitiesTab
 @import models.viewmodels.CorrespondenceTab
 @import models.viewmodels.MiscellaneousTab
 @import controllers.v2.routes
 
-@(selectedTab : SubNavigationTab = ATaRTab)
+@(selectedTab : SubNavigationTab = AVaRTab)
 
             <nav id="open-cases-sub-nav"  class="moj-sub-navigation" aria-label="Sub navigation">
                 <ul class="moj-sub-navigation__list">
                     <li class="moj-sub-navigation__item">
-                        @if(selectedTab == ATaRTab) {
-                        <a id = "sub_nav_atar_tab" class="moj-sub-navigation__link govuk-link" aria-current="page" href="@routes.AllOpenCasesController.displayAllOpenCases(ATaRTab)">Atar</a>
+                        @if(selectedTab == AVaRTab) {
+                        <a id = "sub_nav_avar_tab" class="moj-sub-navigation__link govuk-link" aria-current="page" href="@routes.AllOpenCasesController.displayAllOpenCases(AVaRTab)">Atar</a>
                         } else {
-                        <a id = "sub_nav_atar_tab" class="moj-sub-navigation__link govuk-link" href="@routes.AllOpenCasesController.displayAllOpenCases(ATaRTab)">Atar</a>
+                        <a id = "sub_nav_avar_tab" class="moj-sub-navigation__link govuk-link" href="@routes.AllOpenCasesController.displayAllOpenCases(AVaRTab)">Atar</a>
                         }
                     </li>
                     <li class="moj-sub-navigation__item">

@@ -83,10 +83,10 @@ object Report {
   )
 
   val calendarAtarCases = CaseReport(
-    name      = "120 calendar days for ATaR",
+    name      = "120 calendar days for AVaR",
     sortBy    = ReportField.TotalDays,
     sortOrder = SortDirection.ASCENDING,
-    caseTypes = Set(ApplicationType.ATAR),
+    caseTypes = Set(ApplicationType.AVAR),
     fields = NonEmptySeq.of(
       ReportField.Reference,
       ReportField.GoodsName,
@@ -241,11 +241,11 @@ object Report {
     )
   )
 
-  val atarSummary = CaseReport(
-    name      = "ATaR summary",
+  val avarSummary = CaseReport(
+    name      = "AVaR summary",
     sortBy    = ReportField.ElapsedDays,
     sortOrder = SortDirection.DESCENDING,
-    caseTypes = Set(ApplicationType.ATAR),
+    caseTypes = Set(ApplicationType.AVAR),
     fields = NonEmptySeq.of(
       ReportField.Reference,
       ReportField.GoodsName,
@@ -275,11 +275,11 @@ object Report {
   )
 
   val numberOfNewAtarCases = SummaryReport(
-    name      = "New ATaR cases",
+    name      = "New AVaR cases",
     groupBy   = NonEmptySeq.one(ReportField.CaseType),
     sortBy    = ReportField.CaseType,
     statuses  = Set(PseudoCaseStatus.NEW),
-    caseTypes = Set(ApplicationType.ATAR)
+    caseTypes = Set(ApplicationType.AVAR)
   )
 
   val numberOfNewCases = SummaryReport(
@@ -337,7 +337,7 @@ object Report {
     "suppressed-cases"                    -> suppressedCaseCount,
     "open-cases"                          -> openCasesCount,
     "rejection-breakdown"                 -> rejectedCaseCountByUser,
-    "calendar-days-atar-cases"            -> calendarAtarCases,
+    "calendar-days-avar-cases"            -> calendarAtarCases,
     "new-liabilities"                     -> numberOfNewLiabilityCases,
     "new-liabilities-cases-live"          -> numberOfNewLiveLiabilityCases,
     "new-liabilities-cases-non-live"      -> numberOfNewNonLiveLiabilityCases,
@@ -349,8 +349,8 @@ object Report {
     "cancelled-cases-by-assigned-user"    -> cancelledCasesPerUser,
     "cancelled-cases-by-chapter"          -> cancelledCasesByChapter,
     "liabilities-summary"                 -> liabilitiesSummary,
-    "atar-summary"                        -> atarSummary,
-    "new-atar-cases"                      -> numberOfNewAtarCases,
+    "avar-summary"                        -> avarSummary,
+    "new-avar-cases"                      -> numberOfNewAtarCases,
     "liabilities-cases"                   -> liabilitiesCases,
     "number-of-new-cases"                 -> numberOfNewCases,
     "new-and-open-cases"                  -> numberOfNewAndOpenCases,
