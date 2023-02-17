@@ -27,7 +27,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 @Singleton
-class ManageKeywordsService @Inject() (auditService: AuditService, connector: BindingvaluationsClassificationConnector) {
+class ManageKeywordsService @Inject() (
+  auditService: AuditService,
+  connector: BindingvaluationsClassificationConnector
+) {
 
   def createKeyword(keyword: Keyword, user: Operator, keywordStatusAction: ChangeKeywordStatusAction)(
     implicit hc: HeaderCarrier
