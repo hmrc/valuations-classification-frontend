@@ -27,8 +27,6 @@ case object MyCasesTab extends PrimaryNavigationTab("primary_nav_my_cases_tab")
 
 case object OpenCasesTab extends PrimaryNavigationTab("primary_nav_open_cases_tab")
 
-case object GatewayCasesTab extends PrimaryNavigationTab("primary_nav_gateway_cases_tab")
-
 case object ManagerToolsTab extends PrimaryNavigationTab("primary_nav_manager_tools_tab")
 
 case object NoTabSelected extends PrimaryNavigationTab("primary_nav_no_tab_selected")
@@ -37,7 +35,7 @@ case class PrimaryNavigationViewModel(selectedTab: PrimaryNavigationTab)
 case object PrimaryNavigationViewModel {
   def getSelectedTabBasedOnAssigneeAndStatus(caseStatus: CaseStatus, ownCase: Boolean) =
     (caseStatus, ownCase) match {
-      case (CaseStatus.NEW, _) => GatewayCasesTab
+      case (CaseStatus.NEW, _) => OpenCasesTab
       case (_, true)           => MyCasesTab
       case (_, _)              => OpenCasesTab
     }

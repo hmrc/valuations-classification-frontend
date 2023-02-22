@@ -19,7 +19,6 @@
 @import models.viewmodels.HomeTab
 @import models.viewmodels.MyCasesTab
 @import models.viewmodels.OpenCasesTab
-@import models.viewmodels.GatewayCasesTab
 
 @import models.request.AuthenticatedRequest
 @import models.viewmodels.ManagerToolsTab
@@ -90,14 +89,14 @@
                       }
                       </li>
                       <li class="moj-primary-navigation__item">
-                      @if(selectedTab == GatewayCasesTab) {
-                          <a id = "primary_nav_gateway_cases_tab" class="moj-primary-navigation__link govuk-link" aria-current="page" href="@routes.GatewayCasesController.displayGatewayCases">
-                              Gateway cases</a>
-                      } else {
-                          <a id = "primary_nav_gateway_cases_tab" class="moj-primary-navigation__link govuk-link" href="@routes.GatewayCasesController.displayGatewayCases">
-                              Gateway cases</a>
-                      }
-                      </li>
+@*                      @if(selectedTab == GatewayCasesTab) {*@
+@*                          <a id = "primary_nav_gateway_cases_tab" class="moj-primary-navigation__link govuk-link" aria-current="page" href="@routes.GatewayCasesController.displayGatewayCases">*@
+@*                              Gateway cases</a>*@
+@*                      } else {*@
+@*                          <a id = "primary_nav_gateway_cases_tab" class="moj-primary-navigation__link govuk-link" href="@routes.GatewayCasesController.displayGatewayCases">*@
+@*                              Gateway cases</a>*@
+@*                      }*@
+@*                      </li>*@
                   }
                 </ul>
             </nav>
