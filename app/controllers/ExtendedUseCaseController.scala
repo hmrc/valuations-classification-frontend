@@ -30,7 +30,7 @@ import views.html.change_extended_use_status
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class ExtendedUseCaseController @Inject() (
@@ -38,7 +38,8 @@ class ExtendedUseCaseController @Inject() (
   override val caseService: CasesService,
   mcc: MessagesControllerComponents,
   val change_extended_use_status: change_extended_use_status,
-  override implicit val config: AppConfig
+  override implicit val config: AppConfig,
+  override implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with StatusChangeAction[Boolean]
     with WithUnsafeDefaultFormBinding {

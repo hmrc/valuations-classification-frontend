@@ -82,7 +82,7 @@ object Report {
     sortOrder = SortDirection.DESCENDING
   )
 
-  val calendarAtarCases = CaseReport(
+  val calendarAvarCases = CaseReport(
     name      = "120 calendar days for AVaR",
     sortBy    = ReportField.TotalDays,
     sortOrder = SortDirection.ASCENDING,
@@ -274,7 +274,7 @@ object Report {
     )
   )
 
-  val numberOfNewAtarCases = SummaryReport(
+  val numberOfNewAvarCases = SummaryReport(
     name      = "New AVaR cases",
     groupBy   = NonEmptySeq.one(ReportField.CaseType),
     sortBy    = ReportField.CaseType,
@@ -337,7 +337,7 @@ object Report {
     "suppressed-cases"                    -> suppressedCaseCount,
     "open-cases"                          -> openCasesCount,
     "rejection-breakdown"                 -> rejectedCaseCountByUser,
-    "calendar-days-avar-cases"            -> calendarAtarCases,
+    "calendar-days-avar-cases"            -> calendarAvarCases,
     "new-liabilities"                     -> numberOfNewLiabilityCases,
     "new-liabilities-cases-live"          -> numberOfNewLiveLiabilityCases,
     "new-liabilities-cases-non-live"      -> numberOfNewNonLiveLiabilityCases,
@@ -350,7 +350,7 @@ object Report {
     "cancelled-cases-by-chapter"          -> cancelledCasesByChapter,
     "liabilities-summary"                 -> liabilitiesSummary,
     "avar-summary"                        -> avarSummary,
-    "new-avar-cases"                      -> numberOfNewAtarCases,
+    "new-avar-cases"                      -> numberOfNewAvarCases,
     "liabilities-cases"                   -> liabilitiesCases,
     "number-of-new-cases"                 -> numberOfNewCases,
     "new-and-open-cases"                  -> numberOfNewAndOpenCases,

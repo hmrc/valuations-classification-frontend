@@ -1,5 +1,5 @@
-service.name = Advance valuations Rulings Case Manager
-site.title.suffix = Advance valuations Rulings Case Manager - GOV.UK
+service.name = Advance Valuations Rulings Case Manager
+site.title.suffix = Advance Valuations Rulings Case Manager - GOV.UK
 error.browser.title.prefix = Error:
 error.summary.title=There is a problem
 cases.menu.my-cases=My cases

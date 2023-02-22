@@ -20,16 +20,17 @@ import audit.AuditService
 import connector.BindingvaluationsClassificationConnector
 import models._
 import uk.gov.hmrc.http.HeaderCarrier
+
 import javax.inject.{Inject, Singleton}
 import models.ChangeKeywordStatusAction.ChangeKeywordStatusAction
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class ManageKeywordsService @Inject() (
   auditService: AuditService,
-  connector: BindingvaluationsClassificationConnector
+  connector: BindingvaluationsClassificationConnector,
+  implicit val ec: ExecutionContext
 ) {
 
   def createKeyword(keyword: Keyword, user: Operator, keywordStatusAction: ChangeKeywordStatusAction)(

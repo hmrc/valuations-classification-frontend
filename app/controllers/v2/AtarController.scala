@@ -37,7 +37,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AtarController @Inject() (
+class AvarController @Inject() (
   verify: RequestActions,
   eventsService: EventsService,
   queuesService: QueuesService,
@@ -53,7 +53,7 @@ class AtarController @Inject() (
     with UpscanErrorHandling
     with I18nSupport {
 
-  def displayAtar(reference: String, fileId: Option[String] = None): Action[AnyContent] =
+  def displayAvar(reference: String, fileId: Option[String] = None): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)).async { implicit request =>
       handleUploadErrorAndRender(uploadForm => renderView(fileId = fileId, uploadForm = uploadForm))
     }
@@ -90,8 +90,8 @@ class AtarController @Inject() (
       appConfig.host + controllers.routes.CaseController.addAttachment(avarCase.reference, uploadFileId).path
 
     val fileUploadErrorRedirect: String =
-      appConfig.host + routes.AtarController
-        .displayAtar(avarCase.reference, Some(uploadFileId))
+      appConfig.host + routes.AvarController
+        .displayAvar(avarCase.reference, Some(uploadFileId))
         .withFragment(Tab.ATTACHMENTS_TAB.name)
         .path
 

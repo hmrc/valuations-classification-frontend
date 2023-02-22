@@ -25,7 +25,7 @@ import models.Case
 import models.request.{AuthenticatedCaseRequest, AuthenticatedRequest}
 import service.CasesService
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.Future.successful
 
@@ -39,8 +39,7 @@ trait RenderCaseAction extends I18nSupport { this: FrontendController =>
   protected def isValidCase(c: Case)(implicit request: AuthenticatedRequest[_]): Boolean = true
 
   protected def getCaseAndRenderView(caseReference: String, toHtml: Case => Future[HtmlFormat.Appendable])(
-    implicit request: AuthenticatedCaseRequest[_]
-  ): Future[Result] =
+    implicit request: AuthenticatedCaseRequest[_], ec: ExecutionContext): Future[Result] =
     request.`case` match {
       case c: Case if isValidCase(c)(request) => toHtml(c).map(Ok(_))
       case _                                  => successful(Redirect(redirect(caseReference)))
@@ -58,7 +57,7 @@ trait RenderCaseAction extends I18nSupport { this: FrontendController =>
 
   protected def validateAndRedirect(
     toHtml: Case => Future[Call]
-  )(implicit request: AuthenticatedCaseRequest[_]): Future[Result] =
+  )(implicit request: AuthenticatedCaseRequest[_], ec: ExecutionContext): Future[Result] =
     if (isValidCase(request.`case`)(request)) {
       toHtml(request.`case`).map(Redirect)
     } else {
@@ -67,7 +66,7 @@ trait RenderCaseAction extends I18nSupport { this: FrontendController =>
 
   protected def validateAndRenderView(
     toHtml: Case => Future[HtmlFormat.Appendable]
-  )(implicit request: AuthenticatedCaseRequest[_]): Future[Result] =
+  )(implicit request: AuthenticatedCaseRequest[_], ec: ExecutionContext): Future[Result] =
     if (isValidCase(request.`case`)(request)) {
       toHtml(request.`case`).map(Ok(_))
     } else {
@@ -75,7 +74,7 @@ trait RenderCaseAction extends I18nSupport { this: FrontendController =>
     }
 
   protected def renderView(valid: Case => Boolean, toHtml: Case => Future[HtmlFormat.Appendable])(
-    implicit request: AuthenticatedCaseRequest[_]
+    implicit request: AuthenticatedCaseRequest[_], ec: ExecutionContext
   ): Future[Result] =
     if (valid(request.`case`)) {
       toHtml(request.`case`).map(Ok(_))

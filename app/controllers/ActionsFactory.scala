@@ -28,12 +28,11 @@ import service.CasesService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future.successful
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class CheckCasePermissionsAction extends ActionRefiner[AuthenticatedCaseRequest, AuthenticatedCaseRequest] {
+class CheckCasePermissionsAction @Inject() (implicit val ec: ExecutionContext) extends ActionRefiner[AuthenticatedCaseRequest, AuthenticatedCaseRequest] {
 
   override protected def refine[A](
     request: AuthenticatedCaseRequest[A]
@@ -48,13 +47,14 @@ class CheckCasePermissionsAction extends ActionRefiner[AuthenticatedCaseRequest,
       )
     )
 
-  override protected def executionContext: ExecutionContext = global
+  override protected def executionContext: ExecutionContext = ec
 }
 
 @Singleton
 class VerifyCaseExistsActionFactory @Inject() (casesService: CasesService)(
   implicit val messagesApi: MessagesApi,
   appConfig: AppConfig,
+  implicit val ec: ExecutionContext,
   val case_not_found: views.html.case_not_found
 ) extends I18nSupport {
 
@@ -79,12 +79,12 @@ class VerifyCaseExistsActionFactory @Inject() (casesService: CasesService)(
         }
       }
 
-      override protected def executionContext: ExecutionContext = global
+      override protected def executionContext: ExecutionContext = ec
     }
 }
 
 @Singleton
-class MustHavePermissionActionFactory {
+class MustHavePermissionActionFactory @Inject() (implicit ec: ExecutionContext) {
 
   def apply[B[C] <: OperatorRequest[C]](permission: Permission): ActionFilter[B] =
     new ActionFilter[B] {
@@ -94,7 +94,7 @@ class MustHavePermissionActionFactory {
           case _                                => successful(Some(Redirect(routes.SecurityController.unauthorized())))
         }
 
-      override protected def executionContext: ExecutionContext = global
+      override protected def executionContext: ExecutionContext = ec
     }
 
   def apply[B[C] <: OperatorRequest[C]](permissions: Seq[Permission]): ActionFilter[B] =
@@ -105,13 +105,14 @@ class MustHavePermissionActionFactory {
           case _                                                                  => successful(Some(Redirect(routes.SecurityController.unauthorized())))
         }
 
-      override protected def executionContext: ExecutionContext = global
+      override protected def executionContext: ExecutionContext = ec
     }
 }
 
 @Singleton
 class RequireDataActionFactory @Inject() (
-  dataCacheConnector: DataCacheConnector
+  dataCacheConnector: DataCacheConnector,
+  implicit val ec: ExecutionContext
 ) {
   def apply[B[C] <: OperatorRequest[C]](cacheKey: String): ActionRefiner[B, AuthenticatedDataRequest] =
     new ActionRefiner[B, AuthenticatedDataRequest] {
@@ -123,7 +124,7 @@ class RequireDataActionFactory @Inject() (
           case None           => Left(Redirect(routes.SecurityController.unauthorized()))
         }
 
-      override protected def executionContext: ExecutionContext = global
+      override protected def executionContext: ExecutionContext = ec
     }
 }
 
@@ -133,9 +134,9 @@ class RequireCaseDataActionFactory @Inject() (
   dataCacheConnector: DataCacheConnector,
   val case_not_found: views.html.case_not_found
 )(
-  implicit
-  val messagesApi: MessagesApi,
-  appConfig: AppConfig
+  implicit val messagesApi: MessagesApi,
+  appConfig: AppConfig,
+  ec: ExecutionContext
 ) extends I18nSupport {
   def apply[B[C] <: AuthenticatedRequest[C]](
     reference: String,
@@ -162,6 +163,6 @@ class RequireCaseDataActionFactory @Inject() (
         }
       }
 
-      override protected def executionContext: ExecutionContext = global
+      override protected def executionContext: ExecutionContext = ec
     }
 }

@@ -23,9 +23,11 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import service.CasesService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.change_case_status
+
 import javax.inject.Inject
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future.successful
 
 class ChangeCaseStatusController @Inject() (
@@ -33,7 +35,8 @@ class ChangeCaseStatusController @Inject() (
   casesService: CasesService,
   mcc: MessagesControllerComponents,
   val change_case_status: change_case_status,
-  implicit val appConfig: AppConfig
+  implicit val appConfig: AppConfig,
+  implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with RenderCaseAction
     with WithUnsafeDefaultFormBinding {

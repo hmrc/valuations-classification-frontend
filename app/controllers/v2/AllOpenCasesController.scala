@@ -27,7 +27,8 @@ import service.{CasesService, QueuesService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.v2.open_cases_view
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
+
 
 class AllOpenCasesController @Inject() (
   verify: RequestActions,
@@ -35,7 +36,8 @@ class AllOpenCasesController @Inject() (
   queueService: QueuesService,
   mcc: MessagesControllerComponents,
   val openCasesView: open_cases_view,
-  implicit val appConfig: AppConfig
+  implicit val appConfig: AppConfig,
+  implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with I18nSupport {
 

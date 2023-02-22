@@ -32,10 +32,9 @@ import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.v2._
 import views.html.{case_not_found, release_case, resource_not_found}
-import javax.inject.{Inject, Singleton}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.Future.successful
 
 @Singleton
@@ -52,7 +51,8 @@ class CreateCorrespondenceController @Inject() (
   val create_correspondence: create_correspondence,
   val case_not_found: case_not_found,
   val resource_not_found: resource_not_found,
-  implicit val appConfig: AppConfig
+  implicit val appConfig: AppConfig,
+  implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with I18nSupport
     with WithUnsafeDefaultFormBinding {
