@@ -15,21 +15,10 @@
  *@
 
 @import config.AppConfig
-@import controllers.routes
-@import controllers.v2.routes.GatewayCasesController
-@import models.{BTIApplication, Case, Queue}
-@import views.forms.components.RadioOption
-@import views.html.forms.components.input_radiogroup
-
-@import models.LiabilityOrder
+@import models.Case
 @import models.request.AuthenticatedRequest
-@import views.html.components.confirm_or_cancel_buttons
-@import views.html.forms.components.input_text
-@import models.LiabilityStatus
-@import views.html.partials.{error_summary}
-@import models.viewmodels.CaseHeaderViewModel
-@import views.html.v2.{case_heading, confirmation_next_steps}
 @import views.html.includes.main
+@import views.html.v2.confirmation_next_steps
 
 @this(
         main: main,
@@ -73,8 +62,8 @@
     }
     </div>
 
-    @confirmation_next_steps(
-        linkText = messages("back.gateway"),
-        backHref = GatewayCasesController.displayGatewayCases
-    )
+@*// TODO    @confirmation_next_steps(*@
+@*//        linkText = messages("back.gateway"),*@
+@*//        backHref = GatewayCasesController.displayGatewayCases*@
+@*//    )*@
 }
