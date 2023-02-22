@@ -26,11 +26,11 @@ import play.api.mvc._
 import service.CasesService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.{appeal_change_status, appeal_choose_status, appeal_choose_type}
+
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.Future.successful
 
 @Singleton
@@ -38,6 +38,7 @@ class AppealCaseController @Inject() (
   verify: RequestActions,
   override val caseService: CasesService,
   override implicit val config: AppConfig,
+  implicit val ec: ExecutionContext,
   val appeal_choose_status: appeal_choose_status,
   val appeal_choose_type: appeal_choose_type,
   val appeal_change_status: appeal_change_status,

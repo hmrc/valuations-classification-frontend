@@ -32,6 +32,7 @@ import utils.JsonFormatters.{caseFormat, operatorFormat}
 
 import java.time.Instant
 import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class AuditServiceTest extends SpecBase with BeforeAndAfterEach {
 

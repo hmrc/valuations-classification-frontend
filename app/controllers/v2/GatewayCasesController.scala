@@ -28,14 +28,16 @@ import service.CasesService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.v2.gateway_cases_view
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
+
 
 class GatewayCasesController @Inject() (
   verify: RequestActions,
   casesService: CasesService,
   mcc: MessagesControllerComponents,
   val gatewayCasesView: gateway_cases_view,
-  implicit val appConfig: AppConfig
+  implicit val appConfig: AppConfig,
+  implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with I18nSupport {
 

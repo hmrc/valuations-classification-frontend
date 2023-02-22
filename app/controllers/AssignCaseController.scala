@@ -26,10 +26,9 @@ import service.CasesService
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.assign_case
-import javax.inject.{Inject, Singleton}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.Future.successful
 
 @Singleton
@@ -38,7 +37,8 @@ class AssignCaseController @Inject() (
   override val caseService: CasesService,
   mcc: MessagesControllerComponents,
   val assignCase: assign_case,
-  override implicit val config: AppConfig
+  override implicit val config: AppConfig,
+  implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with RenderCaseAction
     with WithUnsafeDefaultFormBinding {

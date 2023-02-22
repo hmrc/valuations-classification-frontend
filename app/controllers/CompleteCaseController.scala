@@ -27,9 +27,9 @@ import service.CasesService
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.{complete_case, confirm_complete_case}
-import javax.inject.{Inject, Singleton}
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future.successful
 
 @Singleton
@@ -41,7 +41,8 @@ class CompleteCaseController @Inject() (
   mcc: MessagesControllerComponents,
   val confirm_complete_case: confirm_complete_case,
   val complete_case: complete_case,
-  implicit val appConfig: AppConfig
+  implicit val appConfig: AppConfig,
+  implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with RenderCaseAction
     with WithUnsafeDefaultFormBinding {

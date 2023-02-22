@@ -29,11 +29,11 @@ import service.{CasesService, FileStoreService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.ruling_details_edit
 import views.html.v2.{edit_liability_ruling, liability_details_edit}
+
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class RulingController @Inject() (
@@ -47,7 +47,8 @@ class RulingController @Inject() (
   val editRulingView: edit_liability_ruling,
   val liability_details_edit: liability_details_edit,
   val ruling_details_edit: ruling_details_edit,
-  implicit val appConfig: AppConfig
+  implicit val appConfig: AppConfig,
+  implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with I18nSupport
     with WithUnsafeDefaultFormBinding {
