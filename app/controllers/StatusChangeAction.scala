@@ -25,8 +25,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.Future.successful
 
 trait StatusChangeAction[T] extends RenderCaseAction { this: FrontendController =>
@@ -48,6 +47,8 @@ trait StatusChangeAction[T] extends RenderCaseAction { this: FrontendController 
   protected val requiredPermission: Permission
 
   implicit val config: AppConfig
+
+  implicit val ec: ExecutionContext
 
   def chooseStatus(reference: String, options: Option[String] = None): Action[AnyContent] =
     (verify.authenticated
