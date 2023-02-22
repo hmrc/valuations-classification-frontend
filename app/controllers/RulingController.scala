@@ -110,7 +110,7 @@ class RulingController @Inject() (
                       update <- casesService
                                  .updateCase(request.`case`, mapper.mergeFormIntoCase(c, validForm), request.operator)
                     } yield Redirect(
-                      v2.routes.AtarController.displayAtar(update.reference).withFragment(Tab.RULING_TAB.name)
+                      v2.routes.AvarController.displayAvar(update.reference).withFragment(Tab.RULING_TAB.name)
                     )
                 )
 
