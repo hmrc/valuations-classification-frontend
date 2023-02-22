@@ -16,7 +16,6 @@
 
 @import config.AppConfig
 @import models.request.AuthenticatedRequest
-@import controllers.v2.routes.GatewayCasesController
 @import models.Case
 
 @import views.html.partials._
@@ -39,8 +38,8 @@
         <div class="govuk-panel__body">@Html(messages("case_status.confirm.subheader", "Suppressed"))</div>
     </div>
 
-    @confirmation_next_steps(
-        linkText = messages("back.gateway"),
-        backHref = GatewayCasesController.displayGatewayCases
-    )
+@*// TODO    @confirmation_next_steps(*@
+@*//        linkText = messages("back.gateway"),*@
+@*//        backHref = GatewayCasesController.displayGatewayCases*@
+@*//    )*@
 }
