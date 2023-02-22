@@ -17,7 +17,7 @@
 package controllers
 
 import config.AppConfig
-import controllers.v2.{AtarController, CorrespondenceController, LiabilityController, MiscellaneousController}
+import controllers.v2.{AvarController, CorrespondenceController, LiabilityController, MiscellaneousController}
 import models._
 import models.forms._
 import models.request.AuthenticatedCaseRequest
@@ -41,7 +41,7 @@ class CaseController @Inject() (
   caseService: CasesService,
   mcc: MessagesControllerComponents,
   liabilityController: LiabilityController,
-  avarController: AtarController,
+  avarController: AvarController,
   correspondenceController: CorrespondenceController,
   miscellaneousController: MiscellaneousController,
   implicit val appConfig: AppConfig
@@ -54,7 +54,7 @@ class CaseController @Inject() (
     implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AtarController.displayAtar(reference)).flashing(request2flash)
+          Redirect(controllers.v2.routes.AvarController.displayAvar(reference)).flashing(request2flash)
         case ApplicationType.LIABILITY =>
           Redirect(controllers.v2.routes.LiabilityController.displayLiability(reference)).flashing(request2flash)
         case ApplicationType.CORRESPONDENCE =>
@@ -70,7 +70,7 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.SAMPLE_TAB.name))
+          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.SAMPLE_TAB.name))
         case ApplicationType.LIABILITY =>
           Redirect(
             controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.SAMPLE_TAB.name)
@@ -94,7 +94,7 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.RULING_TAB.name))
+          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.RULING_TAB.name))
         case ApplicationType.LIABILITY =>
           Redirect(
             controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.RULING_TAB.name)
@@ -106,7 +106,7 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.ACTIVITY_TAB.name))
+          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.ACTIVITY_TAB.name))
             .flashing(request2flash)
         case ApplicationType.LIABILITY =>
           Redirect(
@@ -131,7 +131,7 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.KEYWORDS_TAB.name))
+          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.KEYWORDS_TAB.name))
             .flashing(request2flash)
         case ApplicationType.LIABILITY =>
           Redirect(
@@ -144,7 +144,7 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AtarController.displayAtar(reference).withFragment(Tab.ATTACHMENTS_TAB.name))
+          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.ATTACHMENTS_TAB.name))
         case ApplicationType.LIABILITY =>
           Redirect(
             controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.ATTACHMENTS_TAB.name)

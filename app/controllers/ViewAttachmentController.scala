@@ -25,11 +25,11 @@ import play.api.mvc._
 import service.FileStoreService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.view_attachment_unavailable
+
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class ViewAttachmentController @Inject() (

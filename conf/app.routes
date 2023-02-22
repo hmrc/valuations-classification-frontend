@@ -142,7 +142,7 @@ GET         /pdf/application/:reference                         controllers.PdfD
 GET         /attachment/:reference/:id                          controllers.ViewAttachmentController.get(reference: String, id: String)
 
 # v2
-GET         /cases/v2/:reference/avar                           controllers.v2.AtarController.displayAtar(reference: String, fileId: Option[String] ?= None)
+GET         /cases/v2/:reference/avar                           controllers.v2.AvarController.displayAvar(reference: String, fileId: Option[String] ?= None)
 
 GET         /cases/v2/:reference/liability                      controllers.v2.LiabilityController.displayLiability(reference: String, fileId: Option[String] ?= None)
 

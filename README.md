@@ -1,7 +1,7 @@
 
 # valuations-classification-frontend
 
-The frontend for the internal Advance valuations Rulings Case Manager service for reviewing & answering AVaR applications.
+The frontend for the internal Advance Valuations Rulings Case Manager service for reviewing & answering AVaR applications.
 
 ### Running
 
@@ -31,25 +31,11 @@ docker run --restart unless-stopped -d -p 27017-27019:27017-27019 --name mongodb
 ```
 
 #### Starting the application:
- 
-1) Launch dependencies using `sm --start DIGITAL_valuationsS_DEPS -r`
-2) Start the backend service [binding-valuations-classification](https://github.com/hmrc/binding-valuations-classification) using `sm --start BINDING_valuations_CLASSIFICATION -r`
-3) Start the filestore service [binding-valuations-filestore](https://github.com/hmrc/binding-valuations-filestore) using `sm --start BINDING_valuations_FILESTORE -r`
-4) Start the ruling frontend [binding-valuations-ruling-frontend](https://github.com/hmrc/binding-valuations-ruling-frontend) using `sm --start BINDING_valuations_RULING_FRONTEND -r`
-5) Start the trader frontend [binding-valuations-trader-frontend](https://github.com/hmrc/binding-valuations-trader-frontend) using `sm --start BINDING_valuations_TRADER_FRONTEND -r`
-6) On Mac OS you must start an older version of the [pdf-generator-service](https://github.com/hmrc/pdf-generator-service):
-```
-sm --stop PDF_GENERATOR_SERVICE
-sm --start PDF_GENERATOR_SERVICE -r 1.20.0
-```
-
-Use `sbt run` to boot the app or run it with Service Manager using `sm --start valuations_CLASSIFICATION_FRONTEND -r`.
+Launch the frontend and dependencies using `sm --start VCCM_ALL -r`
 
 This application runs on port 12590.
 
 Open `http://localhost:12590/manage-valuations-classifications`.
-
-You can also run the `DIGITAL_valuationsS` profile using `sm --start DIGITAL_valuationsS -r` and then stop the Service Manager instance of this service using `sm --stop valuations_CLASSIFICATION_FRONTEND` before running with sbt.
 
 ### Authentication
 

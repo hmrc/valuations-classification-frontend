@@ -27,7 +27,7 @@ object Queues {
   val ttb     = Queue("8", "ttb", "TT-B")
   val ttc     = Queue("9", "ttc", "TT-C")
 
-  def allAtarQueues: List[Queue]       = List(act, car, elm, flex, tta, ttb, ttc)
+  def allAvarQueues: List[Queue]       = List(act, car, elm, flex, tta, ttb, ttc)
   def allLiabilityQueues: List[Queue]  = List(act, cap, elm, flex, tta, ttb, ttc)
   def allCorresMiscQueues: List[Queue] = List(act, elm, flex, tta, ttb, ttc)
 
@@ -39,7 +39,7 @@ object Queues {
   def allQueuesBySlug: Map[String, Queue] = allQueues.map(q => q.slug -> q).toMap
 
   private val queuesByType = Map(
-    ApplicationType.AVAR           -> Queues.allAtarQueues,
+    ApplicationType.AVAR           -> Queues.allAvarQueues,
     ApplicationType.LIABILITY      -> Queues.allLiabilityQueues,
     ApplicationType.CORRESPONDENCE -> Queues.allCorresMiscQueues,
     ApplicationType.MISCELLANEOUS  -> Queues.allCorresMiscQueues
