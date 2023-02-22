@@ -84,7 +84,7 @@ class VerifyCaseExistsActionFactory @Inject() (casesService: CasesService)(
 }
 
 @Singleton
-class MustHavePermissionActionFactory {
+class MustHavePermissionActionFactory @Inject() (implicit ec: ExecutionContext) {
 
   def apply[B[C] <: OperatorRequest[C]](permission: Permission): ActionFilter[B] =
     new ActionFilter[B] {
@@ -94,7 +94,7 @@ class MustHavePermissionActionFactory {
           case _                                => successful(Some(Redirect(routes.SecurityController.unauthorized())))
         }
 
-      override protected def executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
+      override protected def executionContext: ExecutionContext = ec
     }
 
   def apply[B[C] <: OperatorRequest[C]](permissions: Seq[Permission]): ActionFilter[B] =
@@ -105,7 +105,7 @@ class MustHavePermissionActionFactory {
           case _                                                                  => successful(Some(Redirect(routes.SecurityController.unauthorized())))
         }
 
-      override protected def executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
+      override protected def executionContext: ExecutionContext = ec
     }
 }
 
