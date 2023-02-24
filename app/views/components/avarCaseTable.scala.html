@@ -38,7 +38,7 @@
         @for((result, index) <- caseTab.searchResult.results.zipWithIndex) {
                 <tr id="@{caseTab.tabMessageKey}-details-@index" class="govuk-table__row">
                     <td id="@{caseTab.tabMessageKey}-reference-@index" class="govuk-table__cell">
-                        @if(result.queueId.isDefined && !result.assignee.map(_.id).contains(request.operator.id)) {
+                        @if(!result.assignee.map(_.id).contains(request.operator.id)) {
                             <a href="@AssignCaseController.get(result.reference)" class="govuk-link">
                                 <span aria-hidden="true">@result.reference</span>
                                 <span class="govuk-visually-hidden">case reference @result.reference</span>

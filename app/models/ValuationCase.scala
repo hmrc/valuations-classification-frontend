@@ -23,20 +23,14 @@ import java.time.{Clock, Instant}
 case class ValuationApplication(
                            holder: EORIDetails,
                            contact: Contact,
-                           agent: Option[AgentDetails] = None,
-                           offline: Boolean,
                            goodName: String,
                            goodDescription: String,
-                           confidentialInformation: Option[String],
-                           otherInformation: Option[String],
-                           reissuedBTIReference: Option[String],
-                           relatedBTIReference: Option[String] = None,
-                           relatedBTIReferences: List[String]  = Nil,
-                           knownLegalProceedings: Option[String],
-                           envisagedCommodityCode: Option[String],
-                           sampleToBeProvided: Boolean,
-                           sampleToBeReturned: Boolean,
-                           applicationPdf: Option[Attachment]
+                           agent: Option[AgentDetails] = None,
+                           confidentialInformation: Option[String] = None,
+                           otherInformation: Option[String] = None,
+                           knownLegalProceedings: Option[String] = None,
+                           envisagedCommodityCode: Option[String] = None,
+                           applicationPdf: Option[Attachment] = None
                          )
 
 
@@ -47,7 +41,6 @@ case class ValuationCase(
                  daysElapsed: Long,
                  caseBoardsFileNumber: Option[String],
                  assignee: Option[Operator],
-                 queueId: Option[String],
                  application: ValuationApplication,
                  decision: Option[Decision],
                  attachments: Seq[Attachment],
