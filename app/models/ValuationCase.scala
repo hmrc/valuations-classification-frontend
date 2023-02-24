@@ -18,7 +18,7 @@ package models
 
 import models.CaseStatus.CaseStatus
 
-import java.time.Instant
+import java.time.{Clock, Instant}
 
 case class ValuationApplication(
                            holder: EORIDetails,
@@ -56,4 +56,10 @@ case class ValuationCase(
                  dateOfExtract: Option[Instant]    = None,
                  migratedDaysElapsed: Option[Long] = None,
                  referredDaysElapsed: Long
-               )
+               ){
+  private def hasRuling: Boolean =
+    decision.flatMap(_.effectiveEndDate).isDefined
+
+  def hasExpiredRuling(implicit clock: Clock = Clock.systemUTC()): Boolean =
+    hasRuling && decision.flatMap(_.effectiveEndDate).exists(_.isBefore(Instant.now(clock)))
+}
