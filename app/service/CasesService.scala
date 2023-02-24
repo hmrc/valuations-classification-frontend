@@ -58,6 +58,8 @@ class CasesService @Inject() (
   rulingConnector: RulingConnector
 )(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends Logging {
+  def allOpenvaluationCases(): Future[Paged[ValuationCase]] = ???
+
 
   def updateExtendedUseStatus(original: Case, status: Boolean, operator: Operator)(
     implicit hc: HeaderCarrier

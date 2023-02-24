@@ -18,23 +18,28 @@ package models.viewmodels
 
 import models._
 
-case class CasesTab(tabMessageKey: String, elementId: String, searchResult: Paged[Case])
+case class CasesTab(tabMessageKey: String, elementId: String, searchResult: Paged[ValuationCase])
 
 case class CasesTabViewModel(headingMessageKey: String, caseType: ApplicationType, casesTabs: List[CasesTab])
 
 object CasesTabViewModel {
-  def forApplicationType(applicationType: ApplicationType, queuesForType: List[Queue], allQueueCases: Seq[Case]) = {
-    val matchingCases = allQueueCases.filter(_.application.`type` == applicationType)
-    CasesTabViewModel(
-      s"cases.opencases.${applicationType.prettyName.toLowerCase}.heading",
-      applicationType,
-      queuesForType.map { queue =>
-        CasesTab(
-          s"cases.opencases.tab_${queue.slug.toUpperCase}",
-          s"${queue.slug}_tab",
-          Paged(matchingCases.filter(_.queueId.contains(queue.id)))
-        )
-      }
-    )
+//  def forApplicationType(applicationType: ApplicationType, queuesForType: List[Queue], allQueueCases: Seq[Case]) = {
+//    val matchingCases = allQueueCases.filter(_.application.`type` == applicationType)
+//    CasesTabViewModel(
+//      s"cases.opencases.${applicationType.prettyName.toLowerCase}.heading",
+//      applicationType,
+//      queuesForType.map { queue =>
+//        CasesTab(
+//          s"cases.opencases.tab_${queue.slug.toUpperCase}",
+//          s"${queue.slug}_tab",
+//          Paged(matchingCases.filter(_.queueId.contains(queue.id)))
+//        )
+//      }
+//    )
+//  }
+
+  def create(cases: Paged[ValuationCase]): CasesTabViewModel = {
+    val tab = CasesTab("ACT", "Act_tab", cases)
+    CasesTabViewModel(s"cases.opencases.avar.heading",ApplicationType.AVAR, List(tab))
   }
 }

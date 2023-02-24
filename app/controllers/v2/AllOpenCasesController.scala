@@ -43,28 +43,10 @@ class AllOpenCasesController @Inject() (
 
   def displayAllOpenCases(activeSubNav: SubNavigationTab = AVaRTab): Action[AnyContent] =
     (verify.authenticated andThen verify.mustHave(Permission.VIEW_QUEUE_CASES)).async { implicit request =>
-      val applicationType = activeSubNav match {
-        case AVaRTab           => ApplicationType.AVAR
-        case LiabilitiesTab    => ApplicationType.LIABILITY
-        case CorrespondenceTab => ApplicationType.CORRESPONDENCE
-        case MiscellaneousTab  => ApplicationType.MISCELLANEOUS
-      }
-
       for {
-        queuesForType <- queueService.getAllForCaseType(applicationType)
+        cases <- casesService.allOpenvaluationCases()
 
-        casesForQueues <- casesService.getCasesByAllQueues(
-                           queue      = queuesForType,
-                           pagination = NoPagination(),
-                           forTypes   = Set(applicationType),
-                           assignee   = "none"
-                         )
-
-        openCases = CasesTabViewModel.forApplicationType(
-          applicationType,
-          queuesForType,
-          casesForQueues.results
-        )
+        openCases = CasesTabViewModel.create(cases)
 
       } yield Ok(openCasesView(openCases, activeSubNav))
     }
