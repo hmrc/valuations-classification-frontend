@@ -18,9 +18,8 @@
 @import config.AppConfig
 @import  models.viewmodels.CasesTab
 @import controllers.routes.{AssignCaseController, CaseController}
+@import views.html.partials.statuses.valuation_case_status
 
-@import play.twirl.api.TemplateMagic.defining
-@import views.html.partials.statuses.case_status
 
 @(caseTab : CasesTab, captionMessage: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
@@ -37,10 +36,9 @@
     </thead>
     <tbody class="govuk-table__body">
         @for((result, index) <- caseTab.searchResult.results.zipWithIndex) {
-            @defining(result.application.asAVAR) { avar =>
                 <tr id="@{caseTab.tabMessageKey}-details-@index" class="govuk-table__row">
                     <td id="@{caseTab.tabMessageKey}-reference-@index" class="govuk-table__cell">
-                        @if(result.queueId.isDefined && !result.assignee.map(_.id).contains(request.operator.id)) {
+                        @if(!result.assignee.map(_.id).contains(request.operator.id)) {
                             <a href="@AssignCaseController.get(result.reference)" class="govuk-link">
                                 <span aria-hidden="true">@result.reference</span>
                                 <span class="govuk-visually-hidden">case reference @result.reference</span>
@@ -50,12 +48,11 @@
                             <a href="@CaseController.get(result.reference)" class="govuk-visually-hidden">@result.reference</a>
                         }
                     </td>
-                    <td id="@{caseTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{avar.goodName}</td>
-                    <td id="@{caseTab.tabMessageKey}-trader-@index" class="govuk-table__cell">@{avar.holder.businessName}</td>
+                    <td id="@{caseTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{result.application.goodName}</td>
+                    <td id="@{caseTab.tabMessageKey}-trader-@index" class="govuk-table__cell">@{result.application.holder.businessName}</td>
                     <td id="@{caseTab.tabMessageKey}-elapsed-days-@index" class="govuk-table__cell">@{result.daysElapsed}</td>
-                    <td id="@{caseTab.tabMessageKey}-status-@index" class="govuk-table__cell">@case_status(result, s"${caseTab.tabMessageKey}-status-label-$index", true)</td>
+                    <td id="@{caseTab.tabMessageKey}-status-@index" class="govuk-table__cell">@valuation_case_status(result, s"${caseTab.tabMessageKey}-status-label-$index", true)</td>
                 </tr>
             }
-        }
     </tbody>
 </table>

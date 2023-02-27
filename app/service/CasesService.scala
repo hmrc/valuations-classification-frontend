@@ -17,13 +17,13 @@
 package service
 
 import java.nio.file.{Files, StandardOpenOption}
-import java.time.LocalDate
+import java.time.{Instant, LocalDate, LocalDateTime}
 import java.util.UUID
-
 import audit.AuditService
 import cats.syntax.all._
 import config.AppConfig
 import connector.{BindingvaluationsClassificationConnector, RulingConnector}
+
 import javax.inject.{Inject, Singleton}
 import models.AppealStatus.AppealStatus
 import models.AppealType.AppealType
@@ -44,6 +44,7 @@ import play.api.libs.Files.SingletonTemporaryFileCreator
 import uk.gov.hmrc.http.HeaderCarrier
 import views.html.templates.{cover_letter_template, decision_template, ruling_template}
 
+import java.time.temporal.{ChronoUnit, TemporalUnit}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -58,6 +59,26 @@ class CasesService @Inject() (
   rulingConnector: RulingConnector
 )(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends Logging {
+  def allOpenvaluationCases(): Future[Paged[ValuationCase]] = { // TODO - replace will connector call when available
+    val app: ValuationApplication = ValuationApplication(EORIDetails("eori-number","AMEX","Cleaver House","High St","Brighton","KL12 8ND","UK"),
+      Contact("John Jones","jones@orange.com"),
+    goodName = "mobile phone case",
+    goodDescription = "pricey")
+
+    val cases = ValuationCase(
+       reference = "case-reference",
+       status = CaseStatus.OPEN,
+       createdDate = Instant.now().minus(5, ChronoUnit.DAYS),
+       daysElapsed = 5,
+       caseBoardsFileNumber = None,
+      assignee = None,
+      application = app,
+      decision = None,
+      attachments = Seq.empty,
+      referredDaysElapsed = 0)
+    Future.successful(Paged(List(cases)))
+  }
+
 
   def updateExtendedUseStatus(original: Case, status: Boolean, operator: Operator)(
     implicit hc: HeaderCarrier
