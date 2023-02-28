@@ -19,6 +19,7 @@ package config
 import com.google.inject.AbstractModule
 import connector.{DataCacheConnector, MongoCacheConnector}
 import controllers.actions._
+import service.{ArsValuationCaseService, ValuationCaseService}
 
 class Module extends AbstractModule {
 
@@ -28,5 +29,6 @@ class Module extends AbstractModule {
     bind(classOf[DataRetrievalAction]).to(classOf[DataRetrievalActionImpl]).asEagerSingleton()
     bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
     bind(classOf[DataCacheConnector]).to(classOf[MongoCacheConnector]).asEagerSingleton()
+    bind(classOf[ValuationCaseService]).to(classOf[ArsValuationCaseService]).asEagerSingleton()
   }
 }

@@ -23,7 +23,7 @@ import models.viewmodels._
 import models.{ApplicationType, NoPagination, Permission}
 import play.api.i18n.I18nSupport
 import play.api.mvc._
-import service.{CasesService, QueuesService}
+import service.{CasesService, QueuesService, ValuationCaseService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.v2.open_cases_view
 
@@ -31,20 +31,20 @@ import scala.concurrent.ExecutionContext
 
 
 class AllOpenCasesController @Inject() (
-  verify: RequestActions,
-  casesService: CasesService,
-  queueService: QueuesService,
-  mcc: MessagesControllerComponents,
-  val openCasesView: open_cases_view,
-  implicit val appConfig: AppConfig,
-  implicit val ec: ExecutionContext
+                                         verify: RequestActions,
+                                         valuationCaseService: ValuationCaseService,
+                                         queueService: QueuesService,
+                                         mcc: MessagesControllerComponents,
+                                         val openCasesView: open_cases_view,
+                                         implicit val appConfig: AppConfig,
+                                         implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
     with I18nSupport {
 
   def displayAllOpenCases(activeSubNav: SubNavigationTab = AVaRTab): Action[AnyContent] =
     (verify.authenticated andThen verify.mustHave(Permission.VIEW_QUEUE_CASES)).async { implicit request =>
       for {
-        cases <- casesService.allOpenvaluationCases()
+        cases <- valuationCaseService.allOpenvaluationCases()
 
         openCases = CasesTabViewModel.create(cases)
 
