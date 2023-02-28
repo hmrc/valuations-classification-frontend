@@ -16,6 +16,8 @@
 
 package models
 
+import play.api.libs.json.{Json, OFormat}
+import formats.JsonFormatInstances._
 import java.time.Instant
 
 case class Attachment(
@@ -27,9 +29,26 @@ case class Attachment(
   shouldPublishToRulings: Boolean = false
 )
 
+case class Attachment2(
+                       id: String,
+                       public: Boolean = false,
+                       operator: Option[Operator2],
+                       timestamp: Instant              = Instant.now(),
+                       description: Option[String]     = None,
+                       shouldPublishToRulings: Boolean = false
+                     )
+
+object Attachment2{
+  implicit val fmt: OFormat[Attachment2] = Json.format[Attachment2]
+}
+
 case class FileStoreAttachment(
   id: String,
   name: String,
   mimeType: String,
   size: Long
 )
+
+object FileStoreAttachment{
+  implicit val fmt: OFormat[FileStoreAttachment] = Json.format[FileStoreAttachment]
+}

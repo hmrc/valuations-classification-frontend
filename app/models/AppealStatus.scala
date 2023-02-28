@@ -17,6 +17,7 @@
 package models
 
 import models.AppealType.AppealType
+import play.api.libs.json.{Format, Json}
 
 object AppealStatus extends Enumeration {
   type AppealStatus = Value
@@ -51,5 +52,7 @@ object AppealStatus extends Enumeration {
     case AppealType.ADR    => Seq(AppealStatus.IN_PROGRESS, AppealStatus.ALLOWED)
     case _                 => Seq(AppealStatus.IN_PROGRESS, AppealStatus.ALLOWED, AppealStatus.DISMISSED)
   }
+
+  implicit val fmt: Format[AppealStatus.Value] = Json.formatEnum(this)
 
 }

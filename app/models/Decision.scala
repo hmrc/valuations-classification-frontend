@@ -16,6 +16,8 @@
 
 package models
 
+import play.api.libs.json.{Json, OFormat}
+
 import java.time.Instant
 
 case class Decision(
@@ -37,3 +39,26 @@ case class Decision(
 object Decision {
   def apply(): Decision = Decision(bindingCommodityCode = "", justification = "", goodsDescription = "")
 }
+
+case class Decision2(
+                     bindingCommodityCode: String,
+                     effectiveStartDate: Option[Instant] = None,
+                     effectiveEndDate: Option[Instant]   = None,
+                     justification: String,
+                     goodsDescription: String,
+                     methodSearch: Option[String]                 = None,
+                     methodExclusion: Option[String]              = None,
+                     methodCommercialDenomination: Option[String] = None,
+                     appeal: Seq[Appeal]                          = Seq.empty,
+                     cancellation: Option[Cancellation]           = None,
+                     explanation: Option[String]                  = None,
+                     decisionPdf: Option[Attachment2]              = None,
+                     letterPdf: Option[Attachment2]                = None
+                   )
+
+object Decision2 {
+  def apply(): Decision = Decision(bindingCommodityCode = "", justification = "", goodsDescription = "")
+
+  implicit val fmt: OFormat[Decision2] = Json.format[Decision2]
+}
+

@@ -18,6 +18,7 @@ package models
 
 import models.AppealStatus.AppealStatus
 import models.AppealType.AppealType
+import play.api.libs.json.{Json, OFormat}
 
 case class Appeal(
   id: String,
@@ -36,4 +37,6 @@ object Appeal {
       None
     }
   }
+
+  implicit val fmt: OFormat[Appeal] = Json.format[Appeal]
 }

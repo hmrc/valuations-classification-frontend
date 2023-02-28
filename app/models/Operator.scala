@@ -17,6 +17,7 @@
 package models
 
 import models.Role.Role
+import play.api.libs.json.{Format, Json, OFormat}
 
 case class Operator(
   id: String,
@@ -73,4 +74,16 @@ object Role extends Enumeration {
       case READ_ONLY              => "Unknown"
 
     }
+
+  implicit val fmt: Format[models.Role.Value] = Json.formatEnum(this)
+}
+
+case class Operator2(
+                     id: String,
+                     name: Option[String]         = None,
+                     email: Option[String]        = None,
+                     role: Role.Role              = Role.CLASSIFICATION_OFFICER,
+                   )
+object Operator2{
+  implicit val format: OFormat[Operator2] = Json.format[Operator2]
 }

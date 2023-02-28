@@ -16,6 +16,8 @@
 
 package models
 
+import play.api.libs.json.{Format, Json}
+
 object CaseStatus extends Enumeration {
   type CaseStatus = Value
   val DRAFT, NEW, OPEN, SUPPRESSED, REFERRED, REJECTED, CANCELLED, SUSPENDED, COMPLETED, REVOKED, ANNULLED = Value
@@ -35,4 +37,6 @@ object CaseStatus extends Enumeration {
     case _ =>
       cse.status.toString
   }
+
+  implicit val fmt: Format[CaseStatus.Value] = Json.formatEnum(this)
 }

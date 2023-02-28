@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package models
+package service
 
-import models.CancelReason.CancelReason
-import play.api.libs.json.{Json, OFormat}
+import connector.ValuationCaseConnector
+import models.{Paged, ValuationCase}
+import uk.gov.hmrc.http.HeaderCarrier
 
-case class Cancellation(
-  reason: CancelReason,
-  applicationForExtendedUse: Boolean = false
-)
+import javax.inject.Inject
+import scala.concurrent.{ExecutionContext, Future}
 
-object Cancellation {
-  implicit val fmt: OFormat[Cancellation] = Json.format[Cancellation]
+trait ValuationCaseService {
+  def allOpenvaluationCases()(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]]
+
 }
+
+class ArsValuationCaseService @Inject() (connector: ValuationCaseConnector)(implicit ec: ExecutionContext) extends ValuationCaseService{
+  override def allOpenvaluationCases()(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]] = connector.allOpenCases().map(Paged(_))
+}
+
