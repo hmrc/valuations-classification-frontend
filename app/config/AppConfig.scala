@@ -37,6 +37,7 @@ class AppConfig @Inject() (
   private lazy val contactHost                  = config.getOptional[String]("contact-frontend.host").getOrElse("")
   private lazy val contactFormServiceIdentifier = config.get[String]("appName")
 
+  lazy val advanceValuationRulingsUrl: String         = servicesConfig.baseUrl("advance-valuation-rulings")
   lazy val assetsPrefix: String                       = config.get[String]("assets.url") + config.get[String]("assets.version")
   lazy val analyticsToken: String                     = config.get[String]("google-analytics.token")
   lazy val analyticsHost: String                      = config.get[String]("google-analytics.host")

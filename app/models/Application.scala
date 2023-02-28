@@ -17,10 +17,10 @@
 package models
 
 import java.time.Instant
-
 import cats.syntax.either._
 import models.LiabilityStatus.LiabilityStatus
 import models.MiscCaseType.MiscCaseType
+import play.api.libs.json.{Json, OFormat}
 import play.api.mvc.PathBindable
 
 sealed trait Application {
@@ -160,6 +160,7 @@ case class AgentDetails(
   letterOfAuthorisation: Option[Attachment]
 )
 
+
 case class LiabilityOrder(
   override val contact: Contact,
   status: LiabilityStatus,
@@ -200,11 +201,19 @@ case class EORIDetails(
   country: String
 )
 
+object EORIDetails{
+  implicit val fmt: OFormat[EORIDetails] = Json.format[EORIDetails]
+}
+
 case class Contact(
   name: String,
   email: String,
   phone: Option[String] = None
 )
+
+object Contact{
+  implicit val fmt: OFormat[Contact] = Json.format[Contact]
+}
 
 case class Message(
   name: String,

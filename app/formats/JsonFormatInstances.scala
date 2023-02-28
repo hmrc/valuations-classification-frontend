@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package models
+package formats
 
-import models.CancelReason.CancelReason
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.{EnvReads, EnvWrites, Format}
 
-case class Cancellation(
-  reason: CancelReason,
-  applicationForExtendedUse: Boolean = false
-)
+import java.time.Instant
 
-object Cancellation {
-  implicit val fmt: OFormat[Cancellation] = Json.format[Cancellation]
+object JsonFormatInstances extends EnvWrites with EnvReads{
+
+  implicit val instantFormat: Format[Instant] = Format(DefaultInstantReads, DefaultInstantWrites)
+
 }

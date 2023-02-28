@@ -16,6 +16,8 @@
 
 package models
 
+import play.api.libs.json.{Format, Json}
+
 object AppealType extends Enumeration {
   def format(value: AppealType): String = value match {
     case ADR              => "Alternative Dispute Resolution (ADR)"
@@ -37,4 +39,6 @@ object AppealType extends Enumeration {
     */
   type AppealType = Value
   val ADR, REVIEW, APPEAL_TIER_1, APPEAL_TIER_2, COURT_OF_APPEALS, SUPREME_COURT = Value
+
+  implicit val fmt: Format[AppealType.Value] = Json.formatEnum(this)
 }

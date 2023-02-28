@@ -16,6 +16,8 @@
 
 package models
 
+import play.api.libs.json.{Format, Json}
+
 object CancelReason extends Enumeration {
   type CancelReason = Value
 
@@ -47,4 +49,6 @@ object CancelReason extends Enumeration {
       case OTHER                            => None
       case unknown: CancelReason            => throw new IllegalArgumentException(s"Unexpected reason: $unknown")
     }
+
+  implicit val fmt: Format[CancelReason.Value] = Json.formatEnum(this)
 }

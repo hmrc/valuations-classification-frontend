@@ -17,21 +17,34 @@
 package models
 
 import models.CaseStatus.CaseStatus
-
+import play.api.libs.json.{Json, OFormat}
+import formats.JsonFormatInstances._
 import java.time.{Clock, Instant}
+
+case class AgentDetails2(
+                         eoriDetails: EORIDetails,
+                         letterOfAuthorisation: Option[Attachment2]
+                       )
+object AgentDetails2{
+  implicit val fmt = Json.format[AgentDetails2]
+}
+
 
 case class ValuationApplication(
                            holder: EORIDetails,
                            contact: Contact,
                            goodName: String,
                            goodDescription: String,
-                           agent: Option[AgentDetails] = None,
+                           agent: Option[AgentDetails2] = None,
                            confidentialInformation: Option[String] = None,
                            otherInformation: Option[String] = None,
                            knownLegalProceedings: Option[String] = None,
                            envisagedCommodityCode: Option[String] = None,
-                           applicationPdf: Option[Attachment] = None
+                           applicationPdf: Option[Attachment2] = None
                          )
+object ValuationApplication{
+  implicit val fmt = Json.format[ValuationApplication]
+}
 
 
 case class ValuationCase(
@@ -39,20 +52,23 @@ case class ValuationCase(
                  status: CaseStatus,
                  createdDate: Instant,
                  daysElapsed: Long,
-                 caseBoardsFileNumber: Option[String],
-                 assignee: Option[Operator],
                  application: ValuationApplication,
-                 decision: Option[Decision],
-                 attachments: Seq[Attachment],
+                 referredDaysElapsed: Long,
+                 caseBoardsFileNumber: Option[String] = None,
+                 assignee: Option[Operator2] = None,
+                 decision: Option[Decision2] = None,
+                 attachments: Seq[Attachment2] = Seq.empty,
                  keywords: Set[String]             = Set.empty,
-                 sample: Sample                    = Sample(),
                  dateOfExtract: Option[Instant]    = None,
-                 migratedDaysElapsed: Option[Long] = None,
-                 referredDaysElapsed: Long
+                 migratedDaysElapsed: Option[Long] = None
                ){
   private def hasRuling: Boolean =
     decision.flatMap(_.effectiveEndDate).isDefined
 
   def hasExpiredRuling(implicit clock: Clock = Clock.systemUTC()): Boolean =
     hasRuling && decision.flatMap(_.effectiveEndDate).exists(_.isBefore(Instant.now(clock)))
+}
+
+object ValuationCase{
+  implicit val fmt: OFormat[ValuationCase] = Json.format[ValuationCase]
 }
