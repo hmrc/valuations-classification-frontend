@@ -32,8 +32,8 @@ GET         /cases/:reference/release                           controllers.Rele
 POST        /cases/:reference/release                           controllers.ReleaseCaseController.releaseCaseToQueue(reference: String)
 GET         /cases/:reference/release/confirmation              controllers.ReleaseCaseController.confirmReleaseCase(reference: String)
 
-GET         /cases/:reference/assign                            controllers.AssignCaseController.get(reference: String)
-POST        /cases/:reference/assign                            controllers.AssignCaseController.post(reference: String)
+GET         /cases/:reference/assign                            controllers.AssignCaseController2.show(reference: String)
+POST        /cases/:reference/assign                            controllers.AssignCaseController2.assignOrViewCase(reference: String)
 
 GET         /cases/:reference/reassign-case                     controllers.ReassignCaseController.showAvailableQueues(reference: String, origin: String)
 POST        /cases/:reference/reassign-case                     controllers.ReassignCaseController.reassignCase(reference: String, origin: String)
@@ -143,6 +143,8 @@ GET         /attachment/:reference/:id                          controllers.View
 
 # v2
 GET         /cases/v2/:reference/avar                           controllers.v2.AvarController.displayAvar(reference: String, fileId: Option[String] ?= None)
+
+GET         /cases/v2/avar/:reference                          controllers.v2.AvarController2.show(reference)
 
 GET         /cases/v2/:reference/liability                      controllers.v2.LiabilityController.displayLiability(reference: String, fileId: Option[String] ?= None)
 

@@ -45,34 +45,34 @@ class AssignCaseController @Inject() (
 
   private lazy val takeOwnershipForm: Form[Boolean] = TakeOwnerShipForm.form
 
-  def get(reference: String): Action[AnyContent] =
-    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ASSIGN_CASE))
-      .async(implicit request => getCaseAndRenderView(reference, c => successful(assignCase(c, takeOwnershipForm))))
+  def get(reference: String): Action[AnyContent] = ???
+//    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ASSIGN_CASE))
+//      .async(implicit request => getCaseAndRenderView(reference, c => successful(assignCase(c, takeOwnershipForm))))
 
-  def post(reference: String): Action[AnyContent] =
-    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ASSIGN_CASE))
-      .async { implicit request =>
-        def respond: Case => Future[Result] = {
-          case c: Case if c.assignee.isEmpty =>
-            caseService.assignCase(c, request.operator).map(_ => Redirect(routes.CaseController.get(reference)))
-          case _ =>
-            successful(Redirect(routes.AssignCaseController.get(reference)))
-        }
-
-        takeOwnershipForm
-          .bindFromRequest()
-          .fold(
-            formWithErrors => getCaseAndRenderView(reference, c => successful(assignCase(c, formWithErrors))), {
-              case true =>
-                getCaseAndRespond(reference, respond)
-              case _ =>
-                successful(
-                  Redirect(controllers.routes.CaseController.get(reference))
-                )
-            }
-          )
-
-      }
+  def post(reference: String): Action[AnyContent] = ???
+//    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ASSIGN_CASE))
+//      .async { implicit request =>
+//        def respond: Case => Future[Result] = {
+//          case c: Case if c.assignee.isEmpty =>
+//            caseService.assignCase(c, request.operator).map(_ => Redirect(routes.CaseController.get(reference)))
+//          case _ =>
+//            successful(Redirect(routes.AssignCaseController.get(reference)))
+//        }
+//
+//        takeOwnershipForm
+//          .bindFromRequest()
+//          .fold(
+//            formWithErrors => getCaseAndRenderView(reference, c => successful(assignCase(c, formWithErrors))), {
+//              case true =>
+//                getCaseAndRespond(reference, respond)
+//              case _ =>
+//                successful(
+//                  Redirect(controllers.routes.CaseController.get(reference))
+//                )
+//            }
+//          )
+//
+//      }
 
   override protected def isValidCase(c: Case)(implicit request: AuthenticatedRequest[_]): Boolean =
     (c.queueId, c.assignee) match {

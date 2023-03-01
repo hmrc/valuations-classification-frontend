@@ -17,7 +17,8 @@
 @import models.request.AuthenticatedRequest
 @import config.AppConfig
 @import  models.viewmodels.CasesTab
-@import controllers.routes.{AssignCaseController, CaseController}
+@import controllers.routes.{AssignCaseController2}
+@import controllers.v2.routes.AvarController2
 @import views.html.partials.statuses.valuation_case_status
 
 
@@ -39,13 +40,13 @@
                 <tr id="@{caseTab.tabMessageKey}-details-@index" class="govuk-table__row">
                     <td id="@{caseTab.tabMessageKey}-reference-@index" class="govuk-table__cell">
                         @if(!result.assignee.map(_.id).contains(request.operator.id)) {
-                            <a href="@AssignCaseController.get(result.reference)" class="govuk-link">
+                            <a href="@AssignCaseController2.show(result.reference)" class="govuk-link">
                                 <span aria-hidden="true">@result.reference</span>
                                 <span class="govuk-visually-hidden">case reference @result.reference</span>
                             </a>
                         } else {
                         <span class="govuk-visually-hidden">case reference @result.reference</span>
-                            <a href="@CaseController.get(result.reference)" class="govuk-visually-hidden">@result.reference</a>
+                            <a href="@AvarController2.show(result.reference)" class="govuk-visually-hidden">@result.reference</a>
                         }
                     </td>
                     <td id="@{caseTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{result.application.goodName}</td>
