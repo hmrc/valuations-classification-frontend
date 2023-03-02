@@ -42,27 +42,27 @@
 @(
         caseViewModel: CaseViewModel,
 
-        applicantTab: ApplicantTabViewModel,
-
-        goodsTab: GoodsTabViewModel,
-
-        sampleTab: SampleTabViewModel,
-
-        attachmentsTab: AttachmentsTabViewModel,
-        uploadForm: Form[String],
-        initiateResponse: FileStoreInitiateResponse,
-
-        activityTab: ActivityViewModel,
-        activityForm: Form[ActivityFormData],
-
-        keywordsTab: KeywordsTabViewModel,
-        keywordForm: Form[String],
-
-        rulingTab: RulingTabViewModel,
-        rulingForm: Option[Form[DecisionFormData]],
-        attachments: Seq[StoredAttachment],
-
-        appealTab: Option[AppealTabViewModel],
+//        applicantTab: ApplicantTabViewModel,
+//
+//        goodsTab: GoodsTabViewModel,
+//
+//        sampleTab: SampleTabViewModel,
+//
+//        attachmentsTab: AttachmentsTabViewModel,
+//        uploadForm: Form[String],
+//        initiateResponse: FileStoreInitiateResponse,
+//
+//        activityTab: ActivityViewModel,
+//        activityForm: Form[ActivityFormData],
+//
+//        keywordsTab: KeywordsTabViewModel,
+//        keywordForm: Form[String],
+//
+//        rulingTab: RulingTabViewModel,
+//        rulingForm: Option[Form[DecisionFormData]],
+//        attachments: Seq[StoredAttachment],
+//
+//        appealTab: Option[AppealTabViewModel],
         primaryNavTab: PrimaryNavigationTab = MyCasesTab
 )(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
@@ -139,48 +139,48 @@
                 </a>
             </li>
 
-            @appealTab.map { _ =>
-                <li class="govuk-tabs__list-item">
-                    <a class="govuk-tabs__tab" href="#appeal_tab">
-                        @messages("case.v2.avar.appeal.tab_title")
-                    </a>
-                </li>
-            }
+@*            @appealTab.map { _ =>*@
+@*                <li class="govuk-tabs__list-item">*@
+@*                    <a class="govuk-tabs__tab" href="#appeal_tab">*@
+@*                        @messages("case.v2.avar.appeal.tab_title")*@
+@*                    </a>*@
+@*                </li>*@
+@*            }*@
         </ul>
 
-        <div class="govuk-tabs__panel" id="applicant_tab">
-            @case_trader(applicantTab)
-        </div>
+@*        <div class="govuk-tabs__panel" id="applicant_tab">*@
+@*            @case_trader(applicantTab)*@
+@*        </div>*@
 
-        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="goods_tab">
-            @application_details(goodsTab)
-        </div>
+@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="goods_tab">*@
+@*            @application_details(goodsTab)*@
+@*        </div>*@
 
-        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="sample_status_tab">
-            @sample_details(sampleTab)
-        </div>
+@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="sample_status_tab">*@
+@*            @sample_details(sampleTab)*@
+@*        </div>*@
 
-        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="attachments_tab">
-            @attachments_details(attachmentsTab, uploadForm, initiateResponse)
-        </div>
+@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="attachments_tab">*@
+@*            @attachments_details(attachmentsTab, uploadForm, initiateResponse)*@
+@*        </div>*@
 
-        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="activity_tab">
-            @activity_details(activityTab, activityForm)
-        </div>
+@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="activity_tab">*@
+@*            @activity_details(activityTab, activityForm)*@
+@*        </div>*@
 
-        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="keywords_tab">
-            @keywords_details(keywordsTab, keywordForm)
-        </div>
+@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="keywords_tab">*@
+@*            @keywords_details(keywordsTab, keywordForm)*@
+@*        </div>*@
 
-        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="ruling_tab">
-            @ruling_details(rulingTab, rulingForm, attachments)
-        </div>
+@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="ruling_tab">*@
+@*            @ruling_details(rulingTab, rulingForm, attachments)*@
+@*        </div>*@
 
-        @appealTab.map { appeal =>
-            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="appeal_tab">
-                @appeal_details(appeal)
-            </div>
-        }
+@*        @appealTab.map { appeal =>*@
+@*            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="appeal_tab">*@
+@*                @appeal_details(appeal)*@
+@*            </div>*@
+@*        }*@
     </div>
 }
 

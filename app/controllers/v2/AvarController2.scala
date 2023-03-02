@@ -16,9 +16,11 @@
 
 package controllers.v2
 
+import cats.data.OptionT
 import config.AppConfig
 import controllers.RequestActions
 import models.forms.DecisionForm
+import models.viewmodels.CaseViewModel
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import service.{CountriesService, EventsService, FileStoreService, KeywordsService, QueuesService, ValuationCaseService}
@@ -42,6 +44,10 @@ class AvarController2 @Inject() (
 
   def show(reference: String): Action[AnyContent] =
     verify.authenticated.async { implicit request =>
-       Future.successful(Ok("ValuationCase details goes here"))
+      val outcome = for{
+        c <- OptionT(valuationCaseService.valuationCase(reference))
+      } yield Ok(avarView(CaseViewModel.fromValuationCase(c)))
+
+      outcome.getOrElse(throw new Exception("failed to load case view"))
     }
 }

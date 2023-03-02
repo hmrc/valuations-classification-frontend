@@ -72,12 +72,12 @@
     )
 }
 
-@if(idOfElement.nonEmpty) {
-    <script>
-        let url = "@routes.TabCacheController.post(caseViewModel.caseHeader.referenceNumber, caseViewModel.caseHeader.caseType).url";
-        let csrf = "@CSRF.getToken.value";
-        let button = document.getElementById("@idOfElement" + "-button");
-        saveAnchor(button, url, csrf)
-    </script>
-}
+@*if(idOfElement.nonEmpty) {*@
+@*    <script>*@
+@*        let url = "@routes.TabCacheController.post(caseViewModel.caseHeader.referenceNumber, "AVAR").url";*@
+@*        let csrf = "@CSRF.getToken.value";*@
+@*        let button = document.getElementById("@idOfElement" + "-button");*@
+@*        saveAnchor(button, url, csrf)*@
+@*    </script>*@
+@*}*@
 }
