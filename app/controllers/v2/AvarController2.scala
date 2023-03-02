@@ -19,16 +19,16 @@ package controllers.v2
 import cats.data.OptionT
 import config.AppConfig
 import controllers.RequestActions
-import models.forms.DecisionForm
 import models.viewmodels.CaseViewModel
+import models.viewmodels.avar.{ApplicantTabViewModel, GoodsTabViewModel}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import service.{CountriesService, EventsService, FileStoreService, KeywordsService, QueuesService, ValuationCaseService}
+import service.ValuationCaseService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.v2.avar_view
 
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 @Singleton
 class AvarController2 @Inject() (
@@ -46,7 +46,7 @@ class AvarController2 @Inject() (
     verify.authenticated.async { implicit request =>
       val outcome = for{
         c <- OptionT(valuationCaseService.valuationCase(reference))
-      } yield Ok(avarView(CaseViewModel.fromValuationCase(c)))
+      } yield Ok(avarView(CaseViewModel.fromValuationCase(c), ApplicantTabViewModel.fromValuationCase(c),GoodsTabViewModel.fromValuationCase(c)))
 
       outcome.getOrElse(throw new Exception("failed to load case view"))
     }
