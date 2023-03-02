@@ -83,7 +83,13 @@ case class Operator2(
                      name: Option[String]         = None,
                      email: Option[String]        = None,
                      role: Role.Role              = Role.CLASSIFICATION_OFFICER,
-                   )
+                   ){
+  def safeName: String = {
+    val safeN = name.getOrElse(s"PID $id")
+    if (safeN.trim.isEmpty) s"PID $id"
+    else safeN
+  }
+}
 object Operator2{
   implicit val format: OFormat[Operator2] = Json.format[Operator2]
 }

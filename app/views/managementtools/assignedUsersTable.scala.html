@@ -17,11 +17,7 @@
 @import models.request.AuthenticatedRequest
 @import config.AppConfig
 @import models.viewmodels.managementtools._
-@import controllers.routes.{AssignCaseController, CaseController}
-@import models.Role.Role
 
-@import play.twirl.api.TemplateMagic.defining
-@import views.html.partials.statuses.case_status
 
 @(usersTab : UsersTab, usersCount: Map[String, List[Case]])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
