@@ -19,9 +19,10 @@
 @import models.forms.{ActivityFormData, DecisionFormData}
 @import models.request.AuthenticatedRequest
 @import models.response.FileStoreInitiateResponse
-@import models.viewmodels.{CaseViewModel, ActivityViewModel, KeywordsTabViewModel, MyCasesTab, PrimaryNavigationTab, OpenCasesTab}
-@import models.viewmodels.avar._
+@import models.viewmodels.{CaseViewModel, ActivityViewModel, KeywordsTabViewModel, MyCasesTab, PrimaryNavigationTab}
 
+@import models.viewmodels.avar.GoodsTabViewModel
+@import models.viewmodels.avar.ApplicantTabViewModel
 @import views.html.partials.{case_trader, application_details, activity_details, attachments_details}
 @import views.html.partials.appeal.appeal_details
 @import views.html.partials.sample.{sample_details, sample_status_events_table}
@@ -42,29 +43,14 @@
 @(
         caseViewModel: CaseViewModel,
 
-//        applicantTab: ApplicantTabViewModel,
-//
-//        goodsTab: GoodsTabViewModel,
-//
-//        sampleTab: SampleTabViewModel,
-//
-//        attachmentsTab: AttachmentsTabViewModel,
-//        uploadForm: Form[String],
-//        initiateResponse: FileStoreInitiateResponse,
-//
-//        activityTab: ActivityViewModel,
-//        activityForm: Form[ActivityFormData],
-//
-//        keywordsTab: KeywordsTabViewModel,
-//        keywordForm: Form[String],
-//
-//        rulingTab: RulingTabViewModel,
-//        rulingForm: Option[Form[DecisionFormData]],
-//        attachments: Seq[StoredAttachment],
-//
-//        appealTab: Option[AppealTabViewModel],
+        applicantTab: ApplicantTabViewModel,
+
+        goodsTab: GoodsTabViewModel,
+
         primaryNavTab: PrimaryNavigationTab = MyCasesTab
 )(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+
 
 @additionalCSS = {
     <link rel="stylesheet" href='@routes.Assets.at("stylesheets/autocomplete.css")'/>
@@ -95,92 +81,28 @@
         @advanced_search_cases(caseViewModel)
     </div>
 
-    <div id="avar_tabs" class="govuk-tabs" data-module="govuk-tabs">
+    <div id="atar_tabs" class="govuk-tabs" data-module="govuk-tabs">
         <ul class="govuk-tabs__list">
             <li class="govuk-tabs__list-item">
                 <a class="govuk-tabs__tab" href="#applicant_tab">
-                @messages("case.v2.avar.applicant.tab_title")
+                @messages("case.v2.atar.applicant.tab_title")
                 </a>
             </li>
 
             <li class="govuk-tabs__list-item">
                 <a class="govuk-tabs__tab" href="#goods_tab">
-                @messages("case.v2.avar.goods.tab_title")
+                @messages("case.v2.atar.goods.tab_title")
                 </a>
             </li>
-
-            <li class="govuk-tabs__list-item">
-                <a class="govuk-tabs__tab" href="#sample_status_tab">
-                @messages("case.v2.avar.sample.tab_title")
-                </a>
-            </li>
-
-            <li class="govuk-tabs__list-item">
-                <a class="govuk-tabs__tab" href="#attachments_tab">
-                @messages("case.v2.avar.attachments.tab_title")
-                </a>
-            </li>
-
-            <li class="govuk-tabs__list-item">
-                <a class="govuk-tabs__tab" href="#activity_tab">
-                @messages("case.v2.avar.activity.tab_title")
-                </a>
-            </li>
-
-            <li class="govuk-tabs__list-item">
-                <a class="govuk-tabs__tab" href="#keywords_tab">
-                @messages("case.v2.avar.keywords.tab_title")
-                </a>
-            </li>
-
-            <li class="govuk-tabs__list-item">
-                <a class="govuk-tabs__tab" href="#ruling_tab">
-                @messages("case.v2.avar.ruling.tab_title")
-                </a>
-            </li>
-
-@*            @appealTab.map { _ =>*@
-@*                <li class="govuk-tabs__list-item">*@
-@*                    <a class="govuk-tabs__tab" href="#appeal_tab">*@
-@*                        @messages("case.v2.avar.appeal.tab_title")*@
-@*                    </a>*@
-@*                </li>*@
-@*            }*@
         </ul>
 
-@*        <div class="govuk-tabs__panel" id="applicant_tab">*@
-@*            @case_trader(applicantTab)*@
-@*        </div>*@
+        <div class="govuk-tabs__panel" id="applicant_tab">
+            @case_trader(applicantTab)
+        </div>
 
-@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="goods_tab">*@
-@*            @application_details(goodsTab)*@
-@*        </div>*@
-
-@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="sample_status_tab">*@
-@*            @sample_details(sampleTab)*@
-@*        </div>*@
-
-@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="attachments_tab">*@
-@*            @attachments_details(attachmentsTab, uploadForm, initiateResponse)*@
-@*        </div>*@
-
-@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="activity_tab">*@
-@*            @activity_details(activityTab, activityForm)*@
-@*        </div>*@
-
-@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="keywords_tab">*@
-@*            @keywords_details(keywordsTab, keywordForm)*@
-@*        </div>*@
-
-@*        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="ruling_tab">*@
-@*            @ruling_details(rulingTab, rulingForm, attachments)*@
-@*        </div>*@
-
-@*        @appealTab.map { appeal =>*@
-@*            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="appeal_tab">*@
-@*                @appeal_details(appeal)*@
-@*            </div>*@
-@*        }*@
+        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="goods_tab">
+            @application_details(goodsTab)
+        </div>
     </div>
 }
 

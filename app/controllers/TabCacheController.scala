@@ -60,9 +60,10 @@ class TabCacheController @Inject() (
   def get(reference: String, itemType: ApplicationType): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference) andThen identify andThen getData).async {
       implicit request =>
-        tabCacheService
-          .getActiveTab(request.internalId, reference, itemType)
-          .map(tab => Ok(tab.map(_.name).orEmpty))
+//        tabCacheService
+//          .getActiveTab(request.internalId, reference, itemType)
+//          .map(tab => Ok(tab.map(_.name).orEmpty))
+        Future.successful(Option(Tab.APPLICANT_TAB)).map(tab => Ok(tab.map(_.name).orEmpty))
     }
 
 }
