@@ -16,20 +16,20 @@
 
 package controllers
 
+import cats.data.OptionT
 import config.AppConfig
-import models.Permission
+import models.{Operator2, Role}
 import models.forms.TakeOwnerShipForm
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import service.{CasesService, ValuationCaseService}
+import service.ValuationCaseService
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.assign_case
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.Future.successful
 
 @Singleton
 class AssignCaseController2 @Inject() (
@@ -44,33 +44,20 @@ class AssignCaseController2 @Inject() (
   def show(reference: String): Action[AnyContent] =
     verify.authenticated
       .async { implicit request =>
-        for{
-          vc <- valuationCaseService.valuationCase(reference)
+        val result = for{
+          vc <- OptionT(valuationCaseService.valuationCase(reference))
         } yield Ok(assignCase(vc, form))
+
+        result.getOrElse(Ok("unknown valuation case"))
       }
 
-  def assignOrViewCase(reference: String): Action[AnyContent] = ???
-//      verify.authenticated
-//        .async { implicit request =>
-//          def respond: Case => Future[Result] = {
-//            case c: Case if c.assignee.isEmpty =>
-//              caseService.assignCase(c, request.operator).map(_ => Redirect(routes.CaseController.get(reference)))
-//            case _ =>
-//              successful(Redirect(routes.AssignCaseController.get(reference)))
-//          }
-//
-//          takeOwnershipForm
-//            .bindFromRequest()
-//            .fold(
-//              formWithErrors => getCaseAndRenderView(reference, c => successful(assignCase(c, formWithErrors))), {
-//                case true =>
-//                  getCaseAndRespond(reference, respond)
-//                case _ =>
-//                  successful(
-//                    Redirect(controllers.routes.CaseController.get(reference))
-//                  )
-//              }
-//            )
-//
-//        }
+  def assignOrViewCase(reference: String) =  verify.authenticated.async(parse.form(form)) { implicit  request =>
+       if(request.body){
+         for{
+           _ <- valuationCaseService.assignCase(reference, Operator2(id="joe",role=Role.CLASSIFICATION_OFFICER))
+         } yield Redirect(controllers.v2.routes.AvarController2.show(reference))
+       }else{
+         Future.successful(Redirect(controllers.v2.routes.AvarController2.show(reference)))
+       }
+    }
 }

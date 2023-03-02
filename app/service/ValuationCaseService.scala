@@ -17,7 +17,7 @@
 package service
 
 import connector.ValuationCaseConnector
-import models.{CaseStatus, Contact, EORIDetails, Paged, ValuationApplication, ValuationCase}
+import models.{CaseStatus, Contact, EORIDetails, Operator, Operator2, Paged, ValuationApplication, ValuationCase}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import java.time.Instant
@@ -26,33 +26,19 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 trait ValuationCaseService {
+  def assignCase(reference: String, operator: Operator2)(implicit hc: HeaderCarrier): Future[Long]
+
   def allOpenvaluationCases()(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]]
 
-  def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[ValuationCase]
+  def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]]
 
 }
 
 class ArsValuationCaseService @Inject() (connector: ValuationCaseConnector)(implicit ec: ExecutionContext) extends ValuationCaseService{
   override def allOpenvaluationCases()(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]] = connector.allOpenCases().map(Paged(_))
 
-  override def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[ValuationCase] = {
-    val app: ValuationApplication = ValuationApplication(EORIDetails("eori-number", "AMEX", "Cleaver House", "High St", "Brighton", "KL12 8ND", "UK"),
-      Contact("John Jones", "jones@orange.com"),
-      goodName = "mobile phone case",
-      goodDescription = "pricey")
+  override def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] = connector.caseByReference(reference)
 
-    val vc = ValuationCase(
-      reference = "case-reference",
-      status = CaseStatus.OPEN,
-      createdDate = Instant.now().minus(5, ChronoUnit.DAYS),
-      daysElapsed = 5,
-      caseBoardsFileNumber = None,
-      assignee = None,
-      application = app,
-      decision = None,
-      attachments = Seq.empty,
-      referredDaysElapsed = 0)
-    Future.successful(vc)
-  }
+  override def assignCase(reference: String, operator: Operator2)(implicit hc: HeaderCarrier): Future[Long] = connector.assignCase(reference, operator)
 }
 

@@ -21,7 +21,7 @@ import controllers.RequestActions
 import models.forms.DecisionForm
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import service.{CountriesService, EventsService, FileStoreService, KeywordsService, QueuesService}
+import service.{CountriesService, EventsService, FileStoreService, KeywordsService, QueuesService, ValuationCaseService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.v2.avar_view
 
@@ -32,7 +32,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class AvarController2 @Inject() (
                                  verify: RequestActions,
                                  mcc: MessagesControllerComponents,
-                                 val avarView: avar_view,
+                                 valuationCaseService: ValuationCaseService,
+                                 avarView: avar_view,
                                  implicit val appConfig: AppConfig
                                )(implicit ec: ExecutionContext)
   extends FrontendController(mcc)
@@ -41,6 +42,6 @@ class AvarController2 @Inject() (
 
   def show(reference: String): Action[AnyContent] =
     verify.authenticated.async { implicit request =>
-      Future.successful(Ok("here it is"))
+       Future.successful(Ok("ValuationCase details goes here"))
     }
 }
