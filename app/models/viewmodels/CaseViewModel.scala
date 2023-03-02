@@ -51,6 +51,13 @@ case class CaseViewModel(
 }
 
 object CaseViewModel {
+  def fromValuationCase(c: ValuationCase): CaseViewModel = {
+    val headerVM: CaseHeaderViewModel = CaseHeaderViewModel(
+      Option(c.application.holder.businessName), c.application.goodName,c.reference,None, c.application.contact,
+      CaseStatusViewModel(None,None,None),false)
+    CaseViewModel(headerVM,false,false,false,false,false,c.status)
+  }
+
 
   def fromCase(c: Case, operator: Operator): CaseViewModel = {
 

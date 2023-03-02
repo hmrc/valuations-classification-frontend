@@ -64,71 +64,71 @@ class AvarController @Inject() (
     keywordForm: Form[String]            = KeywordForm.form,
     uploadForm: Form[String]             = UploadAttachmentForm.form
   )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = {
-
-    val uploadFileId: String                       = fileId.getOrElse(UUID.randomUUID().toString)
-    val avarCase: Case                             = request.`case`
-    val avarViewModel: CaseViewModel               = CaseViewModel.fromCase(avarCase, request.operator)
-    val countryNames: Map[String, Country]         = countriesService.getAllCountriesById
-    val applicantTab: ApplicantTabViewModel        = ApplicantTabViewModel.fromCase(avarCase, countryNames)
-    val goodsTab: GoodsTabViewModel                = GoodsTabViewModel.fromCase(avarCase)
-    val rulingTab: RulingTabViewModel              = RulingTabViewModel.fromCase(avarCase)
-    val rulingForm: Option[Form[DecisionFormData]] = decisionForm.bindFrom(rulingTab.decision)
-    val appealTab: Option[AppealTabViewModel]      = AppealTabViewModel.fromCase(avarCase)
-
-    val sampleTabViewModel: Future[SampleTabViewModel]           = getSampleTab(avarCase)
-    val attachmentsTabViewModel: Future[AttachmentsTabViewModel] = getAttachmentTab(avarCase)
-    val activityTabViewModel: Future[ActivityViewModel]          = getActivityTab(avarCase)
-    val keywordsTabViewModel: Future[KeywordsTabViewModel]       = getKeywordsTab(avarCase)
-    val storedAttachments: Future[Seq[StoredAttachment]]         = fileService.getAttachments(avarCase)
-    val activeNavTab: PrimaryNavigationTab =
-      PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
-        avarCase.status,
-        avarCase.assignee.exists(_.id == request.operator.id)
-      )
-
-    val fileUploadSuccessRedirect: String =
-      appConfig.host + controllers.routes.CaseController.addAttachment(avarCase.reference, uploadFileId).path
-
-    val fileUploadErrorRedirect: String =
-      appConfig.host + routes.AvarController
-        .displayAvar(avarCase.reference, Some(uploadFileId))
-        .withFragment(Tab.ATTACHMENTS_TAB.name)
-        .path
-
-    for {
-      sampleTab      <- sampleTabViewModel
-      attachmentsTab <- attachmentsTabViewModel
-      activityTab    <- activityTabViewModel
-      keywordsTab    <- keywordsTabViewModel
-      attachments    <- storedAttachments
-      initiateResponse <- fileService.initiate(
-                           FileStoreInitiateRequest(
-                             id              = Some(uploadFileId),
-                             successRedirect = Some(fileUploadSuccessRedirect),
-                             errorRedirect   = Some(fileUploadErrorRedirect),
-                             maxFileSize     = appConfig.fileUploadMaxSize
-                           )
-                         )
-    } yield {
-      avarView(
-        avarViewModel,
-        applicantTab,
-        goodsTab,
-        sampleTab,
-        attachmentsTab,
-        uploadForm,
-        initiateResponse,
-        activityTab,
-        activityForm,
-        keywordsTab,
-        keywordForm,
-        rulingTab,
-        rulingForm,
-        attachments,
-        appealTab,
-        activeNavTab
-      )
-    }
+         ???
+//    val uploadFileId: String                       = fileId.getOrElse(UUID.randomUUID().toString)
+//    val avarCase: Case                             = request.`case`
+//    val avarViewModel: CaseViewModel               = CaseViewModel.fromCase(avarCase, request.operator)
+//    val countryNames: Map[String, Country]         = countriesService.getAllCountriesById
+//    val applicantTab: ApplicantTabViewModel        = ApplicantTabViewModel.fromCase(avarCase, countryNames)
+//    val goodsTab: GoodsTabViewModel                = GoodsTabViewModel.fromCase(avarCase)
+//    val rulingTab: RulingTabViewModel              = RulingTabViewModel.fromCase(avarCase)
+//    val rulingForm: Option[Form[DecisionFormData]] = decisionForm.bindFrom(rulingTab.decision)
+//    val appealTab: Option[AppealTabViewModel]      = AppealTabViewModel.fromCase(avarCase)
+//
+//    val sampleTabViewModel: Future[SampleTabViewModel]           = getSampleTab(avarCase)
+//    val attachmentsTabViewModel: Future[AttachmentsTabViewModel] = getAttachmentTab(avarCase)
+//    val activityTabViewModel: Future[ActivityViewModel]          = getActivityTab(avarCase)
+//    val keywordsTabViewModel: Future[KeywordsTabViewModel]       = getKeywordsTab(avarCase)
+//    val storedAttachments: Future[Seq[StoredAttachment]]         = fileService.getAttachments(avarCase)
+//    val activeNavTab: PrimaryNavigationTab =
+//      PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
+//        avarCase.status,
+//        avarCase.assignee.exists(_.id == request.operator.id)
+//      )
+//
+//    val fileUploadSuccessRedirect: String =
+//      appConfig.host + controllers.routes.CaseController.addAttachment(avarCase.reference, uploadFileId).path
+//
+//    val fileUploadErrorRedirect: String =
+//      appConfig.host + routes.AvarController
+//        .displayAvar(avarCase.reference, Some(uploadFileId))
+//        .withFragment(Tab.ATTACHMENTS_TAB.name)
+//        .path
+//
+//    for {
+//      sampleTab      <- sampleTabViewModel
+//      attachmentsTab <- attachmentsTabViewModel
+//      activityTab    <- activityTabViewModel
+//      keywordsTab    <- keywordsTabViewModel
+//      attachments    <- storedAttachments
+//      initiateResponse <- fileService.initiate(
+//                           FileStoreInitiateRequest(
+//                             id              = Some(uploadFileId),
+//                             successRedirect = Some(fileUploadSuccessRedirect),
+//                             errorRedirect   = Some(fileUploadErrorRedirect),
+//                             maxFileSize     = appConfig.fileUploadMaxSize
+//                           )
+//                         )
+//    } yield {
+//      avarView(
+//        avarViewModel,
+//        applicantTab,
+//        goodsTab,
+//        sampleTab,
+//        attachmentsTab,
+//        uploadForm,
+//        initiateResponse,
+//        activityTab,
+//        activityForm,
+//        keywordsTab,
+//        keywordForm,
+//        rulingTab,
+//        rulingForm,
+//        attachments,
+//        appealTab,
+//        activeNavTab
+//      )
+//    }
   }
 
   private def getSampleTab(avarCase: Case)(implicit request: AuthenticatedRequest[_]) =
