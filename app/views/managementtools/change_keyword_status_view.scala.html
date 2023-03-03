@@ -28,7 +28,7 @@
 )
 
 @(keywordName: String, c: Case, form: Form[String])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 @main(
     pageTitle = messages("management.change-keywords.change-keyword-status.keyword-details.title"),
     backLink = Some(backLink())
@@ -93,3 +93,4 @@
 
     }
 }
+    *@

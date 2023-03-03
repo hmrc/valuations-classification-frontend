@@ -22,7 +22,7 @@
 @import views.html.partials.statuses._
 @import views.partials.SearchResult
 @(results: Paged[SearchResult], startAtTabIndex: Int = 0)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 @if(results.isEmpty) {
     <p id="advanced_search_results-empty" class="govuk-body">No results found</p>
 }else{
@@ -62,3 +62,4 @@
         </table>
     </div>
 }
+    *@

@@ -26,6 +26,7 @@
 @import controllers.Tab
 
 @(avarTab: ApplicationsTab, form: Form[Set[String]], userID:String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@*
     @error_summary(form.errors, keySwaps = Map("avarCases" -> "avarCases-0"))
     <h2 class="govuk-heading-l">@messages("users.user.avar.heading")</h2>
     @helper.form(action = MoveCasesController.postMoveAVaRCases(userID).withFragment(Tab.AVAR_TAB.name), Symbol("id") -> "avarCases", Symbol("novalidate") -> "novalidate") {
@@ -110,3 +111,4 @@
             </tbody>
         </table>
     }
+    *@

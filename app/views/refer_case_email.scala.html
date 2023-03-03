@@ -31,7 +31,7 @@
 
 
 @(c: Case, uploadForm: Form[String], initiateResponse: FileStoreInitiateResponse)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 @main(
     pageTitle = messages("page.title.refer.case.email"),
     backLink = Some(backLink())
@@ -62,3 +62,4 @@
         )
     }
 }
+    *@

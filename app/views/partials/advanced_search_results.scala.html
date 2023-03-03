@@ -24,23 +24,23 @@
 @import views.html.partials.thumbnail
 @import views.partials.SearchResult
 @(results: Paged[SearchResult])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 <div id="advanced_search_results">
     @for((result: SearchResult, index: Int) <- results.results.zipWithIndex) {
         <div id="advanced_search_results-row-@index" class="advanced_search_results--row">
 
             <div class="grid-row">
                 <div class="column-one-half">
-                @*Reference*@
+                @*Reference
                 <div>
                     <a id="advanced_search_results-row-@{index}-reference" href="@routes.CaseController.get(result.c.reference)">@result.c.reference</a>
                 </div>
-                @*Trader*@
+                @*Trader
                 <div>
                     <span class="bold">Trader:</span>
                     <span id="advanced_search_results-row-@{index}-business_name">@result.c.application.businessName</span>
                 </div>
-                @*Expiry*@
+                @*Expiry
                 <div>
                     <span class="bold">Expiry date:</span>
                     <span id="advanced_search_results-row-@{index}-ruling_end">@result.c.decision.flatMap(_.effectiveEndDate).map(Dates.format).getOrElse("")</span>
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="column-one-half align-right">
-                @*Commodity Code*@
+                @*Commodity Code
                 <div>
                     <span class="bold">Commodity code:</span>
                     <span id="advanced_search_results-row-@{index}-decision_code">
@@ -56,7 +56,7 @@
                     </span>
                 </div>
 
-                @*Status*@
+                @*Status
                 <div>
                     <span class="bold">Status:</span>
                     @case_status(result.c, s"advanced_search_results-row-${index}-status")
@@ -65,13 +65,13 @@
                 </div>
             </div>
 
-            @*Keywords*@
+            @*Keywords
             <div>
                 <span class="bold">Keywords:</span>
                 <span id="advanced_search_results-row-@{index}-keywords">@result.c.keywords.mkString(", ")</span>
             </div>
 
-            @*Attached Images*@
+            @*Attached Images
             @defining(result.attachments.filter(att => att.scanStatus.contains(ScanStatus.READY) && att.url.isDefined && att.isImage)) { attachments: Seq[StoredAttachment] =>
                 @if(attachments.nonEmpty) {
                     <div id="advanced_search_results-row-@{index}-attachments" class="mt-1">
@@ -89,3 +89,5 @@
         <p id="advanced_search_results-empty" class="mt-1">No results found</p>
     }
 </div>
+*@
+

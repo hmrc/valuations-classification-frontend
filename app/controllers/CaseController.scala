@@ -50,45 +50,46 @@ class CaseController @Inject() (
     with I18nSupport
     with WithUnsafeDefaultFormBinding {
 
-  def get(reference: String): Action[AnyContent] = (verify.authenticated andThen verify.casePermissions(reference)) {
-    implicit request =>
-      request.`case`.application.`type` match {
-        case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AvarController.displayAvar(reference)).flashing(request2flash)
-        case ApplicationType.LIABILITY =>
-          Redirect(controllers.v2.routes.LiabilityController.displayLiability(reference)).flashing(request2flash)
-        case ApplicationType.CORRESPONDENCE =>
-          Redirect(controllers.v2.routes.CorrespondenceController.displayCorrespondence(reference))
-            .flashing(request2flash)
-        case ApplicationType.MISCELLANEOUS =>
-          Redirect(controllers.v2.routes.MiscellaneousController.displayMiscellaneous(reference))
-            .flashing(request2flash)
-      }
-  }
+ def get(reference: String): Action[AnyContent] = ???
+  //  (verify.authenticated andThen verify.casePermissions(reference)) {
+//    implicit request =>
+//      request.`case`.application.`type` match {
+//        case ApplicationType.AVAR =>
+//          Redirect(controllers.v2.routes.AvarController.displayAvar(reference)).flashing(request2flash)
+//        case ApplicationType.LIABILITY =>
+//          Redirect(controllers.v2.routes.LiabilityController.displayLiability(reference)).flashing(request2flash)
+//        case ApplicationType.CORRESPONDENCE =>
+//          Redirect(controllers.v2.routes.CorrespondenceController.displayCorrespondence(reference))
+//            .flashing(request2flash)
+//        case ApplicationType.MISCELLANEOUS =>
+//          Redirect(controllers.v2.routes.MiscellaneousController.displayMiscellaneous(reference))
+//            .flashing(request2flash)
+//      }
+//  }
 
-  def sampleDetails(reference: String): Action[AnyContent] =
-    (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
-      request.`case`.application.`type` match {
-        case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.SAMPLE_TAB.name))
-        case ApplicationType.LIABILITY =>
-          Redirect(
-            controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.SAMPLE_TAB.name)
-          )
-        case ApplicationType.CORRESPONDENCE =>
-          Redirect(
-            controllers.v2.routes.CorrespondenceController
-              .displayCorrespondence(reference)
-              .withFragment(Tab.SAMPLE_TAB.name)
-          )
-        case ApplicationType.MISCELLANEOUS =>
-          Redirect(
-            controllers.v2.routes.MiscellaneousController
-              .displayMiscellaneous(reference)
-              .withFragment(Tab.SAMPLE_TAB.name)
-          )
-      }
-    }
+  def sampleDetails(reference: String): Action[AnyContent] = ???
+//    (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
+//      request.`case`.application.`type` match {
+//        case ApplicationType.AVAR =>
+//          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.SAMPLE_TAB.name))
+//        case ApplicationType.LIABILITY =>
+//          Redirect(
+//            controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.SAMPLE_TAB.name)
+//          )
+//        case ApplicationType.CORRESPONDENCE =>
+//          Redirect(
+//            controllers.v2.routes.CorrespondenceController
+//              .displayCorrespondence(reference)
+//              .withFragment(Tab.SAMPLE_TAB.name)
+//          )
+//        case ApplicationType.MISCELLANEOUS =>
+//          Redirect(
+//            controllers.v2.routes.MiscellaneousController
+//              .displayMiscellaneous(reference)
+//              .withFragment(Tab.SAMPLE_TAB.name)
+//          )
+//      }
+//    }
 
   def rulingDetails(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
@@ -194,33 +195,33 @@ class CaseController @Inject() (
         ActivityForm.form.bindFromRequest().fold(onError, onSuccess)
       }
 
-  def addMessage(reference: String): Action[AnyContent] =
-    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ADD_MESSAGE))
-      .async { implicit request =>
-        def onError: Form[MessageFormData] => Future[Result] = errorForm => {
-          val renderView = request.`case`.application.`type` match {
-            case ApplicationType.CORRESPONDENCE =>
-              correspondenceController.renderView(messageForm = errorForm)
-            case ApplicationType.MISCELLANEOUS =>
-              miscellaneousController.renderView(messageForm = errorForm)
-          }
-
-          renderView.map(BadRequest(_))
-        }
-
-        def onSuccess: MessageFormData => Future[Result] = validForm => {
-          val messageToLog = Message(
-            name    = request.operator.name.getOrElse(""),
-            date    = Instant.now(),
-            message = validForm.message
-          )
-          caseService
-            .addMessage(request.`case`, messageToLog, request.operator)
-            .map(_ => Redirect(routes.CaseController.get(reference).withFragment(Tab.MESSAGES_TAB.name)))
-        }
-
-        MessageForm.form.bindFromRequest().fold(onError, onSuccess)
-      }
+  def addMessage(reference: String): Action[AnyContent] = ???
+//    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ADD_MESSAGE))
+//      .async { implicit request =>
+//        def onError: Form[MessageFormData] => Future[Result] = errorForm => {
+//          val renderView = request.`case`.application.`type` match {
+//            case ApplicationType.CORRESPONDENCE =>
+//              correspondenceController.renderView(messageForm = errorForm)
+//            case ApplicationType.MISCELLANEOUS =>
+//              miscellaneousController.renderView(messageForm = errorForm)
+//          }
+//
+//          renderView.map(BadRequest(_))
+//        }
+//
+//        def onSuccess: MessageFormData => Future[Result] = validForm => {
+//          val messageToLog = Message(
+//            name    = request.operator.name.getOrElse(""),
+//            date    = Instant.now(),
+//            message = validForm.message
+//          )
+//          caseService
+//            .addMessage(request.`case`, messageToLog, request.operator)
+//            .map(_ => Redirect(routes.CaseController.get(reference).withFragment(Tab.MESSAGES_TAB.name)))
+//        }
+//
+//        MessageForm.form.bindFromRequest().fold(onError, onSuccess)
+//      }
 
   def addKeyword(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.KEYWORDS))

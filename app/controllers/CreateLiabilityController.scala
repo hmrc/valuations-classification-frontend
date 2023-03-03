@@ -49,16 +49,16 @@ class CreateLiabilityController @Inject() (
   }
 
   def post(): Action[AnyContent] = (verify.authenticated andThen verify.mustHave(Permission.CREATE_CASES)).async {
-    implicit request =>
-      form
-        .bindFromRequest()
-        .fold(
-          formWithErrors => Future.successful(Ok(create_liability(formWithErrors))),
-          liabilityOrder =>
-            casesService.createCase(liabilityOrder, request.operator).map { caseCreated =>
-              Redirect(routes.CaseController.get(caseCreated.reference))
-            }
-        )
+    implicit request => ???
+//      form
+//        .bindFromRequest()
+//        .fold(
+//          formWithErrors => Future.successful(Ok(create_liability(formWithErrors))),
+//          liabilityOrder =>
+//            casesService.createCase(liabilityOrder, request.operator).map { caseCreated =>
+//              Redirect(routes.CaseController.get(caseCreated.reference))
+//            }
+//        )
 
   }
 }

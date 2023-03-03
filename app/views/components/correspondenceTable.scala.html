@@ -23,7 +23,7 @@
 @import views.html.v2.case_status_tab
 
 @(correspondenceTab: ApplicationsTab, assignmentType: String, captionMessage: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 <table id="@{correspondenceTab.tabMessageKey}-table" class="govuk-table">
  <caption class="govuk-visually-hidden govuk-table__caption">@messages(captionMessage)</caption>
  <thead class="govuk-table__head">
@@ -106,3 +106,4 @@
  }
  </tbody>
 </table>
+ *@

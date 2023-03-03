@@ -31,7 +31,7 @@
 )
 
 @(c: Case, form: Form[CaseReferral])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 @inputTextContent(labelText: String) = {
 @input_text(
     label = labelText,
@@ -148,3 +148,4 @@
         )
     }
 }
+    *@

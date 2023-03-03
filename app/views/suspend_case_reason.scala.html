@@ -31,7 +31,7 @@
 
 
 @(c: Case, form: Form[String])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 @main(
     pageTitle = messages("page.title.suspend.case.reason"),
     customPrimaryNavTab = NoTabSelected,
@@ -65,3 +65,4 @@
         )
     }
 }
+    *@
