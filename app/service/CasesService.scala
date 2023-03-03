@@ -22,7 +22,7 @@ import java.util.UUID
 import audit.AuditService
 import cats.syntax.all._
 import config.AppConfig
-import connector.{BindingvaluationsClassificationConnector, RulingConnector}
+import connector.{BindingvaluationsClassificationConnector, RulingConnector, ValuationCaseConnector}
 
 import javax.inject.{Inject, Singleton}
 import models.AppealStatus.AppealStatus
@@ -47,6 +47,7 @@ import views.html.templates.{cover_letter_template, decision_template, ruling_te
 import java.time.temporal.{ChronoUnit, TemporalUnit}
 import scala.concurrent.{ExecutionContext, Future}
 
+//noinspection ScalaStyle
 @Singleton
 class CasesService @Inject() (
   auditService: AuditService,
@@ -56,6 +57,7 @@ class CasesService @Inject() (
   reportingService: ReportingService,
   pdfService: PdfService,
   connector: BindingvaluationsClassificationConnector,
+  connector2: ValuationCaseConnector,
   rulingConnector: RulingConnector
 )(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends Logging {
@@ -458,6 +460,9 @@ class CasesService @Inject() (
   def getOne(reference: String)(implicit hc: HeaderCarrier): Future[Option[Case]] =
     connector.findCase(reference)
 
+  def getOneV(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] =
+    connector2.findApplication(reference)
+
   def search(search: Search, sort: Sort, pagination: Pagination)(implicit hc: HeaderCarrier): Future[Paged[Case]] =
     connector.search(search, sort, pagination)
 
@@ -550,7 +555,7 @@ class CasesService @Inject() (
     operatorUpdating: String
   )(
     implicit hc: HeaderCarrier
-  ) =
+  ): Future[Unit] =
     for {
       assignedCases <- getCasesByAssignee(Operator(originalUserId), NoPagination())
       casesToUpdate = assignedCases.results.filter(c => refs.contains(c.reference))

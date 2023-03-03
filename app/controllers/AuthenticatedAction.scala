@@ -60,6 +60,7 @@ class AuthenticatedAction @Inject() (
     (Enrolment(teamEnrolment) or Enrolment(managerEnrolment) or Enrolment(readOnlyEnrolment)) and uncheckedPredicate
   private val predicate = if (checkEnrolment) checkedPredicate else uncheckedPredicate
 
+  //noinspection ScalaStyle
   override def invokeBlock[A](request: Request[A], block: AuthenticatedRequest[A] => Future[Result]): Future[Result] = {
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(
       request,

@@ -34,4 +34,8 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
      client.GET[List[ValuationCase]](openCasesUrl)
    }
 
+   def findApplication(application: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] = {
+     client.GET[Option[ValuationCase]](openCasesUrl+s"/$application")
+   }
+
 }

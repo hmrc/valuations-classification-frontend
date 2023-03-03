@@ -18,9 +18,10 @@ package controllers
 
 import config.AppConfig
 import connector.DataCacheConnector
+
 import javax.inject.{Inject, Singleton}
 import models.request._
-import models.{Case, Permission, UserAnswers}
+import models.{Case, Permission, UserAnswers, ValuationCase}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Results._
 import play.api.mvc.{ActionFilter, ActionRefiner, Result}
@@ -51,6 +52,26 @@ class CheckCasePermissionsAction @Inject() (implicit val ec: ExecutionContext) e
 }
 
 @Singleton
+class CheckApplicationPermissionsAction @Inject() (implicit val ec: ExecutionContext)
+  extends ActionRefiner[AuthenticatedApplicationRequest, AuthenticatedApplicationRequest] {
+
+  override protected def refine[A](
+    request: AuthenticatedApplicationRequest[A]
+  ): Future[Either[Result, AuthenticatedApplicationRequest[A]]] =
+    successful(
+      Right(
+        new AuthenticatedApplicationRequest(
+          operator      = request.operator.addPermissions(Permission.applyingTo(request.`application`, request.operator)),
+          request       = request,
+          requestedApplication = request.`application`
+        )
+      )
+    )
+
+  override protected def executionContext: ExecutionContext = ec
+}
+
+@Singleton
 class VerifyCaseExistsActionFactory @Inject() (casesService: CasesService)(
   implicit val messagesApi: MessagesApi,
   appConfig: AppConfig,
@@ -72,6 +93,39 @@ class VerifyCaseExistsActionFactory @Inject() (casesService: CasesService)(
             successful(
               Right(
                 new AuthenticatedCaseRequest(operator = request.operator, request = request, requestedCase = c)
+              )
+            )
+
+          case _ => successful(Left(NotFound(case_not_found(reference))))
+        }
+      }
+
+      override protected def executionContext: ExecutionContext = ec
+    }
+}
+
+@Singleton
+class VerifyApplicationExistsActionFactory @Inject() (casesService: CasesService)(
+  implicit val messagesApi: MessagesApi,
+  appConfig: AppConfig,
+  implicit val ec: ExecutionContext,
+  val case_not_found: views.html.case_not_found
+) extends I18nSupport {
+
+  def apply(reference: String): ActionRefiner[AuthenticatedRequest, AuthenticatedApplicationRequest] =
+    new ActionRefiner[AuthenticatedRequest, AuthenticatedApplicationRequest] {
+      override protected def refine[A](
+        request: AuthenticatedRequest[A]
+      ): Future[Either[Result, AuthenticatedApplicationRequest[A]]] = {
+        implicit val hc: HeaderCarrier =
+          HeaderCarrierConverter.fromRequestAndSession(request, request.session)
+        implicit val r: AuthenticatedRequest[A] = request
+
+        casesService.getOneV(reference).flatMap {
+          case Some(v: ValuationCase) =>
+            successful(
+              Right(
+                new AuthenticatedApplicationRequest(operator = request.operator, request = request, requestedApplication = v)
               )
             )
 

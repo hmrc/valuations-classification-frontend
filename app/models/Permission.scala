@@ -30,6 +30,10 @@ trait CasePermission extends Permission {
   def appliesTo(`case`: Case, operator: Operator): Boolean
 }
 
+trait ApplicationPermission extends Permission {
+  def appliesTo(`application`: ValuationCase, operator: Operator): Boolean
+}
+
 object Permission {
   private lazy val values: Set[Permission] = Set(
     VIEW_MY_CASES,
@@ -78,6 +82,12 @@ object Permission {
       .filter(_.isInstanceOf[CasePermission])
       .map(_.asInstanceOf[CasePermission])
       .filter(_.appliesTo(`case`, operator))
+      .map(_.asInstanceOf[Permission])
+  def applyingTo(`application`: ValuationCase, operator: Operator): Set[Permission] =
+    values
+      .filter(_.isInstanceOf[ApplicationPermission])
+      .map(_.asInstanceOf[ApplicationPermission])
+      .filter(_.appliesTo(`application`, operator))
       .map(_.asInstanceOf[Permission])
 
   private def anyone(): Boolean = true

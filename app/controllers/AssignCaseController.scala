@@ -25,7 +25,7 @@ import play.api.mvc._
 import service.CasesService
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.assign_case
+import views.html.{assign_case, assign_application}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -37,6 +37,7 @@ class AssignCaseController @Inject() (
   override val caseService: CasesService,
   mcc: MessagesControllerComponents,
   val assignCase: assign_case,
+  val assignValuation: assign_application,
   override implicit val config: AppConfig,
   implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
@@ -45,9 +46,13 @@ class AssignCaseController @Inject() (
 
   private lazy val takeOwnershipForm: Form[Boolean] = TakeOwnerShipForm.form
 
+//  def get(reference: String): Action[AnyContent] =
+//    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ASSIGN_CASE))
+//      .async(implicit request => getCaseAndRenderView(reference, c => successful(assignCase(c, takeOwnershipForm))))
+
   def get(reference: String): Action[AnyContent] =
-    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ASSIGN_CASE))
-      .async(implicit request => getCaseAndRenderView(reference, c => successful(assignCase(c, takeOwnershipForm))))
+    (verify.authenticated andThen verify.applicationPermissions(reference) andThen verify.mustHave(Permission.ASSIGN_CASE))
+      .async(implicit request => getApplicationAndRenderView(reference, c => successful(assignValuation(c, takeOwnershipForm))))
 
   def post(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.ASSIGN_CASE))

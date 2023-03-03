@@ -38,5 +38,15 @@ object Appeal {
     }
   }
 
+  def highestAppealFromDecision2(decision: Option[Decision2]): Option[Appeal] = {
+    val appeals = decision.map(_.appeal).getOrElse(Seq.empty)
+
+    if (appeals.nonEmpty) {
+      Some(appeals.maxBy(_.`type`.id))
+    } else {
+      None
+    }
+  }
+
   implicit val fmt: OFormat[Appeal] = Json.format[Appeal]
 }

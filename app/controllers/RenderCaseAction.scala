@@ -21,8 +21,8 @@ import play.api.mvc._
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import config.AppConfig
-import models.Case
-import models.request.{AuthenticatedCaseRequest, AuthenticatedRequest}
+import models.{Case, ValuationCase}
+import models.request.{AuthenticatedApplicationRequest, AuthenticatedCaseRequest, AuthenticatedRequest}
 import service.CasesService
 
 import scala.concurrent.ExecutionContext
@@ -37,12 +37,20 @@ trait RenderCaseAction extends I18nSupport { this: FrontendController =>
   protected def redirect: String => Call = routes.CaseController.get
 
   protected def isValidCase(c: Case)(implicit request: AuthenticatedRequest[_]): Boolean = true
+  protected def isValidApplication(v: ValuationCase)(implicit request: AuthenticatedRequest[_]): Boolean = true
 
   protected def getCaseAndRenderView(caseReference: String, toHtml: Case => Future[HtmlFormat.Appendable])(
     implicit request: AuthenticatedCaseRequest[_], ec: ExecutionContext): Future[Result] =
     request.`case` match {
       case c: Case if isValidCase(c)(request) => toHtml(c).map(Ok(_))
       case _                                  => successful(Redirect(redirect(caseReference)))
+    }
+
+  protected def getApplicationAndRenderView(applicationReference: String, toHtml: ValuationCase => Future[HtmlFormat.Appendable])(
+    implicit request: AuthenticatedApplicationRequest[_], ec: ExecutionContext): Future[Result] =
+    request.`application` match {
+      case v: ValuationCase if isValidApplication(v)(request) => toHtml(v).map(Ok(_))
+      case _                                  => successful(Redirect(redirect(applicationReference)))
     }
 
   protected def defaultRedirect(

@@ -24,8 +24,10 @@ import play.api.mvc.ActionFunction
 @Singleton
 class RequestActions @Inject() (
   checkPermissionsAction: CheckCasePermissionsAction,
+  checkApplicationPermissionsAction: CheckApplicationPermissionsAction,
   authenticatedAction: AuthenticatedAction,
   caseExistsActionFactory: VerifyCaseExistsActionFactory,
+  applicationExistsActionFactory: VerifyApplicationExistsActionFactory,
   mustHavePermissionActionFactory: MustHavePermissionActionFactory,
   requireDataActionFactory: RequireDataActionFactory,
   requireCaseDataActionFactory: RequireCaseDataActionFactory
@@ -35,6 +37,9 @@ class RequestActions @Inject() (
 
   def casePermissions(reference: String): ActionFunction[AuthenticatedRequest, AuthenticatedCaseRequest] =
     mustHave(Permission.VIEW_CASES) andThen caseExistsActionFactory(reference) andThen checkPermissionsAction
+
+  def applicationPermissions(reference: String): ActionFunction[AuthenticatedRequest, AuthenticatedApplicationRequest] =
+    mustHave(Permission.VIEW_CASES) andThen applicationExistsActionFactory(reference) andThen checkApplicationPermissionsAction
 
   def mustHave[B[A] <: OperatorRequest[A]](permission: Permission): ActionFunction[B, B] =
     mustHavePermissionActionFactory[B](permission)
