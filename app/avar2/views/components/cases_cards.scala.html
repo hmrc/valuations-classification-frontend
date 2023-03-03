@@ -19,6 +19,7 @@
 
 @import controllers.v2.routes
 @import controllers.v2.routes.{ManageUserController, ManageKeywordsController}
+@import avar2.controllers.routes.AllOpenCasesController
 @import models.viewmodels._
 
 @(
@@ -27,7 +28,7 @@
   referredCasesAssignedToMe: Int,
   completedCasesAssignedToMe: Int
 )(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-@*
+
 <div id="dashboard-view" class="centered-content">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -187,4 +188,3 @@
     </div>
     }
 </div>
-    *@

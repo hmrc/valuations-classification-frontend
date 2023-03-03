@@ -168,7 +168,7 @@ GET        /operator-dashboard-classification                   controllers.Oper
 
 GET        /my-cases                                            controllers.v2.MyCasesController.displayMyCases(activeSubNav: SubNavigationTab ?= AssignedToMeTab)
 
-GET        /all-open-cases                                      controllers.v2.AllOpenCasesController.displayAllOpenCases(activeSubNav: SubNavigationTab ?= AVaRTab)
+GET        /all-open-cases                                      avar2.controllers.AllOpenCasesController.displayAllOpenCases(activeSubNav: SubNavigationTab ?= AVaRTab)
 
 GET         /create-new-miscellaneous                           controllers.CreateMiscellaneousController.get()
 POST        /create-new-miscellaneous                           controllers.CreateMiscellaneousController.post()

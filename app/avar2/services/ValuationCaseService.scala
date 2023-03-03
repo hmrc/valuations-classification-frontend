@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package service
+package avar2.services
 
-import connector.ValuationCaseConnector
-import models.{CaseStatus, Contact, EORIDetails, Operator, Operator2, Paged, ValuationApplication, ValuationCase}
+import models.{Operator2, Paged, ValuationCase}
 import uk.gov.hmrc.http.HeaderCarrier
 
-import java.time.Instant
-import java.time.temporal.ChronoUnit
-import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 trait ValuationCaseService {
   def assignCase(reference: String, operator: Operator2)(implicit hc: HeaderCarrier): Future[Long]
@@ -33,12 +29,3 @@ trait ValuationCaseService {
   def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]]
 
 }
-
-class ArsValuationCaseService @Inject() (connector: ValuationCaseConnector)(implicit ec: ExecutionContext) extends ValuationCaseService{
-  override def allOpenvaluationCases()(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]] = connector.allOpenCases().map(Paged(_))
-
-  override def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] = connector.caseByReference(reference)
-
-  override def assignCase(reference: String, operator: Operator2)(implicit hc: HeaderCarrier): Future[Long] = connector.assignCase(reference, operator)
-}
-

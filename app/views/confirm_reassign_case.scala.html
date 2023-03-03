@@ -15,7 +15,7 @@
  *@
 
 @import controllers.v2.routes.MyCasesController
-@import controllers.v2.routes.AllOpenCasesController
+@import avar2.controllers.routes.AllOpenCasesController
 @import models.viewmodels.{CorrespondenceTab, MiscellaneousTab, AVaRTab, LiabilitiesTab}
 @import config.AppConfig
 @import models.{Case, Queue}
@@ -36,7 +36,7 @@
 
 
 @(c: Case, queue: Queue, originUrl: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 @backToCase =@{
     if(c.application.isCorrespondence) {
         AllOpenCasesController.displayAllOpenCases(CorrespondenceTab)
@@ -76,3 +76,4 @@
         backHref = backToCase
     )
 }
+    *@

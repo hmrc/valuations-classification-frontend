@@ -16,6 +16,7 @@
 
 package controllers.v2
 
+import avar2.services.ValuationCaseService
 import cats.data.OptionT
 import config.AppConfig
 import controllers.RequestActions
@@ -23,7 +24,6 @@ import models.viewmodels.CaseViewModel
 import models.viewmodels.avar.{ApplicantTabViewModel, GoodsTabViewModel}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import service.ValuationCaseService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.v2.avar_view
 
