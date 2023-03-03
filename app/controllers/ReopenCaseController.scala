@@ -42,14 +42,14 @@ class ReopenCaseController @Inject() (
   override protected val config: AppConfig         = appConfig
   override protected val caseService: CasesService = casesService
 
-  def confirmReopenCase(reference: String): Action[AnyContent] =
-    (verify.authenticated andThen
-      verify.casePermissions(reference) andThen
-      verify.mustHave(Permission.REOPEN_CASE)).async { implicit request: AuthenticatedCaseRequest[AnyContent] =>
-      validateAndRedirect(_ =>
-        casesService
-          .reopenCase(request.`case`, request.operator)
-          .map(updatedCase => routes.CaseController.get(updatedCase.reference))
-      ).map(result => result.flashing(success("notification.success.referral.off")))
-    }
+  def confirmReopenCase(reference: String): Action[AnyContent] = ???
+//    (verify.authenticated andThen
+//      verify.casePermissions(reference) andThen
+//      verify.mustHave(Permission.REOPEN_CASE)).async { implicit request: AuthenticatedCaseRequest[AnyContent] =>
+//      validateAndRedirect(_ =>
+//        casesService
+//          .reopenCase(request.`case`, request.operator)
+//          .map(updatedCase => routes.CaseController.get(updatedCase.reference))
+//      ).map(result => result.flashing(success("notification.success.referral.off")))
+//    }
 }

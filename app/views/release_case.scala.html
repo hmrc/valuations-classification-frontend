@@ -30,7 +30,7 @@
 
 
 @(c: Case, form: Form[String], queues: Seq[Queue])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 @main(
     pageTitle = messages("page.title.release.case"),
     customPrimaryNavTab = NoTabSelected,
@@ -51,3 +51,4 @@
     )
 
 }
+    *@

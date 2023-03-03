@@ -34,7 +34,7 @@ trait RenderCaseAction extends I18nSupport { this: FrontendController =>
   protected implicit val config: AppConfig
   protected val caseService: CasesService
 
-  protected def redirect: String => Call = routes.CaseController.get
+  protected def redirect: String => Call = ???   //routes.CaseController.get
 
   protected def isValidCase(c: Case)(implicit request: AuthenticatedRequest[_]): Boolean = true
 

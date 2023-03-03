@@ -31,7 +31,7 @@
   id: String,
   index: Int
 )(implicit request: AuthenticatedRequest[_], appConfig: AppConfig, messages: Messages)
-
+@*
 @result match {
   case StringResultField(_, data) if field == ReportField.Reference => {
     <td id="@{id}-@{field.fieldName}-@{index}" class="govuk-table__cell">
@@ -68,3 +68,4 @@
     </td>
   }
 }
+    *@

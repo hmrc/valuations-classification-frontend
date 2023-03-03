@@ -56,53 +56,54 @@ class SearchController @Inject() (
     search: Search               = Search(),
     sort: Sort                   = Sort(),
     page: Int
-  ): Action[AnyContent] = (verify.authenticated andThen verify.mustHave(Permission.ADVANCED_SEARCH)).async {
-    implicit request =>
-      val focus: SearchTab = if (addToSearch.contains(true)) SearchTab.SEARCH_BOX else selectedTab
-      def defaultAction: Future[Result] =
-        keywordsService.findAll.map { keywords: Seq[Keyword] =>
-          Results.Ok(advanced_search(SearchForm.form, None, keywords.map(_.name), focus))
-        }
-
-      if (reference.isDefined) {
-        reference match {
-          case Some(ref) if ref.trim.nonEmpty =>
-            casesService.getOne(ref.trim).flatMap { `case` =>
-              if (`case`.isDefined) {
-                successful(Redirect(routes.CaseController.get(ref.trim)))
-              } else {
-                defaultAction
-              }
-            }
-          case _ =>
-            defaultAction
-        }
-      } else if (search.isEmpty) {
-        defaultAction
-      } else {
-        keywordsService.findAll.flatMap { keywords =>
-          SearchForm.form
-            .bindFromRequest()
-            .fold(
-              formWithErrors =>
-                Future.successful(Results.Ok(advanced_search(formWithErrors, None, keywords.map(_.name), focus))),
-              data =>
-                for {
-                  cases: Paged[Case]                            <- casesService.search(search, sort, SearchPagination(page))
-                  attachments: Map[Case, Seq[StoredAttachment]] <- fileStoreService.getAttachments(cases.results)
-                  results: Paged[SearchResult] = cases.map(c => SearchResult(c, attachments.getOrElse(c, Seq.empty)))
-                } yield Results
-                  .Ok(advanced_search(SearchForm.form.fill(data), Some(results), keywords.map(_.name), focus))
-                  .addingToSession(
-                    (backToSearchResultsLinkLabel, "search results"),
-                    (
-                      backToSearchResultsLinkUrl,
-                      s"${SearchController.search(selectedTab, Some(false), None, search, sort, page).url}#advanced_search_keywords"
-                    )
-                  )
-            )
-        }
-      }
-  }
+  ): Action[AnyContent] = ???
+//    (verify.authenticated andThen verify.mustHave(Permission.ADVANCED_SEARCH)).async {
+//    implicit request =>
+//      val focus: SearchTab = if (addToSearch.contains(true)) SearchTab.SEARCH_BOX else selectedTab
+//      def defaultAction: Future[Result] =
+//        keywordsService.findAll.map { keywords: Seq[Keyword] =>
+//          Results.Ok(advanced_search(SearchForm.form, None, keywords.map(_.name), focus))
+//        }
+//
+//      if (reference.isDefined) {
+//        reference match {
+//          case Some(ref) if ref.trim.nonEmpty =>
+//            casesService.getOne(ref.trim).flatMap { `case` =>
+//              if (`case`.isDefined) {
+//                successful(Redirect(routes.CaseController.get(ref.trim)))
+//              } else {
+//                defaultAction
+//              }
+//            }
+//          case _ =>
+//            defaultAction
+//        }
+//      } else if (search.isEmpty) {
+//        defaultAction
+//      } else {
+//        keywordsService.findAll.flatMap { keywords =>
+//          SearchForm.form
+//            .bindFromRequest()
+//            .fold(
+//              formWithErrors =>
+//                Future.successful(Results.Ok(advanced_search(formWithErrors, None, keywords.map(_.name), focus))),
+//              data =>
+//                for {
+//                  cases: Paged[Case]                            <- casesService.search(search, sort, SearchPagination(page))
+//                  attachments: Map[Case, Seq[StoredAttachment]] <- fileStoreService.getAttachments(cases.results)
+//                  results: Paged[SearchResult] = cases.map(c => SearchResult(c, attachments.getOrElse(c, Seq.empty)))
+//                } yield Results
+//                  .Ok(advanced_search(SearchForm.form.fill(data), Some(results), keywords.map(_.name), focus))
+//                  .addingToSession(
+//                    (backToSearchResultsLinkLabel, "search results"),
+//                    (
+//                      backToSearchResultsLinkUrl,
+//                      s"${SearchController.search(selectedTab, Some(false), None, search, sort, page).url}#advanced_search_keywords"
+//                    )
+//                  )
+//            )
+//        }
+//      }
+//  }
 
 }

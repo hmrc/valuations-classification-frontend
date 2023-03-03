@@ -17,13 +17,11 @@
 @import models.request.AuthenticatedRequest
 @import config.AppConfig
 @import  models.viewmodels.CasesTab
-@import controllers.routes.{AssignCaseController2}
-@import controllers.v2.routes.AvarController2
-@import views.html.partials.statuses.valuation_case_status
+
 
 
 @(caseTab : CasesTab, captionMessage: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 <table id="@{caseTab.tabMessageKey}-table" class="govuk-table">
     <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">@messages(captionMessage)</caption>
     <thead class="govuk-table__head">
@@ -57,3 +55,4 @@
             }
     </tbody>
 </table>
+    *@

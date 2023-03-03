@@ -30,6 +30,7 @@
 
 
 @(c: Case, form: Form[_], messageKey: Option[String] = None)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@*
 @main(
     pageTitle = messages("action_this_case_status_title"),
     customPrimaryNavTab = NoTabSelected,
@@ -58,3 +59,4 @@
         )
     }
 }
+    *@

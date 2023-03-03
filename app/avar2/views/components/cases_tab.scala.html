@@ -17,12 +17,11 @@
 @import config.AppConfig
 @import models.request.AuthenticatedRequest
 @import models.viewmodels.CasesTabViewModel
-@import views.html.components.{avarCaseTable, heading}
+@import avar2.views.html.components.{avarCaseTable, heading}
 
 @(cases : CasesTabViewModel)(implicit request: AuthenticatedRequest[_], appConfig: AppConfig, messages: Messages)
 
     @heading(messages(cases.headingMessageKey))
-
 
     <div id="open-cases-tabs" class="govuk-tabs" data-module="govuk-tabs">
         <ul class="govuk-tabs__list">

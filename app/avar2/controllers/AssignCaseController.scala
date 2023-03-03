@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package controllers
+package avar2.controllers
 
 import avar2.services.ValuationCaseService
 import cats.data.OptionT
 import config.AppConfig
-import models.{Operator2, Role}
+import controllers.RequestActions
 import models.forms.TakeOwnerShipForm
+import models.{Operator2, Role}
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.assign_case
+import avar2.views.html.assign_case
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AssignCaseController2 @Inject() (
+class AssignCaseController @Inject()(
                                         verify: RequestActions,
                                         valuationCaseService: ValuationCaseService,
                                         mcc: MessagesControllerComponents,
@@ -55,9 +56,9 @@ class AssignCaseController2 @Inject() (
        if(request.body){
          for{
            _ <- valuationCaseService.assignCase(reference, Operator2(id="joe",role=Role.CLASSIFICATION_OFFICER))
-         } yield Redirect(controllers.v2.routes.AvarController2.show(reference))
+         } yield Redirect(avar2.controllers.routes.AvarController.show(reference))
        }else{
-         Future.successful(Redirect(controllers.v2.routes.AvarController2.show(reference)))
+         Future.successful(Redirect(avar2.controllers.routes.AvarController.show(reference)))
        }
     }
 }

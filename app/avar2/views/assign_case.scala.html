@@ -15,7 +15,7 @@
  *@
 
 @import config.AppConfig
-@import controllers.routes
+@import avar2.controllers.routes
 @import models.ValuationCase
 @import models.request.AuthenticatedRequest
 @import models.viewmodels.{AssignedToMeTab, NoTabSelected}
@@ -31,7 +31,7 @@
 
 
 @(c: ValuationCase, form: Form[Boolean])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-@*
+
 @main(
     pageTitle = messages("page.title.take.ownership"),
     customPrimaryNavTab = NoTabSelected,
@@ -51,7 +51,7 @@
         @if(c.assignee.isEmpty) {
             <p class="govuk-body">@messages("case.ownership.assign_case.description")</p>
 
-            @helper.form(action = routes.AssignCaseController2.assignOrViewCase(c.reference), Symbol("id") -> "take-ownership") {
+            @helper.form(action = routes.AssignCaseController.assignOrViewCase(c.reference), Symbol("id") -> "take-ownership") {
                 @helper.CSRF.formField
 
                 @input_radiogroup(
@@ -66,7 +66,7 @@
                 <button class="govuk-button" id="assign_case-continue" type="submit">Continue</button>
             }
         } else {
-                <a id="assign_case-continue_button" href="@routes.CaseController.get(c.reference)" class="govuk-link">
+                <a id="assign_case-continue_button" href="@routes.AvarController.show(c.reference)" class="govuk-link">
                     @messages("case.ownership.assign_case.view_case")
                 </a>
                 <a id="assign_case-back_to_my_cases" href="@controllers.v2.routes.MyCasesController.displayMyCases(activeSubNav=AssignedToMeTab)" class="govuk-link" >
@@ -76,4 +76,3 @@
 
     }
 </div>
-    *@
