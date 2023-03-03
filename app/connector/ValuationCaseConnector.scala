@@ -17,7 +17,9 @@
 package connector
 
 import config.AppConfig
-import models.ValuationCase
+import connector.ValuationCaseConnector.AssignCaseRequest
+import models.{Operator2, ValuationCase}
+import play.api.libs.json.{Json, OFormat}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
 import javax.inject.Inject
@@ -26,9 +28,14 @@ import scala.concurrent.{ExecutionContext, Future}
 class ValuationCaseConnector @Inject() (config: AppConfig,
                              client: HttpClient)(implicit ec: ExecutionContext) {
 
+
+
   val serviceUrl = config.advanceValuationRulingsUrl + "/advance-valuation-rulings"
 
   val openCasesUrl = serviceUrl + "/valuation"
+
+  val assignCaseUrl = openCasesUrl + "/assign"
+
 
    def allOpenCases()(implicit hc: HeaderCarrier): Future[List[ValuationCase]] = {
      client.GET[List[ValuationCase]](openCasesUrl)
@@ -37,5 +44,22 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
    def findApplication(application: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] = {
      client.GET[Option[ValuationCase]](openCasesUrl+s"/$application")
    }
+
+  def caseByReference(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] =
+    client.GET[Option[ValuationCase]](s"$openCasesUrl/$reference")
+
+  def assignCase(reference: String, operator: Operator2)(implicit hc: HeaderCarrier): Future[Long] = {
+    client.POST[AssignCaseRequest,Long](assignCaseUrl, AssignCaseRequest(reference, operator))
+  }
+
+}
+
+object ValuationCaseConnector{
+
+  case class AssignCaseRequest(reference: String, caseWorker: Operator2)
+
+  object AssignCaseRequest {
+    implicit val fmt: OFormat[AssignCaseRequest] = Json.format[AssignCaseRequest]
+  }
 
 }

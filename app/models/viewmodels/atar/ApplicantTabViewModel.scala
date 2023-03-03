@@ -23,17 +23,18 @@ case class ApplicantTabViewModel(
   contact: Contact,
   countryName: String,
   caseBoardsFileNumber: Option[String],
-  agentDetails: Option[AgentDetails]
+  agentDetails: Option[AgentDetails2]
 )
 
 object ApplicantTabViewModel {
-  def fromCase(cse: Case, countryNames: Map[String, Country]) =
+  def fromValuationCase(vc: ValuationCase): ApplicantTabViewModel = {
     ApplicantTabViewModel(
-      caseReference        = cse.reference,
-      eoriDetails          = cse.application.asAVAR.holder,
-      contact              = cse.application.contact,
-      countryName          = countryNames.get(cse.application.asAVAR.holder.country).map(_.countryName).getOrElse(""),
-      caseBoardsFileNumber = cse.caseBoardsFileNumber,
-      agentDetails         = cse.application.asAVAR.agent
+      caseReference = vc.reference,
+      eoriDetails = vc.application.holder,
+      contact = vc.application.contact,
+      countryName = vc.application.holder.country,
+      caseBoardsFileNumber = vc.caseBoardsFileNumber,
+      agentDetails = vc.application.agent
     )
+  }
 }

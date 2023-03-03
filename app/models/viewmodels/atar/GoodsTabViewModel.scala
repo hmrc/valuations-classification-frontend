@@ -21,20 +21,20 @@ case class GoodsTabViewModel(
   caseReference: String,
   goodsName: String,
   goodsDescription: String,
-  confidentialInformation: Option[String],
-  hasAttachments: Boolean,
-  hasAttachmentsFromApplicant: Boolean,
-  sendingSamples: Boolean,
-  suggestedCommodityCode: Option[String],
-  knownLegalProceedings: Option[String],
-  reissuedBTIReference: Option[String],
-  relatedBTIReferences: List[String],
-  otherInformation: Option[String]
+  confidentialInformation: Option[String] = None,
+  hasAttachments: Boolean = false,
+  hasAttachmentsFromApplicant: Boolean = false,
+  sendingSamples: Boolean = false,
+  suggestedCommodityCode: Option[String] = None,
+  knownLegalProceedings: Option[String] = None,
+  reissuedBTIReference: Option[String] = None,
+  relatedBTIReferences: List[String] = List.empty,
+  otherInformation: Option[String] = None
 )
 
 object GoodsTabViewModel {
-  def fromCase(cse: Case): GoodsTabViewModel = {
-    val avarApplication = cse.application.asAVAR
+  def fromValuationCase(cse: ValuationCase): GoodsTabViewModel = {
+    val avarApplication = cse.application
     GoodsTabViewModel(
       cse.reference,
       avarApplication.goodName,
@@ -42,16 +42,9 @@ object GoodsTabViewModel {
       avarApplication.confidentialInformation,
       cse.attachments.nonEmpty,
       cse.attachments.exists(_.operator.isEmpty),
-      avarApplication.sampleToBeProvided,
+      false,
       avarApplication.envisagedCommodityCode,
-      avarApplication.knownLegalProceedings,
-      avarApplication.reissuedBTIReference,
-      if (avarApplication.relatedBTIReferences.nonEmpty) {
-        avarApplication.relatedBTIReferences
-      } else {
-        avarApplication.relatedBTIReference.toList
-      },
-      avarApplication.otherInformation
+      avarApplication.knownLegalProceedings
     )
   }
 }
