@@ -56,9 +56,9 @@ class AssignCaseController @Inject()(
        if(request.body){
          for{
            _ <- valuationCaseService.assignCase(reference, Operator2(id="joe",role=Role.CLASSIFICATION_OFFICER))
-         } yield Redirect(controllers.v2.routes.AvarController2.show(reference))
+         } yield Redirect(avar2.controllers.routes.AvarController.show(reference))
        }else{
-         Future.successful(Redirect(controllers.v2.routes.AvarController2.show(reference)))
+         Future.successful(Redirect(avar2.controllers.routes.AvarController.show(reference)))
        }
     }
 }
