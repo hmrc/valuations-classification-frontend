@@ -23,7 +23,7 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import service.CasesService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.operator_dashboard_classification
+import avar2.views.html.operator_dashboard_classification
 
 import javax.inject.Inject
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding

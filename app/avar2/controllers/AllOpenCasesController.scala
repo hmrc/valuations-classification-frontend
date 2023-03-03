@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import com.google.inject.Inject
 import config.AppConfig
 import controllers.RequestActions
+import models.Permission
 import models.viewmodels._
-import models.{ApplicationType, NoPagination, Permission}
 import play.api.i18n.I18nSupport
 import play.api.mvc._
-import service.{CasesService, QueuesService, ValuationCaseService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2.open_cases_view
-
+import avar2.views.html.open_cases_view
+import avar2.services.ValuationCaseService
 import scala.concurrent.ExecutionContext
 
 
 class AllOpenCasesController @Inject() (
                                          verify: RequestActions,
                                          valuationCaseService: ValuationCaseService,
-                                         queueService: QueuesService,
                                          mcc: MessagesControllerComponents,
                                          val openCasesView: open_cases_view,
                                          implicit val appConfig: AppConfig,

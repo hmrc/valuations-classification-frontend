@@ -16,6 +16,7 @@
 
 package controllers
 
+import avar2.services.ValuationCaseService
 import cats.data.OptionT
 import config.AppConfig
 import models.{Operator2, Role}
@@ -23,7 +24,6 @@ import models.forms.TakeOwnerShipForm
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import service.ValuationCaseService
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.assign_case

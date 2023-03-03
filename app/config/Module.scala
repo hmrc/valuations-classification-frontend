@@ -16,10 +16,10 @@
 
 package config
 
+import avar2.services.{ArsValuationCaseService, ValuationCaseService}
 import com.google.inject.AbstractModule
 import connector.{DataCacheConnector, MongoCacheConnector}
 import controllers.actions._
-import service.{ArsValuationCaseService, ValuationCaseService}
 
 class Module extends AbstractModule {
 

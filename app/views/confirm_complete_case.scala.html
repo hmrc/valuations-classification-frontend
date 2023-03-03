@@ -15,7 +15,7 @@
  *@
 
 @import config.AppConfig
-@import controllers.v2.routes.AllOpenCasesController
+@import avar2.controllers.routes.AllOpenCasesController
 @import models.Case
 @import models.request.AuthenticatedRequest
 @import models.viewmodels.{AVaRTab, CorrespondenceTab, LiabilitiesTab, MiscellaneousTab}
@@ -30,7 +30,7 @@
 
 @(c: Case)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
-
+@*
 @callToRedirect =@{
     if(c.application.isCorrespondence) {
         AllOpenCasesController.displayAllOpenCases(CorrespondenceTab)
@@ -63,3 +63,4 @@
         backHref = callToRedirect
     )
 }
+    *@

@@ -16,27 +16,24 @@
 
 @import config.AppConfig
 @import models.request.AuthenticatedRequest
-@import models.Case
-@import models.viewmodels.NoTabSelected
+@import models.viewmodels.{AVaRTab, CasesTabViewModel, OpenCasesTab, SubNavigationTab}
+@import views.html.components.{cases_tab, open_cases_secondary_navigation}
 @import views.html.includes.main
+@import views.html.layouts.full_main_content_layout
 
 @this(
-        main: main
+        main: main,
+        fullMainContent: full_main_content_layout
 )
 
-@(c: Case)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+@(cases : CasesTabViewModel, activeSubNav : SubNavigationTab = AVaRTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
-    pageTitle = messages("page.title.case.rejected"),
-    customPrimaryNavTab = NoTabSelected
+ pageTitle = messages(s"cases.opencases.${cases.caseType.prettyName.toLowerCase}.title"),
+ customPrimaryNavTab = OpenCasesTab,
+ optCustomLayout = Some(fullMainContent(_)),
+ subNavigationTab = Some(open_cases_secondary_navigation(activeSubNav))
 ) {
-    <div class="govuk-panel govuk-panel--confirmation">
-        <h1 class="govuk-panel__title">@messages("case.rejected.header", c.application.goodsName)</h1>
-        <div class="govuk-panel__body">The case status is now </br><strong>REJECTED</strong></div>
-    </div>
-
-@*    @confirmation_next_steps(*@
-@*        linkText = messages("back.my_cases"),*@
-@*        backHref = AllOpenCasesController.displayAllOpenCases()*@
-@*   )*@
+ @cases_tab(cases)
 }
