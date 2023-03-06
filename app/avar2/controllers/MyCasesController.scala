@@ -20,9 +20,8 @@ import akka.stream.Materializer
 import com.google.inject.Inject
 import config.AppConfig
 import controllers.RequestActions
-import models._
 import models.request.AuthenticatedRequest
-import models.viewmodels._
+import models.viewmodels.avar._
 import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -47,19 +46,19 @@ class MyCasesController @Inject()(
 
   implicit val ec: ExecutionContext = mat.executionContext
 
-  def displayMyCases(activeSubNav: SubNavigationTab = AssignedToMeTab): Action[AnyContent] =
-    (verify.authenticated andThen verify.mustHave(Permission.VIEW_MY_CASES)).async {
-      implicit request: AuthenticatedRequest[AnyContent] =>
-        for {
-          cases <- casesService.getCasesByAssignee(request.operator, NoPagination())
-          caseReferences = cases.results.map(_.reference).toSet
-          referralEventsByCase <- eventsService.findReferralEvents(caseReferences)
-          completeEventsByCase <- eventsService.findCompletionEvents(caseReferences)
-          myCaseStatuses = activeSubNav match {
-            case AssignedToMeTab  => ApplicationsTab.assignedToMeCases(cases.results)
-            case ReferredByMeTab  => ApplicationsTab.referredByMe(cases.results, referralEventsByCase)
-            case CompletedByMeTab => ApplicationsTab.completedByMe(cases.results, completeEventsByCase)
-          }
-        } yield Ok(myCasesView(myCaseStatuses, activeSubNav))
-    }
+  def displayMyCases(activeSubNav: SubNavigationTab = AssignedToMeTab): Action[AnyContent] = ???
+//    verify.authenticated.async {
+//      implicit request: AuthenticatedRequest[AnyContent] =>
+//        for {
+//          cases <- casesService.getCasesByAssignee(request.operator, NoPagination())
+//          caseReferences = cases.results.map(_.reference).toSet
+//          referralEventsByCase <- eventsService.findReferralEvents(caseReferences)
+//          completeEventsByCase <- eventsService.findCompletionEvents(caseReferences)
+//          myCaseStatuses = activeSubNav match {
+//            case AssignedToMeTab  => ApplicationsTab.assignedToMeCases(cases.results)
+//            case ReferredByMeTab  => ApplicationsTab.referredByMe(cases.results, referralEventsByCase)
+//            case CompletedByMeTab => ApplicationsTab.completedByMe(cases.results, completeEventsByCase)
+//          }
+//        } yield Ok(myCasesView(myCaseStatuses, activeSubNav))
+//    }
 }

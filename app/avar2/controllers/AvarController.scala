@@ -22,13 +22,14 @@ import avar2.services.ValuationCaseService
 import cats.data.OptionT
 import config.AppConfig
 import controllers.RequestActions
-import models.viewmodels.avar.CaseViewModel
-import models.viewmodels.avar.{ApplicantTabViewModel, AvarViewModel, GoodsTabViewModel}
+import models.viewmodels.avar.{ApplicantTabViewModel, AttachmentsTabViewModel, AvarViewModel, CaseViewModel, GoodsTabViewModel}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import avar2.views.html.avar_view
+import models.response.{FileStoreInitiateResponse, UpscanFormTemplate}
 
+import java.nio.file.FileStore
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
@@ -58,10 +59,13 @@ class AvarController @Inject()(
 object AvarController{
 
   def createViewModel(c: ValuationCase): AvarViewModel = {
-    CaseViewModel.fromValuationCase(c)
-    ApplicantTabViewModel.fromValuationCase(c)
-    GoodsTabViewModel.fromValuationCase(c)
-    ???
+    val cvm = CaseViewModel.fromValuationCase(c)
+    val appvm = ApplicantTabViewModel.fromValuationCase(c)
+    val gvm = GoodsTabViewModel.fromValuationCase(c)
+    val atm: AttachmentsTabViewModel = AttachmentsTabViewModel("case reference","case contact", Seq.empty, Seq.empty)
+    val template: UpscanFormTemplate = UpscanFormTemplate("href goes here", Map.empty)
+    val response: FileStoreInitiateResponse = FileStoreInitiateResponse("an-id","upscan-reference",template )
+    AvarViewModel(cvm, appvm, gvm, atm,  response)
   }
 
 }
