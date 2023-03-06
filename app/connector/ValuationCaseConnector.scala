@@ -52,7 +52,7 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
 
 object ValuationCaseConnector{
 
-  case class AssignCaseRequest(reference: String, operator: CaseWorker)
+  case class AssignCaseRequest(reference: String, caseWorker: CaseWorker)
 
   object AssignCaseRequest {
     implicit val fmt: OFormat[AssignCaseRequest] = Json.format[AssignCaseRequest]
