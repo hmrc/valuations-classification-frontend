@@ -166,9 +166,9 @@ POST       /cases/cache/:reference/:itemType                    controllers.TabC
 GET        /operator-dashboard-classification                   controllers.OperatorDashboardController.onPageLoad
 
 
-GET        /my-cases                                            controllers.v2.MyCasesController.displayMyCases(activeSubNav: SubNavigationTab ?= AssignedToMeTab)
+GET        /my-cases                                            controllers.v2.MyCasesController.displayMyCases(activeSubNav: models.viewmodels.avar.SubNavigationTab ?= models.viewmodels.avar.AssignedToMeTab)
 
-GET        /all-open-cases                                      avar2.controllers.AllOpenCasesController.displayAllOpenCases(activeSubNav: SubNavigationTab ?= AVaRTab)
+GET        /all-open-cases                                      avar2.controllers.AllOpenCasesController.displayAllOpenCases(activeSubNav: models.viewmodels.avar.SubNavigationTab ?= models.viewmodels.avar.AVaRTab)
 
 GET         /create-new-miscellaneous                           controllers.CreateMiscellaneousController.get()
 POST        /create-new-miscellaneous                           controllers.CreateMiscellaneousController.post()

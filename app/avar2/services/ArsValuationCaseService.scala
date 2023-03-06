@@ -17,7 +17,7 @@
 package avar2.services
 
 import connector.ValuationCaseConnector
-import models.{Operator2, Paged, ValuationCase}
+import avar2.models.{CaseWorker, Paged, ValuationCase}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import javax.inject.Inject
@@ -31,6 +31,6 @@ class ArsValuationCaseService @Inject() (connector: ValuationCaseConnector)(impl
   override def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] =
     connector.caseByReference(reference)
 
-  override def assignCase(reference: String, operator: Operator2)(implicit hc: HeaderCarrier): Future[Long] =
+  override def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] =
     connector.assignCase(reference, operator)
 }

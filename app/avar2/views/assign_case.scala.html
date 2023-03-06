@@ -16,21 +16,21 @@
 
 @import config.AppConfig
 @import avar2.controllers.routes
-@import models.ValuationCase
+@import avar2.models.ValuationCase
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.{AssignedToMeTab, NoTabSelected}
+@import models.viewmodels.avar.{AssignedToMeTab, NoTabSelected}
 @import views.forms.components.RadioOption
 @import views.html.forms.components.input_radiogroup
-@import views.html.includes.main
-@import views.html.partials.{valuation_assignee, valuationcase_heading, back_link, error_summary}
+@import views.html.partials.{back_link, error_summary}
+@import models.viewmodels.avar.CaseHeaderViewModel
+
 
 @this(
-        main: main,
+        main: avar2.views.html.includes.main,
         backLink: back_link
 )
 
-
-@(c: ValuationCase, form: Form[Boolean])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@(viewModel: CaseHeaderViewModel, c: ValuationCase, form: Form[Boolean])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
     pageTitle = messages("page.title.take.ownership"),
@@ -41,11 +41,11 @@
     @error_summary(form.errors, keySwaps = Map("state" -> "assign-case-ownership-true"))
 
     <div class="column-two-thirds pl-0">
-        @valuationcase_heading(c, messageKey = Some("case.heading.ownership"))
+        @avar2.views.html.components.valuation_case_heading(viewModel, messageKey = Some("case.heading.ownership"))
 
         <div id="assign_case-heading" class="govuk-form-group">
         @if(c.assignee.isDefined) {
-            <h2 class="govuk-heading-l" id="assign_case-assigned_heading">@messages("case.ownership.assign_case.assigned", valuation_assignee(c.assignee.get))</h2>
+            <h2 class="govuk-heading-l" id="assign_case-assigned_heading">@messages("case.ownership.assign_case.assigned", avar2.views.html.components.valuation_assignee(c.assignee.get))</h2>
         }
         </div>
         @if(c.assignee.isEmpty) {
@@ -69,9 +69,11 @@
                 <a id="assign_case-continue_button" href="@routes.AvarController.show(c.reference)" class="govuk-link">
                     @messages("case.ownership.assign_case.view_case")
                 </a>
+          @*
                 <a id="assign_case-back_to_my_cases" href="@controllers.v2.routes.MyCasesController.displayMyCases(activeSubNav=AssignedToMeTab)" class="govuk-link" >
                     @messages("case.ownership.assign_case.back")
                 </a>
+          *@
         }
 
     }

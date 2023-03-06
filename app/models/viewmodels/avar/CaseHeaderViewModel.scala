@@ -14,27 +14,29 @@
  * limitations under the License.
  */
 
-package models
-package viewmodels.avar
+package models.viewmodels.avar
 
-case class ApplicantTabViewModel(
-  caseReference: String,
-  eoriDetails: EORIDetails,
+import avar2.models.{Contact, ValuationCase}
+
+case class CaseHeaderViewModel(
+  businessName: Option[String],
+  goodsName: String,
+  referenceNumber: String,
+  caseSource: Option[String],
   contact: Contact,
-  countryName: String,
-  caseBoardsFileNumber: Option[String],
-  agentDetails: Option[AgentDetails2]
+  caseStatus: CaseStatusViewModel,
+  isMigrated: Boolean
 )
 
-object ApplicantTabViewModel {
-  def fromValuationCase(vc: ValuationCase): ApplicantTabViewModel = {
-    ApplicantTabViewModel(
-      caseReference = vc.reference,
-      eoriDetails = vc.application.holder,
-      contact = vc.application.contact,
-      countryName = vc.application.holder.country,
-      caseBoardsFileNumber = vc.caseBoardsFileNumber,
-      agentDetails = vc.application.agent
+object CaseHeaderViewModel {
+  def fromCase(c: ValuationCase): CaseHeaderViewModel =
+    CaseHeaderViewModel(
+      Option(c.application.holder.businessName),
+      c.application.goodName,
+      c.reference,
+      None,
+      c.application.contact,
+      CaseStatusViewModel.fromCase(c),
+      c.dateOfExtract.isDefined
     )
-  }
 }

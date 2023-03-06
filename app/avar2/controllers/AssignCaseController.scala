@@ -16,18 +16,20 @@
 
 package avar2.controllers
 
+import avar2.models.CaseWorker
 import avar2.services.ValuationCaseService
 import cats.data.OptionT
 import config.AppConfig
 import controllers.RequestActions
 import models.forms.TakeOwnerShipForm
-import models.{Operator2, Role}
+import avar2.models.Role
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import avar2.views.html.assign_case
+import models.viewmodels.avar.CaseHeaderViewModel
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -47,7 +49,7 @@ class AssignCaseController @Inject()(
       .async { implicit request =>
         val result = for{
           vc <- OptionT(valuationCaseService.valuationCase(reference))
-        } yield Ok(assignCase(vc, form))
+        } yield Ok(assignCase(CaseHeaderViewModel.fromCase(vc), vc, form))
 
         result.getOrElse(Ok("unknown valuation case"))
       }
@@ -55,7 +57,7 @@ class AssignCaseController @Inject()(
   def assignOrViewCase(reference: String) =  verify.authenticated.async(parse.form(form)) { implicit  request =>
        if(request.body){
          for{
-           _ <- valuationCaseService.assignCase(reference, Operator2(id="joe",role=Role.CLASSIFICATION_OFFICER))
+           _ <- valuationCaseService.assignCase(reference, CaseWorker(id="joe",role=Role.CLASSIFICATION_OFFICER))
          } yield Redirect(avar2.controllers.routes.AvarController.show(reference))
        }else{
          Future.successful(Redirect(avar2.controllers.routes.AvarController.show(reference)))

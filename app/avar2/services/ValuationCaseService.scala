@@ -16,13 +16,13 @@
 
 package avar2.services
 
-import models.{Operator2, Paged, ValuationCase}
+import avar2.models.{CaseWorker, Paged, ValuationCase}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 
 trait ValuationCaseService {
-  def assignCase(reference: String, operator: Operator2)(implicit hc: HeaderCarrier): Future[Long]
+  def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long]
 
   def allOpenvaluationCases()(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]]
 

@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import config.AppConfig
-@import models.Operator
-@import models.request.AuthenticatedRequest
-@(operator: Operator2, capitalise : Boolean = false)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-@{
-    if(operator.id == request.operator.id) {
-        if (capitalise) "You" else "you"
-    } else {
-        operator.safeName
-    }
-}
+package models.viewmodels.avar
+
+import models.response.FileStoreInitiateResponse
+
+
+case class AvarViewModel (caseViewModel: CaseViewModel,
+
+                          applicantTab: ApplicantTabViewModel,
+
+                          goodsTab: GoodsTabViewModel,
+
+                          attachmentsTab: AttachmentsTabViewModel,
+
+                          initiateResponse: FileStoreInitiateResponse,
+
+                          primaryNavTab: PrimaryNavigationTab = MyCasesTab)

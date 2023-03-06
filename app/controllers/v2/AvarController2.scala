@@ -42,12 +42,12 @@ class AvarController2 @Inject() (
     with UpscanErrorHandling
     with I18nSupport {
 
-  def show(reference: String): Action[AnyContent] =
-    verify.authenticated.async { implicit request =>
-      val outcome = for{
-        c <- OptionT(valuationCaseService.valuationCase(reference))
-      } yield Ok(avarView(CaseViewModel.fromValuationCase(c), ApplicantTabViewModel.fromValuationCase(c),GoodsTabViewModel.fromValuationCase(c)))
-
-      outcome.getOrElse(throw new Exception("failed to load case view"))
-    }
+  def show(reference: String): Action[AnyContent] = ???
+//    verify.authenticated.async { implicit request =>
+//      val outcome = for{
+//        c <- OptionT(valuationCaseService.valuationCase(reference))
+//      } yield Ok(avarView(CaseViewModel.fromValuationCase(c), ApplicantTabViewModel.fromValuationCase(c),GoodsTabViewModel.fromValuationCase(c)))
+//
+//      outcome.getOrElse(throw new Exception("failed to load case view"))
+//    }
 }

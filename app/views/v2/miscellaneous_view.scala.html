@@ -62,6 +62,8 @@
     <script src="@routes.Assets.at("javascripts/tab_focus.js")" type="text/javascript"></script>
 }
 
+  @*
+
 @main(
     pageTitle = messages("case.v2.miscellaneous.page_title"),
     customPrimaryNavTab = primaryNavTab,
@@ -139,3 +141,5 @@
         let csrfToken = "@CSRF.getToken.value";
         window.addEventListener("load", () => fixAnchorInURL(cacheURL, csrfToken), false);
 </script>
+
+    *@

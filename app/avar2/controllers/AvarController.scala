@@ -16,12 +16,14 @@
 
 package avar2.controllers
 
+import avar2.controllers.AvarController.createViewModel
+import avar2.models.ValuationCase
 import avar2.services.ValuationCaseService
 import cats.data.OptionT
 import config.AppConfig
 import controllers.RequestActions
-import models.viewmodels.CaseViewModel
-import models.viewmodels.avar.{ApplicantTabViewModel, GoodsTabViewModel}
+import models.viewmodels.avar.CaseViewModel
+import models.viewmodels.avar.{ApplicantTabViewModel, AvarViewModel, GoodsTabViewModel}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -42,12 +44,24 @@ class AvarController @Inject()(
   /*  with UpscanErrorHandling */
     with I18nSupport {
 
-  def show(reference: String): Action[AnyContent] =
+  def show(reference: String): Action[AnyContent] = {
     verify.authenticated.async { implicit request =>
       val outcome = for{
         c <- OptionT(valuationCaseService.valuationCase(reference))
-      } yield Ok(avarView(CaseViewModel.fromValuationCase(c), ApplicantTabViewModel.fromValuationCase(c),GoodsTabViewModel.fromValuationCase(c)))
+      } yield Ok(avarView(createViewModel(c)))
 
       outcome.getOrElse(throw new Exception("failed to load case view"))
     }
+  }
+}
+
+object AvarController{
+
+  def createViewModel(c: ValuationCase): AvarViewModel = {
+    CaseViewModel.fromValuationCase(c)
+    ApplicantTabViewModel.fromValuationCase(c)
+    GoodsTabViewModel.fromValuationCase(c)
+    ???
+  }
+
 }

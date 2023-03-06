@@ -56,74 +56,81 @@ class MiscellaneousController @Inject() (
       handleUploadErrorAndRender(uploadForm => renderView(fileId = fileId, uploadForm = uploadForm))
     }
 
-  def renderView(
-    fileId: Option[String]               = None,
-    activityForm: Form[ActivityFormData] = ActivityForm.form,
-    messageForm: Form[MessageFormData]   = MessageForm.form,
-    uploadForm: Form[String]             = UploadAttachmentForm.form
-  )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = {
-    val miscellaneousCase: Case = request.`case`
-    val uploadFileId            = fileId.getOrElse(UUID.randomUUID().toString)
+    def renderView(
+      fileId: Option[String]               = None,
+      activityForm: Form[ActivityFormData] = ActivityForm.form,
+      messageForm: Form[MessageFormData]   = MessageForm.form,
+      uploadForm: Form[String]             = UploadAttachmentForm.form
+    )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = ???
 
-    val miscellaneousViewModel          = CaseViewModel.fromCase(miscellaneousCase, request.operator)
-    val caseDetailsTab                  = DetailsViewModel.fromCase(miscellaneousCase)
-    val messagesTab                     = MessagesTabViewModel.fromCase(miscellaneousCase)
-    val attachmentsTabViewModel         = getAttachmentTab(miscellaneousCase)
-    val activityTabViewModel            = getActivityTab(miscellaneousCase)
-    val storedAttachments               = fileService.getAttachments(miscellaneousCase)
-    val miscellaneousSampleTabViewModel = getSampleTab(miscellaneousCase)
-    val activeNavTab = PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
-      miscellaneousCase.status,
-      miscellaneousCase.assignee.exists(_.id == request.operator.id)
-    )
-
-    val fileUploadSuccessRedirect =
-      appConfig.host + controllers.routes.CaseController.addAttachment(miscellaneousCase.reference, uploadFileId).path
-
-    val fileUploadErrorRedirect =
-      appConfig.host + routes.MiscellaneousController
-        .displayMiscellaneous(miscellaneousCase.reference, Some(uploadFileId))
-        .withFragment(Tab.ATTACHMENTS_TAB.name)
-        .path
-
-    for {
-      attachmentsTab <- attachmentsTabViewModel
-      activityTab    <- activityTabViewModel
-      attachments    <- storedAttachments
-      sampleTab      <- miscellaneousSampleTabViewModel
-      initiateResponse <- fileService.initiate(
-                           FileStoreInitiateRequest(
-                             id              = Some(uploadFileId),
-                             successRedirect = Some(fileUploadSuccessRedirect),
-                             errorRedirect   = Some(fileUploadErrorRedirect),
-                             maxFileSize     = appConfig.fileUploadMaxSize
-                           )
-                         )
-    } yield miscellaneousView(
-      miscellaneousViewModel,
-      caseDetailsTab,
-      messagesTab,
-      messageForm,
-      sampleTab,
-      attachmentsTab,
-      uploadForm,
-      initiateResponse,
-      activityTab,
-      activityForm,
-      attachments,
-      activeNavTab
-    )
-  }
+//  def renderView(
+//    fileId: Option[String]               = None,
+//    activityForm: Form[ActivityFormData] = ActivityForm.form,
+//    messageForm: Form[MessageFormData]   = MessageForm.form,
+//    uploadForm: Form[String]             = UploadAttachmentForm.form
+//  )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = {
+//    val miscellaneousCase: Case = request.`case`
+//    val uploadFileId            = fileId.getOrElse(UUID.randomUUID().toString)
+//
+//    val miscellaneousViewModel          = CaseViewModel.fromCase(miscellaneousCase, request.operator)
+//    val caseDetailsTab                  = DetailsViewModel.fromCase(miscellaneousCase)
+//    val messagesTab                     = MessagesTabViewModel.fromCase(miscellaneousCase)
+//    val attachmentsTabViewModel         = getAttachmentTab(miscellaneousCase)
+//    val activityTabViewModel            = getActivityTab(miscellaneousCase)
+//    val storedAttachments               = fileService.getAttachments(miscellaneousCase)
+//    val miscellaneousSampleTabViewModel = getSampleTab(miscellaneousCase)
+//    val activeNavTab = PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
+//      miscellaneousCase.status,
+//      miscellaneousCase.assignee.exists(_.id == request.operator.id)
+//    )
+//
+//    val fileUploadSuccessRedirect =
+//      appConfig.host + controllers.routes.CaseController.addAttachment(miscellaneousCase.reference, uploadFileId).path
+//
+//    val fileUploadErrorRedirect =
+//      appConfig.host + routes.MiscellaneousController
+//        .displayMiscellaneous(miscellaneousCase.reference, Some(uploadFileId))
+//        .withFragment(Tab.ATTACHMENTS_TAB.name)
+//        .path
+//
+//    for {
+//      attachmentsTab <- attachmentsTabViewModel
+//      activityTab    <- activityTabViewModel
+//      attachments    <- storedAttachments
+//      sampleTab      <- miscellaneousSampleTabViewModel
+//      initiateResponse <- fileService.initiate(
+//                           FileStoreInitiateRequest(
+//                             id              = Some(uploadFileId),
+//                             successRedirect = Some(fileUploadSuccessRedirect),
+//                             errorRedirect   = Some(fileUploadErrorRedirect),
+//                             maxFileSize     = appConfig.fileUploadMaxSize
+//                           )
+//                         )
+//    } yield miscellaneousView(
+//      miscellaneousViewModel,
+//      caseDetailsTab,
+//      messagesTab,
+//      messageForm,
+//      sampleTab,
+//      attachmentsTab,
+//      uploadForm,
+//      initiateResponse,
+//      activityTab,
+//      activityForm,
+//      attachments,
+//      activeNavTab
+//    )
+//  }
 
   private def getSampleTab(miscellaneousCase: Case)(implicit request: AuthenticatedRequest[_]) =
     eventsService.getFilteredEvents(miscellaneousCase.reference, NoPagination(), Some(EventType.sampleEvents)).map {
       sampleEvents => SampleStatusTabViewModel(miscellaneousCase.reference, miscellaneousCase.sample, sampleEvents)
     }
 
-  private def getAttachmentTab(miscellaneousCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] =
-    fileService
-      .getAttachments(miscellaneousCase)
-      .map(attachments => AttachmentsTabViewModel.fromCase(miscellaneousCase, attachments))
+  private def getAttachmentTab(miscellaneousCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] = ???
+//    fileService
+//      .getAttachments(miscellaneousCase)
+//      .map(attachments => AttachmentsTabViewModel.fromCase(miscellaneousCase, attachments))
 
   private def getActivityTab(
     miscellaneousCase: Case

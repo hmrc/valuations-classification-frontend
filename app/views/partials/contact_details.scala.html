@@ -22,6 +22,8 @@
 @(applicant: ApplicantTabViewModel, useTabIndex : Option[Int] = None)(implicit  messages: Messages)
 <h3 class="govuk-heading-m">Contact details</h3>
 
+@*
+
     @defining(applicant.contact) { co: Contact =>
         <dl class="govuk-summary-list">
 
@@ -71,3 +73,4 @@
             }
         </dl>
     }
+    *@

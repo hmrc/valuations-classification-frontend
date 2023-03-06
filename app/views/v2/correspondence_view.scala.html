@@ -57,7 +57,7 @@
         primaryNavTab: PrimaryNavigationTab = MyCasesTab
 
 )(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-
+@*
 @additionalJS = {
     <script src="@routes.Assets.at("javascripts/tab_focus.js")" type="text/javascript"></script>
 }
@@ -149,3 +149,4 @@
         let csrfToken = "@CSRF.getToken.value";
         window.addEventListener("load", () => fixAnchorInURL(cacheURL, csrfToken), false);
 </script>
+    *@
