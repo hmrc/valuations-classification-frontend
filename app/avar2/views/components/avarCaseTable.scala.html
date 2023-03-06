@@ -16,11 +16,9 @@
 
 @import models.request.AuthenticatedRequest
 @import config.AppConfig
-@import  models.viewmodels.CasesTab
+@import  models.viewmodels.avar.CasesTab
 @import avar2.controllers.routes.AssignCaseController
 @import controllers.v2.routes.AvarController2
-@import views.html.partials.statuses.valuation_case_status
-
 
 @(caseTab : CasesTab, captionMessage: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
@@ -52,7 +50,7 @@
                     <td id="@{caseTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{result.application.goodName}</td>
                     <td id="@{caseTab.tabMessageKey}-trader-@index" class="govuk-table__cell">@{result.application.holder.businessName}</td>
                     <td id="@{caseTab.tabMessageKey}-elapsed-days-@index" class="govuk-table__cell">@{result.daysElapsed}</td>
-                    <td id="@{caseTab.tabMessageKey}-status-@index" class="govuk-table__cell">@valuation_case_status(result, s"${caseTab.tabMessageKey}-status-label-$index", true)</td>
+                  @*  <td id="@{caseTab.tabMessageKey}-status-@index" class="govuk-table__cell">@avar2.views.html.components.valuation_case_status(result)</td> *@
                 </tr>
             }
     </tbody>

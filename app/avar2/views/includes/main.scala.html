@@ -15,16 +15,16 @@
  *@
 
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.{NoTabSelected, PrimaryNavigationTab}
+@import models.viewmodels.avar.{NoTabSelected, PrimaryNavigationTab}
 @import views.html.includes.govuk_wrapper
+@import avar2.views.html.components.valuations_primary_navigation
 @import config.AppConfig
 
 @this(
         config: AppConfig,
         govukWrapper: govuk_wrapper,
-        primary_navigation: components.primary_navigation
+        primary_navigation: valuations_primary_navigation
 )
-
 @(
         pageTitle: String,
         backLink: Option[Html] = None,

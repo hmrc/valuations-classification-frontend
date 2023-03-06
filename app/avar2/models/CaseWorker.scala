@@ -16,14 +16,13 @@
 
 package avar2.models
 
-import models.Role
 import play.api.libs.json.{Json, OFormat}
 
 case class CaseWorker(
                       id: String,
                       name: Option[String]         = None,
                       email: Option[String]        = None,
-                      role: Role.Role              = Role.CLASSIFICATION_OFFICER,
+                      role: Role.Value             = Role.CLASSIFICATION_OFFICER,
                     ){
   def safeName: String = {
     val safeN = name.getOrElse(s"PID $id")

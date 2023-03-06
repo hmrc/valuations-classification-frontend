@@ -18,7 +18,7 @@ package connector
 
 import config.AppConfig
 import connector.ValuationCaseConnector.AssignCaseRequest
-import models.{Operator2, ValuationCase}
+import avar2.models.{CaseWorker, ValuationCase}
 import play.api.libs.json.{Json, OFormat}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
@@ -44,7 +44,7 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
   def caseByReference(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] =
     client.GET[Option[ValuationCase]](s"$openCasesUrl/$reference")
 
-  def assignCase(reference: String, operator: Operator2)(implicit hc: HeaderCarrier): Future[Long] = {
+  def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] = {
     client.POST[AssignCaseRequest,Long](assignCaseUrl, AssignCaseRequest(reference, operator))
   }
 
@@ -52,7 +52,7 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
 
 object ValuationCaseConnector{
 
-  case class AssignCaseRequest(reference: String, caseWorker: Operator2)
+  case class AssignCaseRequest(reference: String, caseWorker: CaseWorker)
 
   object AssignCaseRequest {
     implicit val fmt: OFormat[AssignCaseRequest] = Json.format[AssignCaseRequest]

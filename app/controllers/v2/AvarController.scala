@@ -136,8 +136,8 @@ class AvarController @Inject() (
       SampleTabViewModel.fromCase(avarCase, events)
     }
 
-  private def getAttachmentTab(avarCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] =
-    fileService.getAttachments(avarCase).map(attachments => AttachmentsTabViewModel.fromCase(avarCase, attachments))
+  private def getAttachmentTab(avarCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] = ???
+//    fileService.getAttachments(avarCase).map(attachments => AttachmentsTabViewModel.fromCase(avarCase, attachments))
 
   private def getActivityTab(avarCase: Case)(implicit request: AuthenticatedRequest[_]): Future[ActivityViewModel] =
     for {

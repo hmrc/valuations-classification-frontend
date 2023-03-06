@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import akka.stream.Materializer
 import com.google.inject.Inject
 import config.AppConfig
 import controllers.RequestActions
-
+import models.request.AuthenticatedRequest
 import models.viewmodels.avar._
 import play.api.Logging
 import play.api.i18n.I18nSupport
@@ -31,7 +31,7 @@ import views.html.v2.my_cases_view
 
 import scala.concurrent.ExecutionContext
 
-class MyCasesController @Inject() (
+class MyCasesController @Inject()(
   verify: RequestActions,
   casesService: CasesService,
   eventsService: EventsService,
@@ -47,7 +47,7 @@ class MyCasesController @Inject() (
   implicit val ec: ExecutionContext = mat.executionContext
 
   def displayMyCases(activeSubNav: SubNavigationTab = AssignedToMeTab): Action[AnyContent] = ???
-//    (verify.authenticated andThen verify.mustHave(Permission.VIEW_MY_CASES)).async {
+//    verify.authenticated.async {
 //      implicit request: AuthenticatedRequest[AnyContent] =>
 //        for {
 //          cases <- casesService.getCasesByAssignee(request.operator, NoPagination())

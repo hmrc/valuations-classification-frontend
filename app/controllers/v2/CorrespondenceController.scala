@@ -56,76 +56,83 @@ class CorrespondenceController @Inject() (
       handleUploadErrorAndRender(uploadForm => renderView(fileId = fileId, uploadForm = uploadForm))
     }
 
-  def renderView(
-    fileId: Option[String]               = None,
-    activityForm: Form[ActivityFormData] = ActivityForm.form,
-    messageForm: Form[MessageFormData]   = MessageForm.form,
-    uploadForm: Form[String]             = UploadAttachmentForm.form
-  )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = {
-    val correspondenceCase: Case = request.`case`
-    val uploadFileId             = fileId.getOrElse(UUID.randomUUID().toString)
+    def renderView(
+      fileId: Option[String]               = None,
+      activityForm: Form[ActivityFormData] = ActivityForm.form,
+      messageForm: Form[MessageFormData]   = MessageForm.form,
+      uploadForm: Form[String]             = UploadAttachmentForm.form
+    )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = ???
 
-    val correspondenceViewModel          = CaseViewModel.fromCase(correspondenceCase, request.operator)
-    val caseDetailsTab                   = CaseDetailsViewModel.fromCase(correspondenceCase)
-    val contactDetailsTab                = ContactDetailsTabViewModel.fromCase(correspondenceCase)
-    val messagesTab                      = MessagesTabViewModel.fromCase(correspondenceCase)
-    val attachmentsTabViewModel          = getAttachmentTab(correspondenceCase)
-    val activityTabViewModel             = getActivityTab(correspondenceCase)
-    val storedAttachments                = fileService.getAttachments(correspondenceCase)
-    val correspondenceSampleTabViewModel = getSampleTab(correspondenceCase)
-    val activeNavTab = PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
-      correspondenceCase.status,
-      correspondenceCase.assignee.exists(_.id == request.operator.id)
-    )
-
-    val fileUploadSuccessRedirect =
-      appConfig.host + controllers.routes.CaseController.addAttachment(correspondenceCase.reference, uploadFileId).path
-
-    val fileUploadErrorRedirect =
-      appConfig.host + routes.CorrespondenceController
-        .displayCorrespondence(correspondenceCase.reference, Some(uploadFileId))
-        .withFragment(Tab.ATTACHMENTS_TAB.name)
-        .path
-
-    for {
-      attachmentsTab <- attachmentsTabViewModel
-      activityTab    <- activityTabViewModel
-      attachments    <- storedAttachments
-      sampleTab      <- correspondenceSampleTabViewModel
-      initiateResponse <- fileService.initiate(
-                           FileStoreInitiateRequest(
-                             id              = Some(uploadFileId),
-                             successRedirect = Some(fileUploadSuccessRedirect),
-                             errorRedirect   = Some(fileUploadErrorRedirect),
-                             maxFileSize     = appConfig.fileUploadMaxSize
-                           )
-                         )
-    } yield correspondenceView(
-      correspondenceViewModel,
-      caseDetailsTab,
-      contactDetailsTab,
-      messagesTab,
-      messageForm,
-      sampleTab,
-      attachmentsTab,
-      uploadForm,
-      initiateResponse,
-      activityTab,
-      activityForm,
-      attachments,
-      activeNavTab
-    )
-  }
+//  def renderView(
+//    fileId: Option[String]               = None,
+//    activityForm: Form[ActivityFormData] = ActivityForm.form,
+//    messageForm: Form[MessageFormData]   = MessageForm.form,
+//    uploadForm: Form[String]             = UploadAttachmentForm.form
+//  )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = {
+//    val correspondenceCase: Case = request.`case`
+//    val uploadFileId             = fileId.getOrElse(UUID.randomUUID().toString)
+//
+//    val correspondenceViewModel          = CaseViewModel.fromCase(correspondenceCase, request.operator)
+//    val caseDetailsTab                   = CaseDetailsViewModel.fromCase(correspondenceCase)
+//    val contactDetailsTab                = ContactDetailsTabViewModel.fromCase(correspondenceCase)
+//    val messagesTab                      = MessagesTabViewModel.fromCase(correspondenceCase)
+//    val attachmentsTabViewModel          = getAttachmentTab(correspondenceCase)
+//    val activityTabViewModel             = getActivityTab(correspondenceCase)
+//    val storedAttachments                = fileService.getAttachments(correspondenceCase)
+//    val correspondenceSampleTabViewModel = getSampleTab(correspondenceCase)
+//    val activeNavTab = PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
+//      correspondenceCase.status,
+//      correspondenceCase.assignee.exists(_.id == request.operator.id)
+//    )
+//
+//    val fileUploadSuccessRedirect =
+//      appConfig.host + controllers.routes.CaseController.addAttachment(correspondenceCase.reference, uploadFileId).path
+//
+//    val fileUploadErrorRedirect =
+//      appConfig.host + routes.CorrespondenceController
+//        .displayCorrespondence(correspondenceCase.reference, Some(uploadFileId))
+//        .withFragment(Tab.ATTACHMENTS_TAB.name)
+//        .path
+//
+//    for {
+//      attachmentsTab <- attachmentsTabViewModel
+//      activityTab    <- activityTabViewModel
+//      attachments    <- storedAttachments
+//      sampleTab      <- correspondenceSampleTabViewModel
+//      initiateResponse <- fileService.initiate(
+//                           FileStoreInitiateRequest(
+//                             id              = Some(uploadFileId),
+//                             successRedirect = Some(fileUploadSuccessRedirect),
+//                             errorRedirect   = Some(fileUploadErrorRedirect),
+//                             maxFileSize     = appConfig.fileUploadMaxSize
+//                           )
+//                         )
+//    } yield correspondenceView(
+//      correspondenceViewModel,
+//      caseDetailsTab,
+//      contactDetailsTab,
+//      messagesTab,
+//      messageForm,
+//      sampleTab,
+//      attachmentsTab,
+//      uploadForm,
+//      initiateResponse,
+//      activityTab,
+//      activityForm,
+//      attachments,
+//      activeNavTab
+//    )
+//  }
 
   private def getSampleTab(correspondenceCase: Case)(implicit request: AuthenticatedRequest[_]) =
     eventsService.getFilteredEvents(correspondenceCase.reference, NoPagination(), Some(EventType.sampleEvents)).map {
       sampleEvents => SampleStatusTabViewModel(correspondenceCase.reference, correspondenceCase.sample, sampleEvents)
     }
 
-  private def getAttachmentTab(correspondenceCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] =
-    fileService
-      .getAttachments(correspondenceCase)
-      .map(attachments => AttachmentsTabViewModel.fromCase(correspondenceCase, attachments))
+  private def getAttachmentTab(correspondenceCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] = ???
+//    fileService
+//      .getAttachments(correspondenceCase)
+//      .map(attachments => AttachmentsTabViewModel.fromCase(correspondenceCase, attachments))
 
   private def getActivityTab(
     correspondenceCase: Case

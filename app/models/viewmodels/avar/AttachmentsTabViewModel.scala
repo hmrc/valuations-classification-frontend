@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package models
-package viewmodels.avar
+package models.viewmodels.avar
+
+import avar2.models.{StoredAttachment, ValuationCase}
 
 case class AttachmentsTabViewModel(
   caseReference: String,
@@ -27,7 +28,7 @@ case class AttachmentsTabViewModel(
 }
 
 object AttachmentsTabViewModel {
-  def fromCase(cse: Case, attachments: Seq[StoredAttachment]): AttachmentsTabViewModel = {
+  def fromCase(cse: ValuationCase, attachments: Seq[StoredAttachment]): AttachmentsTabViewModel = {
     val (fromApplicant, fromClassification) = attachments.partition(_.operator.isEmpty)
 
     AttachmentsTabViewModel(

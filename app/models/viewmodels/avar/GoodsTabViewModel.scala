@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package models
-package viewmodels.avar
+package models.viewmodels.avar
+
+import avar2.models.ValuationCase
 
 case class GoodsTabViewModel(
   caseReference: String,

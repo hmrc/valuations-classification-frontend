@@ -19,11 +19,12 @@
 @import models.{Case, Permission, StoredAttachment}
 @import models.request.AuthenticatedRequest
 @import models.response.FileStoreInitiateResponse
-@import models.viewmodels.AttachmentsTabViewModel
+@import models.viewmodels.avar.AttachmentsTabViewModel
 @import views.html.components.input_file
 @import views.html.partials.{attachments_list_avar, attachments_state_message, tab_heading, error_summary}
 
-@(attachments: AttachmentsTabViewModel, form : Form[String], initiateResponse: FileStoreInitiateResponse, startAtTabIndex : Int = 0)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@(attachments: AttachmentsTabViewModel /* form : Form[String], initiateResponse: FileStoreInitiateResponse, startAtTabIndex : Int = 0*/)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+Attachments will go here
 @*
     @error_summary(form.errors, Some(startAtTabIndex))
 

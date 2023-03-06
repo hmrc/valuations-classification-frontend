@@ -16,10 +16,10 @@
 
 @import config.AppConfig
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.{AVaRTab, CasesTabViewModel, OpenCasesTab, SubNavigationTab}
+@import models.viewmodels.avar.{AVaRTab, CasesTabViewModel, OpenCasesTab, SubNavigationTab}
 @import avar2.views.html.components.{cases_tab, open_cases_secondary_navigation}
-@import views.html.includes.main
-@import views.html.layouts.full_main_content_layout
+@import avar2.views.html.includes.main
+@import avar2.views.html.layouts.full_main_content_layout
 
 @this(
         main: main,
@@ -30,7 +30,7 @@
 @(cases : CasesTabViewModel, activeSubNav : SubNavigationTab = AVaRTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
- pageTitle = messages(s"cases.opencases.${cases.caseType.prettyName.toLowerCase}.title"),
+ pageTitle = messages(s"cases.opencases.avar.title"),
  customPrimaryNavTab = OpenCasesTab,
  optCustomLayout = Some(fullMainContent(_)),
  subNavigationTab = Some(open_cases_secondary_navigation(activeSubNav))
