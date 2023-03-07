@@ -17,9 +17,12 @@
 package avar2.controllers
 
 import akka.stream.Materializer
+import avar2.models.CaseWorker
+import avar2.services.ValuationCaseService
 import com.google.inject.Inject
 import config.AppConfig
 import controllers.RequestActions
+import models.{NoPagination, Permission}
 import models.request.AuthenticatedRequest
 import avar2.models.viewmodels._
 import play.api.Logging
@@ -31,34 +34,32 @@ import avar2.views.html.my_cases_view
 
 import scala.concurrent.ExecutionContext
 
-class MyCasesController @Inject()(
-  verify: RequestActions,
-  casesService: CasesService,
-  eventsService: EventsService,
-  mcc: MessagesControllerComponents,
-  val myCasesView: my_cases_view
-)(
-  implicit val appConfig: AppConfig,
-  mat: Materializer
-) extends FrontendController(mcc)
-    with I18nSupport
-    with Logging {
+class MyCasesController @Inject() (
+                                    verify: RequestActions,
+                                    casesService: ValuationCaseService,
+                                    eventsService: EventsService,
+                                    mcc: MessagesControllerComponents,
+                                    val myCasesView: my_cases_view
+                                  )(
+                                    implicit val appConfig: AppConfig,
+                                    mat: Materializer
+                                  ) extends FrontendController(mcc)
+  with I18nSupport
+  with Logging {
 
   implicit val ec: ExecutionContext = mat.executionContext
 
-  def displayMyCases(activeSubNav: AvarSubNavigationTab = AssignedToMeTab): Action[AnyContent] = ???
-//    verify.authenticated.async {
-//      implicit request: AuthenticatedRequest[AnyContent] =>
-//        for {
-//          cases <- casesService.getCasesByAssignee(request.operator, NoPagination())
-//          caseReferences = cases.results.map(_.reference).toSet
-//          referralEventsByCase <- eventsService.findReferralEvents(caseReferences)
-//          completeEventsByCase <- eventsService.findCompletionEvents(caseReferences)
-//          myCaseStatuses = activeSubNav match {
-//            case AssignedToMeTab  => ApplicationsTab.assignedToMeCases(cases.results)
-//            case ReferredByMeTab  => ApplicationsTab.referredByMe(cases.results, referralEventsByCase)
-//            case CompletedByMeTab => ApplicationsTab.completedByMe(cases.results, completeEventsByCase)
-//          }
-//        } yield Ok(myCasesView(myCaseStatuses, activeSubNav))
-//    }
+  def displayMyCases(activeSubNav: AvarSubNavigationTab = AssignedToMeTab): Action[AnyContent] =
+    (verify.authenticated andThen verify.mustHave(Permission.VIEW_MY_CASES)).async {
+      implicit request: AuthenticatedRequest[AnyContent] =>
+        for {
+          cases <- casesService.findCasesByAssignee(CaseWorker.operatorToCaseWorker(request.operator))
+          caseReferences = cases.results.map(_.reference).toSet
+          myCaseStatuses = activeSubNav match {
+            case AssignedToMeTab  => ApplicantTabViewModel.assignedToMeCases(cases.results)
+            case ReferredByMeTab  => ApplicantTabViewModel.referredByMe(cases.results)
+            case CompletedByMeTab => ApplicantTabViewModel.completedByMe(cases.results)
+          }
+        } yield Ok(myCasesView(myCaseStatuses, activeSubNav))
+    }
 }

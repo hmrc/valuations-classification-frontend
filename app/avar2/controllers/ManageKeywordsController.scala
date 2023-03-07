@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import com.google.inject.Inject
 import config.AppConfig
@@ -96,7 +96,7 @@ class ManageKeywordsController @Inject() (
                 )
               ),
             keyword =>
-              successful(Redirect(controllers.v2.routes.ManageKeywordsController.editApprovedKeywords(keyword)))
+              successful(Redirect(avar2.controllers.routes.ManageKeywordsController.editApprovedKeywords(keyword)))
           )
       }
     )
@@ -134,7 +134,7 @@ class ManageKeywordsController @Inject() (
               keywordService
                 .createKeyword(Keyword(keyword.toUpperCase, true), request.operator, ChangeKeywordStatusAction.CREATED)
                 .map { saveKeyword: Keyword =>
-                  Redirect(controllers.v2.routes.ManageKeywordsController.displayConfirmKeyword(saveKeyword.name))
+                  Redirect(avar2.controllers.routes.ManageKeywordsController.displayConfirmKeyword(saveKeyword.name))
                 }
           )
       }
@@ -169,7 +169,7 @@ class ManageKeywordsController @Inject() (
                         )
                         .map { savedKeyword: Keyword =>
                           Redirect(
-                            controllers.v2.routes.ManageKeywordsController
+                            avar2.controllers.routes.ManageKeywordsController
                               .displayKeywordChangeConfirmation(
                                 savedKeyword.name,
                                 savedKeyword.approved,
@@ -182,7 +182,7 @@ class ManageKeywordsController @Inject() (
                         .createKeyword(Keyword(keywordName), request.operator, ChangeKeywordStatusAction.REJECT)
                         .map { savedKeyword: Keyword =>
                           Redirect(
-                            controllers.v2.routes.ManageKeywordsController
+                            avar2.controllers.routes.ManageKeywordsController
                               .displayKeywordChangeConfirmation(
                                 savedKeyword.name,
                                 savedKeyword.approved,
@@ -245,7 +245,7 @@ class ManageKeywordsController @Inject() (
                 keywordService
                   .deleteKeyword(Keyword(keywordName), request.operator)
                   .map(_ =>
-                    Redirect(controllers.v2.routes.ManageKeywordsController.displayConfirmationKeywordDeleted())
+                    Redirect(avar2.controllers.routes.ManageKeywordsController.displayConfirmationKeywordDeleted())
                   )
               case (EditKeywordAction.RENAME, keywordToRename) =>
                 keywordService

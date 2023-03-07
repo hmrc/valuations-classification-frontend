@@ -153,7 +153,7 @@ class CreateCorrespondenceController @Inject() (
           updatedCase =>
             casesService
               .updateCase(request.`case`, updatedCase, request.operator)
-              .map(_ => Redirect(v2.routes.CorrespondenceController.displayCorrespondence(reference)))
+              .map(_ => Redirect(avar2.controllers.routes.CorrespondenceController.displayCorrespondence(reference)))
         )
     }
 
@@ -184,7 +184,7 @@ class CreateCorrespondenceController @Inject() (
               .updateCase(request.`case`, updatedCase, request.operator)
               .map(_ =>
                 Redirect(
-                  v2.routes.CorrespondenceController.displayCorrespondence(reference).withFragment(Tab.CONTACT_TAB.name)
+                  avar2.controllers.routes.CorrespondenceController.displayCorrespondence(reference).withFragment(Tab.CONTACT_TAB.name)
                 )
               )
         )

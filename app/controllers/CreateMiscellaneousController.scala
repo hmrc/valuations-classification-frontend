@@ -133,7 +133,7 @@ class CreateMiscellaneousController @Inject() (
           updatedCase =>
             casesService
               .updateCase(request.`case`, updatedCase, request.operator)
-              .map(_ => Redirect(v2.routes.MiscellaneousController.displayMiscellaneous(reference)))
+              .map(_ => Redirect(avar2.controllers.routes.MiscellaneousController.displayMiscellaneous(reference)))
         )
     }
 }

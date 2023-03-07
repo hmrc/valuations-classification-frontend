@@ -16,8 +16,9 @@
 
 package controllers
 
+import avar2.controllers.AvarControllerV2
 import config.AppConfig
-import controllers.v2.{AvarController, CorrespondenceController, LiabilityController, MiscellaneousController}
+import avar2.controllers.{CorrespondenceController, LiabilityController, MiscellaneousController}
 import models._
 import models.forms._
 import models.request.AuthenticatedCaseRequest
@@ -35,16 +36,16 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class CaseController @Inject() (
-  verify: RequestActions,
-  keywordsService: KeywordsService,
-  eventsService: EventsService,
-  caseService: CasesService,
-  mcc: MessagesControllerComponents,
-  liabilityController: LiabilityController,
-  avarController: AvarController,
-  correspondenceController: CorrespondenceController,
-  miscellaneousController: MiscellaneousController,
-  implicit val appConfig: AppConfig
+                                 verify: RequestActions,
+                                 keywordsService: KeywordsService,
+                                 eventsService: EventsService,
+                                 caseService: CasesService,
+                                 mcc: MessagesControllerComponents,
+                                 liabilityController: LiabilityController,
+                                 avarController: AvarControllerV2,
+                                 correspondenceController: CorrespondenceController,
+                                 miscellaneousController: MiscellaneousController,
+                                 implicit val appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends FrontendController(mcc)
     with I18nSupport
@@ -55,14 +56,14 @@ class CaseController @Inject() (
 //    implicit request =>
 //      request.`case`.application.`type` match {
 //        case ApplicationType.AVAR =>
-//          Redirect(controllers.v2.routes.AvarController.displayAvar(reference)).flashing(request2flash)
+//          Redirect(avar2.controllers.routes.AvarController.displayAvar(reference)).flashing(request2flash)
 //        case ApplicationType.LIABILITY =>
-//          Redirect(controllers.v2.routes.LiabilityController.displayLiability(reference)).flashing(request2flash)
+//          Redirect(avar2.controllers.routes.LiabilityController.displayLiability(reference)).flashing(request2flash)
 //        case ApplicationType.CORRESPONDENCE =>
-//          Redirect(controllers.v2.routes.CorrespondenceController.displayCorrespondence(reference))
+//          Redirect(avar2.controllers.routes.CorrespondenceController.displayCorrespondence(reference))
 //            .flashing(request2flash)
 //        case ApplicationType.MISCELLANEOUS =>
-//          Redirect(controllers.v2.routes.MiscellaneousController.displayMiscellaneous(reference))
+//          Redirect(avar2.controllers.routes.MiscellaneousController.displayMiscellaneous(reference))
 //            .flashing(request2flash)
 //      }
 //  }
@@ -71,20 +72,20 @@ class CaseController @Inject() (
 //    (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
 //      request.`case`.application.`type` match {
 //        case ApplicationType.AVAR =>
-//          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.SAMPLE_TAB.name))
+//          Redirect(avar2.controllers.routes.AvarController.displayAvar(reference).withFragment(Tab.SAMPLE_TAB.name))
 //        case ApplicationType.LIABILITY =>
 //          Redirect(
-//            controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.SAMPLE_TAB.name)
+//            avar2.controllers.routes.LiabilityController.displayLiability(reference).withFragment(Tab.SAMPLE_TAB.name)
 //          )
 //        case ApplicationType.CORRESPONDENCE =>
 //          Redirect(
-//            controllers.v2.routes.CorrespondenceController
+//            avar2.controllers.routes.CorrespondenceController
 //              .displayCorrespondence(reference)
 //              .withFragment(Tab.SAMPLE_TAB.name)
 //          )
 //        case ApplicationType.MISCELLANEOUS =>
 //          Redirect(
-//            controllers.v2.routes.MiscellaneousController
+//            avar2.controllers.routes.MiscellaneousController
 //              .displayMiscellaneous(reference)
 //              .withFragment(Tab.SAMPLE_TAB.name)
 //          )
@@ -95,10 +96,10 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.RULING_TAB.name))
+          Redirect(avar2.controllers.routes.AvarControllerV2.displayAvar(reference).withFragment(Tab.RULING_TAB.name))
         case ApplicationType.LIABILITY =>
           Redirect(
-            controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.RULING_TAB.name)
+            avar2.controllers.routes.LiabilityController.displayLiability(reference).withFragment(Tab.RULING_TAB.name)
           )
       }
     }
@@ -107,21 +108,21 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.ACTIVITY_TAB.name))
+          Redirect(avar2.controllers.routes.AvarControllerV2.displayAvar(reference).withFragment(Tab.ACTIVITY_TAB.name))
             .flashing(request2flash)
         case ApplicationType.LIABILITY =>
           Redirect(
-            controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.ACTIVITY_TAB.name)
+            avar2.controllers.routes.LiabilityController.displayLiability(reference).withFragment(Tab.ACTIVITY_TAB.name)
           ).flashing(request2flash)
         case ApplicationType.CORRESPONDENCE =>
           Redirect(
-            controllers.v2.routes.CorrespondenceController
+            avar2.controllers.routes.CorrespondenceController
               .displayCorrespondence(reference)
               .withFragment(Tab.ACTIVITY_TAB.name)
           ).flashing(request2flash)
         case ApplicationType.MISCELLANEOUS =>
           Redirect(
-            controllers.v2.routes.MiscellaneousController
+            avar2.controllers.routes.MiscellaneousController
               .displayMiscellaneous(reference)
               .withFragment(Tab.ACTIVITY_TAB.name)
           ).flashing(request2flash)
@@ -132,11 +133,11 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.KEYWORDS_TAB.name))
+          Redirect(avar2.controllers.routes.AvarControllerV2.displayAvar(reference).withFragment(Tab.KEYWORDS_TAB.name))
             .flashing(request2flash)
         case ApplicationType.LIABILITY =>
           Redirect(
-            controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.KEYWORDS_TAB.name)
+            avar2.controllers.routes.LiabilityController.displayLiability(reference).withFragment(Tab.KEYWORDS_TAB.name)
           ).flashing(request2flash)
       }
     }
@@ -145,20 +146,20 @@ class CaseController @Inject() (
     (verify.authenticated andThen verify.casePermissions(reference)) { implicit request =>
       request.`case`.application.`type` match {
         case ApplicationType.AVAR =>
-          Redirect(controllers.v2.routes.AvarController.displayAvar(reference).withFragment(Tab.ATTACHMENTS_TAB.name))
+          Redirect(avar2.controllers.routes.AvarControllerV2.displayAvar(reference).withFragment(Tab.ATTACHMENTS_TAB.name))
         case ApplicationType.LIABILITY =>
           Redirect(
-            controllers.v2.routes.LiabilityController.displayLiability(reference).withFragment(Tab.ATTACHMENTS_TAB.name)
+            avar2.controllers.routes.LiabilityController.displayLiability(reference).withFragment(Tab.ATTACHMENTS_TAB.name)
           )
         case ApplicationType.CORRESPONDENCE =>
           Redirect(
-            controllers.v2.routes.CorrespondenceController
+            avar2.controllers.routes.CorrespondenceController
               .displayCorrespondence(reference)
               .withFragment(Tab.ATTACHMENTS_TAB.name)
           )
         case ApplicationType.MISCELLANEOUS =>
           Redirect(
-            controllers.v2.routes.MiscellaneousController
+            avar2.controllers.routes.MiscellaneousController
               .displayMiscellaneous(reference)
               .withFragment(Tab.ATTACHMENTS_TAB.name)
           )

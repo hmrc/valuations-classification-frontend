@@ -16,7 +16,7 @@
 
 package avar2.services
 
-import connector.ValuationCaseConnector
+import avar2.connector.ValuationCaseConnector
 import avar2.models.{CaseWorker, Paged, ValuationCase}
 import uk.gov.hmrc.http.HeaderCarrier
 

@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
+import avar2.models.viewmodels._
+import avar2.views.html.avar_view
 import config.AppConfig
-import controllers.{RequestActions, Tab}
+import controllers.RequestActions
 import models._
 import models.forms._
 import models.request._
-import avar2.models.viewmodels._
 import models.viewmodels.{AppealTabViewModel => _, AttachmentsTabViewModel => _, _}
 import play.api.data.Form
 import play.api.i18n.I18nSupport
@@ -30,14 +31,12 @@ import play.twirl.api.Html
 import service._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import avar2.views.html.avar_view
 
-import java.util.UUID
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AvarController @Inject() (
+class AvarControllerV2 @Inject()(
   verify: RequestActions,
   eventsService: EventsService,
   queuesService: QueuesService,

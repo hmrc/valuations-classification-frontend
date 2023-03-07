@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import akka.stream.Materializer
 import config.AppConfig

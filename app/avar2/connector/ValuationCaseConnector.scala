@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package connector
+package avar2.connector
 
-import config.AppConfig
-import connector.ValuationCaseConnector.AssignCaseRequest
 import avar2.models.{CaseWorker, ValuationCase}
+import config.AppConfig
+import avar2.connector.ValuationCaseConnector.AssignCaseRequest
 import play.api.libs.json.{Json, OFormat}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 

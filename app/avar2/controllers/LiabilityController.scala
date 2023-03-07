@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import avar2.models.CaseStatus.CaseStatus
 import config.AppConfig
-import controllers.{RequestActions, Tab, v2}
+import controllers.{RequestActions, Tab}
 import models._
 import models.forms._
 import models.forms.v2.LiabilityDetailsForm
@@ -183,7 +183,7 @@ class LiabilityController @Inject() (
           updatedCase =>
             casesService
               .updateCase(request.`case`, updatedCase, request.operator)
-              .map(_ => Redirect(v2.routes.LiabilityController.displayLiability(reference)))
+              .map(_ => Redirect(avar2.controllers.routes.LiabilityController.displayLiability(reference)))
         )
     }
 

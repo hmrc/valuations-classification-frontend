@@ -34,7 +34,7 @@
         @for((result, index) <- usersTab.searchResult.zipWithIndex) {
             <tr id="@{usersTab.tabMessageKey}-details-@index"  class="govuk-table__row">
                 <td id="@{usersTab.tabMessageKey}-user-@index" class="govuk-table__cell">
-                    <a href="@controllers.v2.routes.ManageUserController.displayUserDetails(result.id)" class="govuk-link">@{
+                    <a href="@avar2.controllers.routes.ManageUserController.displayUserDetails(result.id)" class="govuk-link">@{
                         result.name match {
                             case Some(userName) if userName.trim.nonEmpty => userName
                             case _ => result.id

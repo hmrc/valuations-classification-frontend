@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import models.forms.UploadAttachmentForm
 import models.request.AuthenticatedCaseRequest
@@ -33,8 +33,8 @@ trait UpscanErrorHandling { self: FrontendBaseController =>
   val UploadAttachmentFormField = "file"
 
   def handleUploadErrorAndRender(
-    renderView: Form[String] => Future[Html]
-  )(implicit request: AuthenticatedCaseRequest[_], ec: ExecutionContext): Future[Result] =
+                                  renderView: Form[String] => Future[Html]
+                                )(implicit request: AuthenticatedCaseRequest[_], ec: ExecutionContext): Future[Result] =
     request
       .getQueryString(UpscanErrorCodeKey)
       .map { errorCode =>

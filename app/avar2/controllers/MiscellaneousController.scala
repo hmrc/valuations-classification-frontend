@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import config.AppConfig
 import controllers.{RequestActions, Tab}
 import models.forms._
 import models.request._
 import avar2.models.viewmodels._
-import models.viewmodels.correspondence.{CaseDetailsViewModel, ContactDetailsTabViewModel}
+import models.viewmodels.miscellaneous.DetailsViewModel
 import models.viewmodels.{AttachmentsTabViewModel => _, _}
 import models.{Case, EventType, NoPagination}
 import play.api.data.Form
@@ -31,27 +31,27 @@ import play.twirl.api.Html
 import service._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import avar2.views.html.correspondence_view
+import avar2.views.html.miscellaneous_view
 
 import java.util.UUID
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class CorrespondenceController @Inject() (
+class MiscellaneousController @Inject() (
   verify: RequestActions,
   eventsService: EventsService,
   queuesService: QueuesService,
   fileService: FileStoreService,
   mcc: MessagesControllerComponents,
-  val correspondenceView: correspondence_view,
+  val miscellaneousView: miscellaneous_view,
   implicit val appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends FrontendController(mcc)
     with UpscanErrorHandling
     with I18nSupport {
 
-  def displayCorrespondence(reference: String, fileId: Option[String] = None): Action[AnyContent] =
+  def displayMiscellaneous(reference: String, fileId: Option[String] = None): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)).async { implicit request =>
       handleUploadErrorAndRender(uploadForm => renderView(fileId = fileId, uploadForm = uploadForm))
     }
@@ -69,28 +69,27 @@ class CorrespondenceController @Inject() (
 //    messageForm: Form[MessageFormData]   = MessageForm.form,
 //    uploadForm: Form[String]             = UploadAttachmentForm.form
 //  )(implicit request: AuthenticatedCaseRequest[_]): Future[Html] = {
-//    val correspondenceCase: Case = request.`case`
-//    val uploadFileId             = fileId.getOrElse(UUID.randomUUID().toString)
+//    val miscellaneousCase: Case = request.`case`
+//    val uploadFileId            = fileId.getOrElse(UUID.randomUUID().toString)
 //
-//    val correspondenceViewModel          = CaseViewModel.fromCase(correspondenceCase, request.operator)
-//    val caseDetailsTab                   = CaseDetailsViewModel.fromCase(correspondenceCase)
-//    val contactDetailsTab                = ContactDetailsTabViewModel.fromCase(correspondenceCase)
-//    val messagesTab                      = MessagesTabViewModel.fromCase(correspondenceCase)
-//    val attachmentsTabViewModel          = getAttachmentTab(correspondenceCase)
-//    val activityTabViewModel             = getActivityTab(correspondenceCase)
-//    val storedAttachments                = fileService.getAttachments(correspondenceCase)
-//    val correspondenceSampleTabViewModel = getSampleTab(correspondenceCase)
+//    val miscellaneousViewModel          = CaseViewModel.fromCase(miscellaneousCase, request.operator)
+//    val caseDetailsTab                  = DetailsViewModel.fromCase(miscellaneousCase)
+//    val messagesTab                     = MessagesTabViewModel.fromCase(miscellaneousCase)
+//    val attachmentsTabViewModel         = getAttachmentTab(miscellaneousCase)
+//    val activityTabViewModel            = getActivityTab(miscellaneousCase)
+//    val storedAttachments               = fileService.getAttachments(miscellaneousCase)
+//    val miscellaneousSampleTabViewModel = getSampleTab(miscellaneousCase)
 //    val activeNavTab = PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
-//      correspondenceCase.status,
-//      correspondenceCase.assignee.exists(_.id == request.operator.id)
+//      miscellaneousCase.status,
+//      miscellaneousCase.assignee.exists(_.id == request.operator.id)
 //    )
 //
 //    val fileUploadSuccessRedirect =
-//      appConfig.host + controllers.routes.CaseController.addAttachment(correspondenceCase.reference, uploadFileId).path
+//      appConfig.host + controllers.routes.CaseController.addAttachment(miscellaneousCase.reference, uploadFileId).path
 //
 //    val fileUploadErrorRedirect =
-//      appConfig.host + routes.CorrespondenceController
-//        .displayCorrespondence(correspondenceCase.reference, Some(uploadFileId))
+//      appConfig.host + routes.MiscellaneousController
+//        .displayMiscellaneous(miscellaneousCase.reference, Some(uploadFileId))
 //        .withFragment(Tab.ATTACHMENTS_TAB.name)
 //        .path
 //
@@ -98,7 +97,7 @@ class CorrespondenceController @Inject() (
 //      attachmentsTab <- attachmentsTabViewModel
 //      activityTab    <- activityTabViewModel
 //      attachments    <- storedAttachments
-//      sampleTab      <- correspondenceSampleTabViewModel
+//      sampleTab      <- miscellaneousSampleTabViewModel
 //      initiateResponse <- fileService.initiate(
 //                           FileStoreInitiateRequest(
 //                             id              = Some(uploadFileId),
@@ -107,10 +106,9 @@ class CorrespondenceController @Inject() (
 //                             maxFileSize     = appConfig.fileUploadMaxSize
 //                           )
 //                         )
-//    } yield correspondenceView(
-//      correspondenceViewModel,
+//    } yield miscellaneousView(
+//      miscellaneousViewModel,
 //      caseDetailsTab,
-//      contactDetailsTab,
 //      messagesTab,
 //      messageForm,
 //      sampleTab,
@@ -124,23 +122,23 @@ class CorrespondenceController @Inject() (
 //    )
 //  }
 
-  private def getSampleTab(correspondenceCase: Case)(implicit request: AuthenticatedRequest[_]) =
-    eventsService.getFilteredEvents(correspondenceCase.reference, NoPagination(), Some(EventType.sampleEvents)).map {
-      sampleEvents => SampleStatusTabViewModel(correspondenceCase.reference, correspondenceCase.sample, sampleEvents)
+  private def getSampleTab(miscellaneousCase: Case)(implicit request: AuthenticatedRequest[_]) =
+    eventsService.getFilteredEvents(miscellaneousCase.reference, NoPagination(), Some(EventType.sampleEvents)).map {
+      sampleEvents => SampleStatusTabViewModel(miscellaneousCase.reference, miscellaneousCase.sample, sampleEvents)
     }
 
-  private def getAttachmentTab(correspondenceCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] = ???
+  private def getAttachmentTab(miscellaneousCase: Case)(implicit hc: HeaderCarrier): Future[AttachmentsTabViewModel] = ???
 //    fileService
-//      .getAttachments(correspondenceCase)
-//      .map(attachments => AttachmentsTabViewModel.fromCase(correspondenceCase, attachments))
+//      .getAttachments(miscellaneousCase)
+//      .map(attachments => AttachmentsTabViewModel.fromCase(miscellaneousCase, attachments))
 
   private def getActivityTab(
-    correspondenceCase: Case
+    miscellaneousCase: Case
   )(implicit request: AuthenticatedRequest[_]): Future[ActivityViewModel] =
     for {
       events <- eventsService
-                 .getFilteredEvents(correspondenceCase.reference, NoPagination(), Some(EventType.nonSampleEvents))
+                 .getFilteredEvents(miscellaneousCase.reference, NoPagination(), Some(EventType.nonSampleEvents))
       queues <- queuesService.getAll
-    } yield ActivityViewModel.fromCase(correspondenceCase, events, queues)
+    } yield ActivityViewModel.fromCase(miscellaneousCase, events, queues)
 
 }

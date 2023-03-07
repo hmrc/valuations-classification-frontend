@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import com.google.inject.Inject
 import config.AppConfig

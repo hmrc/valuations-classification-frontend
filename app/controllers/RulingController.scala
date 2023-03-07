@@ -112,7 +112,7 @@ class RulingController @Inject() (
                       update <- casesService
                                  .updateCase(request.`case`, mapper.mergeFormIntoCase(c, validForm), request.operator)
                     } yield Redirect(
-                      v2.routes.AvarController.displayAvar(update.reference).withFragment(Tab.RULING_TAB.name)
+                      avar2.controllers.routes.AvarControllerV2.displayAvar(update.reference).withFragment(Tab.RULING_TAB.name)
                     )
                 )
 
@@ -128,7 +128,7 @@ class RulingController @Inject() (
                       update <- casesService
                                  .updateCase(request.`case`, c.copy(decision = Some(updatedDecision)), request.operator)
                     } yield Redirect(
-                      v2.routes.LiabilityController
+                      avar2.controllers.routes.LiabilityController
                         .displayLiability(update.reference)
                         .withFragment(Tab.RULING_TAB.name)
                     )

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import avar2.services.ValuationCaseService
 import cats.data.OptionT
