@@ -71,7 +71,7 @@ object StoredAttachment {
     StoredAttachment(
       id                     = attachment.id,
       public                 = attachment.public,
-      operator               = attachment.operator,
+      operator               = attachment.caseWorker,
       timestamp              = attachment.timestamp,
       url                    = metadata.url,
       fileName               = metadata.fileName,

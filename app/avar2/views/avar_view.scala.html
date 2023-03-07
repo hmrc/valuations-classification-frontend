@@ -20,7 +20,9 @@
 @import models.viewmodels.avar.AvarViewModel
 @import avar2.views.html.includes.main
 @import avar2.views.html.layouts.full_main_content_layout
-@import avar2.views.html.components.{valuation_application_details, valuation_case_trader}
+@import avar2.views.html.components.{valuation_case_heading, valuation_application_details, valuation_case_trader}
+@import models.response.FileStoreInitiateResponse
+@import avar2.views.html.partials.valuation_attachments_details
 
 @this(
         main: main,
@@ -28,7 +30,8 @@
         advanced_search_cases: views.html.partials.liabilities.advanced_search_cases,
         keywords_details: views.html.v2.keywords_details,
 )
-@(avarViewModel: AvarViewModel)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+@(avarViewModel: AvarViewModel,uploadForm: Form[String])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 
 
@@ -50,7 +53,7 @@
     additionalCSS = Some(additionalCSS)
 ) {
     <div class="column-two-thirds operation-dashboard-header">
-    @avar2.views.html.components.valuation_case_heading(avarViewModel.caseViewModel.caseHeader, messageKey = Some("case.heading.details"))
+    @valuation_case_heading(avarViewModel.caseViewModel.caseHeader, messageKey = Some("case.heading.details"))
     </div>
     <div class="govuk-button-group">
         @*
@@ -86,7 +89,7 @@
             @valuation_application_details(avarViewModel.goodsTab)
         </div>
         <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="attachments_tab">
-        @avar2.views.html.partials.valuation_attachments_details(avarViewModel.attachmentsTab)
+        @valuation_attachments_details(avarViewModel.attachmentsTab, uploadForm, avarViewModel.initiateResponse)
         </div>
     </div>
 }
