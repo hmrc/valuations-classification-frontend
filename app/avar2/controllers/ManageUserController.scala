@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.v2
+package avar2.controllers
 
 import akka.stream.Materializer
 import config.AppConfig
@@ -153,13 +153,13 @@ class ManageUserController @Inject() (
                 user
                   .map { u =>
                     userService.markDeleted(u, request.operator)
-                    Redirect(controllers.v2.routes.ManageUserController.doneDeleteUser(u.safeName))
+                    Redirect(avar2.controllers.routes.ManageUserController.doneDeleteUser(u.safeName))
                   }
                   .getOrElse(NotFound(user_not_found(pid)))
               }
             case _ =>
               successful(
-                Redirect(controllers.v2.routes.ManageUserController.displayUserDetails(pid))
+                Redirect(avar2.controllers.routes.ManageUserController.displayUserDetails(pid))
               )
           }
         )
