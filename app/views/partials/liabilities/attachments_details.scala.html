@@ -20,7 +20,7 @@
 @import models.Permission
 @import models.request.AuthenticatedRequest
 @import models.response.FileStoreInitiateResponse
-@import models.viewmodels.AttachmentsTabViewModel
+@import models.viewmodels.avar.AttachmentsTabViewModel
 @import views.html.components.input_file
 @import views.html.partials.{attachments_state_message, tab_heading, error_summary}
 @import views.html.partials.attachments_list
@@ -41,11 +41,11 @@
 
 @tab_heading("attachments", messages("case.menu.attachments"), Some(messages("case.attachment.hint.text.header")))
 
-@attachments_state_message(attachments = attachmentsTabViewModel.attachments, autoRefresh = true)
+@attachments_state_message(attachments = attachmentsTabViewModel.allAttachments, autoRefresh = true)
 
 @attachments_list(
     "all",
-    attachmentsTabViewModel.attachments,
+    attachmentsTabViewModel.allAttachments,
     showUploadedBy = true,
     showRemoval = true,
     caseRef = attachmentsTabViewModel.caseReference

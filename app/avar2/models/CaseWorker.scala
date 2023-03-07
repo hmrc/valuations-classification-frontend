@@ -16,13 +16,14 @@
 
 package avar2.models
 
+import models.Operator
 import play.api.libs.json.{Json, OFormat}
 
 case class CaseWorker(
                       id: String,
                       name: Option[String]         = None,
                       email: Option[String]        = None,
-                      role: Role.Value             = Role.CLASSIFICATION_OFFICER,
+                      role: Role.Value             = Role.CLASSIFICATION_OFFICER
                     ){
   def safeName: String = {
     val safeN = name.getOrElse(s"PID $id")
@@ -30,7 +31,17 @@ case class CaseWorker(
     else safeN
   }
 }
+
 object CaseWorker{
+
+  def operatorToCaseWorker(operator: Operator) = {
+    CaseWorker(
+      operator.id,
+      operator.name,
+      operator.email
+    )
+  }
+
   implicit val format: OFormat[CaseWorker] = Json.format[CaseWorker]
 }
 

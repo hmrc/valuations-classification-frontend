@@ -21,7 +21,7 @@ import config.AppConfig
 import javax.inject.Inject
 import models.forms.v2.{MiscDetailsForm, MiscellaneousForm}
 import models.request.AuthenticatedRequest
-import models.viewmodels.CaseViewModel
+import models.viewmodels.avar.CaseViewModel
 import models.{Case, MiscApplication, Permission}
 import play.api.data.Form
 import play.api.i18n.I18nSupport
@@ -112,7 +112,7 @@ class CreateMiscellaneousController @Inject() (
           misc_details_edit(
             request.`case`,
             MiscDetailsForm.miscDetailsForm(request.`case`),
-            CaseViewModel.fromCase(request.`case`, request.operator)
+            CaseViewModel.fromOldCase(request.`case`)
           )
         )
       )
@@ -128,7 +128,7 @@ class CreateMiscellaneousController @Inject() (
         .fold(
           errorForm =>
             successful(
-              Ok(misc_details_edit(request.`case`, errorForm, CaseViewModel.fromCase(request.`case`, request.operator)))
+              Ok(misc_details_edit(request.`case`, errorForm, CaseViewModel.fromOldCase(request.`case`)))
             ),
           updatedCase =>
             casesService

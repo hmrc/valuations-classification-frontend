@@ -16,6 +16,7 @@
 
 package models.request
 
+import avar2.models.ValuationCase
 import play.api.mvc.{Request, WrappedRequest}
 import models.{Case, Operator, Permission}
 import models.UserAnswers

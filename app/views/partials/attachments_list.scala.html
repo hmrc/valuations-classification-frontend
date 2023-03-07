@@ -15,9 +15,10 @@
  *@
 
 @import controllers.v2
-@import models.{Permission, StoredAttachment}
+@import models.Permission
+@import avar2.models.StoredAttachment
 @import models.request.AuthenticatedRequest
-@import utils.Dates
+@import java.util.Date
 @import views.html.partials.attachment
 
 @(id: String,
@@ -67,7 +68,8 @@
                                                         type="checkbox"
                                                         value="@file.id"
                                                         aria-label='publish @{file.fileName.getOrElse("New Attachment")} on GOV.UK'
-                                                        @if(file.public) {checked="checked"}/>
+                                                        @if(file.public) {checked="checked"}
+                                                />
                                                 <label for="attachments[@{index}]"></label>
                                             </div>
                                         </fieldset>
@@ -76,7 +78,7 @@
                             }
 
                             <td id="@{id}-row-@{index}-date" class="govuk-table__cell">
-                                @Dates.format(file.timestamp)
+                                @Date.from(file.timestamp)
                             </td>
 
                             @if(showRemoval &&

@@ -17,6 +17,7 @@
 package models.viewmodels.avar
 
 import avar2.models.CaseStatus
+import avar2.models.CaseStatus.CaseStatus
 
 
 sealed abstract class PrimaryNavigationTab(val id: String)
@@ -33,7 +34,7 @@ case object NoTabSelected extends PrimaryNavigationTab("primary_nav_no_tab_selec
 
 case class PrimaryNavigationViewModel(selectedTab: PrimaryNavigationTab)
 case object PrimaryNavigationViewModel {
-  def getSelectedTabBasedOnAssigneeAndStatus(caseStatus: CaseStatus.Value, ownCase: Boolean): PrimaryNavigationTab =
+  def getSelectedTabBasedOnAssigneeAndStatus(caseStatus: CaseStatus, ownCase: Boolean): PrimaryNavigationTab =
     (caseStatus, ownCase) match {
       case (CaseStatus.NEW, _) => OpenCasesTab
       case (_, true)           => MyCasesTab

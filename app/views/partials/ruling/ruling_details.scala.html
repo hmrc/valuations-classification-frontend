@@ -18,9 +18,10 @@
 @import controllers.routes.RulingController
 @import models.forms.DecisionFormData
 @import models.request.AuthenticatedRequest
-@import models.{CaseStatus, Permission, StoredAttachment}
+@import models.{CaseStatus, Permission}
+@import avar2.models.StoredAttachment
 @import models.viewmodels.avar.RulingTabViewModel
-@import utils.Dates
+@import java.util.Date
 @import views.html.components.edit_ruling_button
 @import views.html.partials.ruling._
 @import views.html.partials.{attachments_list, tab_heading}
@@ -42,7 +43,7 @@
                 @messages("pdf.ruling.section.date.submitted")
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    <span id="application_submittedDateValue">@{Dates.format(ruling.caseCreatedDate)}</span>
+                    <span id="application_submittedDateValue">@{Date.from(ruling.caseCreatedDate)}</span>
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -73,7 +74,7 @@
             @ruling_commodity_code_expiry_section_warning_message(ruling,  clazz = "mb-3")
         }
 
-        @ruling.decision.map { d =>
+        @ruling.decision.map { d: Decision =>
             <dl class="govuk-summary-list">
                 @if(d.effectiveEndDate.isDefined){
                     <div class="govuk-summary-list__row">
@@ -81,7 +82,7 @@
                         @messages("pdf.ruling.section.date.expiry")
                         </dt>
                         <dd class="govuk-summary-list__value">
-                            <span id="application_expiryDateValue">@{Dates.format(d.effectiveEndDate.get)}</span>
+                            <span id="application_expiryDateValue">@{Date.from(d.effectiveEndDate.get)}</span>
                         </dd>
                     </div>
                 }

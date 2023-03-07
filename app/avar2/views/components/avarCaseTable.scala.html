@@ -20,6 +20,9 @@
 @import avar2.controllers.routes.AssignCaseController
 @import controllers.v2.routes.AvarController2
 
+@import avar2.controllers.AvarController
+@import avar2.controllers.AvarController
+@import models.viewmodels.avar.CaseStatusViewModel
 @(caseTab : CasesTab, captionMessage: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 <table id="@{caseTab.tabMessageKey}-table" class="govuk-table">
@@ -43,14 +46,15 @@
                                 <span class="govuk-visually-hidden">case reference @result.reference</span>
                             </a>
                         } else {
-                        <span class="govuk-visually-hidden">case reference @result.reference</span>
-                            <a href="@AvarController2.show(result.reference)" class="govuk-visually-hidden">@result.reference</a>
+                            <a href="@avar2.controllers.routes.AvarController.show(result.reference)" >
+                                <span>@result.reference</span>
+                            </a>
                         }
                     </td>
                     <td id="@{caseTab.tabMessageKey}-goods-@index" class="govuk-table__cell">@{result.application.goodName}</td>
                     <td id="@{caseTab.tabMessageKey}-trader-@index" class="govuk-table__cell">@{result.application.holder.businessName}</td>
                     <td id="@{caseTab.tabMessageKey}-elapsed-days-@index" class="govuk-table__cell">@{result.daysElapsed}</td>
-                  @*  <td id="@{caseTab.tabMessageKey}-status-@index" class="govuk-table__cell">@avar2.views.html.components.valuation_case_status(result)</td> *@
+                    <td id="@{caseTab.tabMessageKey}-status-@index" class="govuk-table__cell">@avar2.views.html.components.valuation_case_status(CaseStatusViewModel.fromCase(result))</td>
                 </tr>
             }
     </tbody>

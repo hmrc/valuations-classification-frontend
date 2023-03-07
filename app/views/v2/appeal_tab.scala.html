@@ -15,7 +15,7 @@
  *@
 
 @import config.AppConfig
-@import models.viewmodels.AppealTabViewModel
+@import models.viewmodels.avar.AppealTabViewModel
 @import models.request.AuthenticatedRequest
 @import views.html.partials.tab_heading
 
@@ -59,7 +59,7 @@
  <a id="appeal_details-add_new" class="govuk-button" role="button" href="@routes.AppealCaseController.chooseType(appealTabViewModel.caseReference)">@messages("case.v2.liability.appeal_tab.add_review_or_appeal")</a>
 }
 
-@if(appealTabViewModel.applicationForExtendedUseButton.isDefined) {
+@if(appealTabViewModel.applicationForExtendedUse) {
  <div id="appeal_details-extended_use" class="mt-5">
   <p>@messages("case.v2.liability.appeal_details-extended_use.canceled.paragraph")</p>
   <p>@messages("case.v2.liability.appeal_details-extended_use.paragraph")</p>
@@ -69,7 +69,7 @@
     @messages("case.v2.liability.appeal_tab.application_for_extended_use")
     </dt>
     <dd class="govuk-summary-list__value" id="appeal_details-extended_use_status">
-    @appealTabViewModel.applicationForExtendedUseButton.getOrElse("")
+    @appealTabViewModel.applicationForExtendedUse
     </dd>
     <dd class="govuk-summary-list__actions">
     @if(request.hasPermission(Permission.EXTENDED_USE)) {

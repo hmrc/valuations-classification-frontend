@@ -21,7 +21,8 @@ import models._
 import models.forms.v2.LiabilityDetailsForm
 import models.forms.{DecisionForm, DecisionFormData, DecisionFormMapper}
 import models.request.{AuthenticatedCaseRequest, AuthenticatedRequest}
-import models.viewmodels.CaseHeaderViewModel
+import models.viewmodels.avar.CaseHeaderViewModel
+import avar2.models.StoredAttachment
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc._
@@ -141,14 +142,14 @@ class RulingController @Inject() (
   ): Future[Result] =
     fileStoreService
       .getAttachments(c)
-      .map(ruling_details_edit(c, _, f, startAtTabIndex = Some(rulingDetailsStartTabIndex)))
+      .map(sa => ruling_details_edit(c, sa.map(_.asInstanceOf[StoredAttachment]/*FIXME*/), f, startAtTabIndex = Some(rulingDetailsStartTabIndex)))
       .map(Ok(_))
 
   private def editLiabilityRulingView(f: Form[Decision], c: Case)(
     implicit request: AuthenticatedRequest[_]
   ): Future[Result] = {
 
-    val caseHeaderViewModel  = CaseHeaderViewModel.fromCase(c)
+    val caseHeaderViewModel  = CaseHeaderViewModel.fromOldCase(c)
     val traderCommodityCode  = c.application.asLiabilityOrder.traderCommodityCode.getOrElse("")
     val officerCommodityCode = c.application.asLiabilityOrder.officerCommodityCode.getOrElse("")
 

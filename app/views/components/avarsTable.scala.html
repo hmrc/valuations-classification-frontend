@@ -16,8 +16,8 @@
 
 @import models.request.AuthenticatedRequest
 @import config.AppConfig
-@import models.viewmodels.ApplicationsTab
-@import utils.Dates
+@import models.viewmodels.avar.ApplicationsTab
+@import java.util.Date
 
 @import play.twirl.api.TemplateMagic.defining
 @import views.html.v2.case_status_tab
@@ -58,11 +58,11 @@
   <tbody>
    @for((result, index) <- avarTab.searchResult.results.zipWithIndex) {
 
-    @defining(result.application.asAVAR) { avar =>
+    @defining(result.application) { avar =>
 
      <tr id="@{avarTab.tabMessageKey}-details-@index" class="govuk-table__row">
       <td id="@{avarTab.tabMessageKey}-reference-@index" class="govuk-table__cell">
-       <a href="@routes.CaseController.get(result.reference)" class="govuk-link">
+       <a href="@avar2.controllers.routes.AvarController.show(result.reference)" class="govuk-link">
         <span aria-hidden="true">@{result.reference}</span>
         <span class="govuk-visually-hidden">case reference @{result.reference}</span>
        </a>
@@ -76,7 +76,7 @@
       @if(assignmentType == "applicationTab.completedByMe") {
        <td id="@{avarTab.tabMessageKey}-completed-date-@index" class="govuk-table__cell">
         @for(completedEvent <- avarTab.completedEvent.flatMap(_.get(result.reference))) {
-         @Dates.format(completedEvent.timestamp)
+         @Date.from(completedEvent.timestamp)
         }
        </td>
       }

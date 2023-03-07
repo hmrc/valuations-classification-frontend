@@ -31,6 +31,9 @@ class ArsValuationCaseService @Inject() (connector: ValuationCaseConnector)(impl
   override def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] =
     connector.caseByReference(reference)
 
+  override def findCasesByAssignee(operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]] =
+    connector.findCasesByAssignee(operator.id).map(Paged(_))
+
   override def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] =
     connector.assignCase(reference, operator)
 }

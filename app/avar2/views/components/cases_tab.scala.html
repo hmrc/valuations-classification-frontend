@@ -35,6 +35,7 @@
         </ul>
 
         @for(caseTab <- cases.casesTabs) {
+          @{println(caseTab.searchResult.results.size + "KKKKKKKK")}
             <div class="govuk-tabs__panel govuk-body" id="@caseTab.elementId">
             @{caseTab.searchResult.results.size match {
                 case 0 => messages("cases.table.empty")

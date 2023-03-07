@@ -16,7 +16,9 @@
 
 package models.viewmodels.avar
 
+import avar2.models.CaseStatus.CaseStatus
 import avar2.models.{CaseStatus, CaseWorker, ValuationCase}
+import models.Case
 
 
 case class CaseViewModel(
@@ -56,6 +58,14 @@ object CaseViewModel {
       Option(c.application.holder.businessName), c.application.goodName,c.reference,None, c.application.contact,
       CaseStatusViewModel(None,None,None),false)
     CaseViewModel(headerVM,false,false,false,false,false,c.status)
+  }
+
+  def fromOldCase(c: Case): CaseViewModel = {
+    val headerVM: CaseHeaderViewModel = CaseHeaderViewModel(
+      c.application.businessName, c.application.goodsName,c.reference,None, avar2.models.Contact(c.application.contact.name, c.application.contact.email, c.application.contact.phone),
+      CaseStatusViewModel(None,None,None),false)
+    val status = c.status.asInstanceOf[CaseStatus]
+    CaseViewModel(headerVM,false,false,false,false,false,status)
   }
 
 

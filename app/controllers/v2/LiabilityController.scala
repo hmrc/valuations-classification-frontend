@@ -16,6 +16,7 @@
 
 package controllers.v2
 
+import avar2.models.CaseStatus.CaseStatus
 import config.AppConfig
 import controllers.{RequestActions, Tab, v2}
 import models._
@@ -69,11 +70,11 @@ class LiabilityController @Inject() (
     val liabilityCase: Case = request.`case`
     val uploadFileId        = fileId.getOrElse(UUID.randomUUID().toString)
 
-    val liabilityViewModel = CaseViewModel.fromCase(liabilityCase, request.operator)
+    val liabilityViewModel = models.viewmodels.avar.CaseViewModel.fromOldCase(liabilityCase)
     val rulingViewModel    = Some(RulingViewModel.fromCase(liabilityCase, request.operator.permissions))
-    val appealTabViewModel = Some(AppealTabViewModel.fromCase(liabilityCase, request.operator))
+    val appealTabViewModel = models.viewmodels.avar.AppealTabViewModel.fromCase(liabilityCase)
     val ownCase            = liabilityCase.assignee.exists(_.id == request.operator.id)
-    val activeNavTab       = PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(liabilityCase.status, ownCase)
+    val activeNavTab       = models.viewmodels.avar.PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(liabilityCase.status.asInstanceOf[CaseStatus], ownCase)
 
     val fileUploadSuccessRedirect =
       appConfig.host + controllers.routes.CaseController.addAttachment(liabilityCase.reference, uploadFileId).path
@@ -86,7 +87,7 @@ class LiabilityController @Inject() (
 
     for {
       (activityEvents, queues) <- liabilityViewActivityDetails(liabilityCase.reference)
-      attachmentsTab           <- getAttachmentTab(liabilityCase)
+      attachmentsTab           <- getAttachmentTab2(liabilityCase)
       sampleTab                <- getSampleTab(liabilityCase)
       c592        = Some(C592ViewModel.fromCase(liabilityCase))
       activityTab = Some(ActivityViewModel.fromCase(liabilityCase, activityEvents, queues))
@@ -133,6 +134,16 @@ class LiabilityController @Inject() (
       letter      <- fileService.getLetterOfAuthority(liabilityCase)
     } yield Some(AttachmentsTabViewModel(liabilityCase.reference, attachments, letter))
 
+  private def getAttachmentTab2(
+    liabilityCase: Case
+  )(implicit hc: HeaderCarrier): Future[Option[models.viewmodels.avar.AttachmentsTabViewModel]] =
+    Future.successful(Some(models.viewmodels.avar.AttachmentsTabViewModel(
+      liabilityCase.reference,
+      liabilityCase.assignee.flatMap(_.name).getOrElse(""),
+      Nil,
+      Nil)
+    ))
+
   private def getSampleTab(c: Case)(implicit request: AuthenticatedRequest[_]) =
     eventsService.getFilteredEvents(c.reference, NoPagination(), Some(EventType.sampleEvents)).map { sampleEvents =>
       SampleStatusTabViewModel(
@@ -145,8 +156,8 @@ class LiabilityController @Inject() (
   def editLiabilityDetails(reference: String): Action[AnyContent] =
     (verify.authenticated andThen verify.casePermissions(reference)
       andThen verify.mustHave(Permission.EDIT_LIABILITY)).async { implicit request =>
-      val activeNavTab = PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
-        request.`case`.status,
+      val activeNavTab = models.viewmodels.avar.PrimaryNavigationViewModel.getSelectedTabBasedOnAssigneeAndStatus(
+        request.`case`.status.asInstanceOf[avar2.models.CaseStatus.CaseStatus], //FIXME
         request.`case`.assignee.exists(_.id == request.operator.id)
       )
       successful(

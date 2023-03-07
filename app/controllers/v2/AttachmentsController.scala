@@ -21,7 +21,7 @@ import config.AppConfig
 import controllers.{RenderCaseAction, RequestActions}
 import models._
 import models.forms.RemoveAttachmentForm
-import models.viewmodels.CaseHeaderViewModel
+import models.viewmodels.avar.CaseHeaderViewModel
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc._
@@ -55,7 +55,7 @@ class AttachmentsController @Inject() (
       Permission.REMOVE_ATTACHMENTS
     )).async { implicit request =>
       validateAndRenderView { c =>
-        val header = CaseHeaderViewModel.fromCase(c)
+        val header = CaseHeaderViewModel.fromOldCase(c)
         successful(remove_attachment(header, removeAttachmentForm, fileId, fileName))
       }
     }
@@ -69,7 +69,7 @@ class AttachmentsController @Inject() (
         .fold(
           errors =>
             validateAndRenderView { c =>
-              val header = CaseHeaderViewModel.fromCase(c)
+              val header = CaseHeaderViewModel.fromOldCase(c)
 
               successful(remove_attachment(header, errors, fileId, fileName))
             }, {
