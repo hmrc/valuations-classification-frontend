@@ -283,6 +283,12 @@ case class ValuationCase(
 
   def hasExpiredRuling(implicit clock: Clock = Clock.systemUTC()): Boolean =
     hasRuling && decision.flatMap(_.effectiveEndDate).exists(_.isBefore(Instant.now(clock)))
+
+  def isCaseOverdue: Boolean = referredDaysElapsed >= 5
+
+  val isLiabilityOrder: Boolean = false
+  val isCorrespondence: Boolean = false
+  val isMisc          : Boolean = false
 }
 
 object ValuationCase{

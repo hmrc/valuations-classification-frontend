@@ -54,10 +54,10 @@ class AssignCaseController @Inject()(
         result.getOrElse(Ok("unknown valuation case"))
       }
 
-  def assignOrViewCase(reference: String) =  verify.authenticated.async(parse.form(form)) { implicit  request =>
+  def assignOrViewCase(reference: String): Action[Boolean] =  verify.authenticated.async(parse.form(form)) { implicit request =>
        if(request.body){
          for{
-           _ <- valuationCaseService.assignCase(reference, CaseWorker(id="joe",role=Role.CLASSIFICATION_OFFICER))
+           _ <- valuationCaseService.assignCase(reference, CaseWorker(id= request.operator.id, role=Role.CLASSIFICATION_OFFICER))
          } yield Redirect(avar2.controllers.routes.AvarController.show(reference))
        }else{
          Future.successful(Redirect(avar2.controllers.routes.AvarController.show(reference)))

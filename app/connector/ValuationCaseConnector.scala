@@ -34,6 +34,8 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
 
   val openCasesUrl = serviceUrl + "/valuation"
 
+  def casesByAssignee(asignee: String) = s"$serviceUrl/valuations/$asignee"
+
   val assignCaseUrl = openCasesUrl + "/assign"
 
 
@@ -47,6 +49,10 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
   def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] = {
     client.POST[AssignCaseRequest,Long](assignCaseUrl, AssignCaseRequest(reference, operator))
   }
+
+  def findCasesByAssignee(assignee: String)(implicit hc: HeaderCarrier): Future[List[ValuationCase]] = {
+      client.GET[List[ValuationCase]](casesByAssignee(assignee))
+    }
 
 }
 

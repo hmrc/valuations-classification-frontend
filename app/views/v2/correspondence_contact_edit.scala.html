@@ -19,7 +19,7 @@
 @import controllers.routes.CreateCorrespondenceController
 @import helper._
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.{CaseHeaderViewModel, NoTabSelected}
+@import models.viewmodels.avar.{CaseHeaderViewModel, NoTabSelected}
 @import models.{Case, CorrespondenceApplication}
 @import views.html.components.confirm_or_cancel_buttons
 @import views.html.forms.components._
@@ -43,7 +43,7 @@
 
     @error_summary(form.errors)
 
-    @case_heading(CaseHeaderViewModel.fromCase(c), messageKey = Some("case.v2.correspondence.case-contact-edit-header"))
+    @case_heading(CaseHeaderViewModel.fromOldCase(c), messageKey = Some("case.v2.correspondence.case-contact-edit-header"))
 
     <h3 id="contact-details-section-header" class="govuk-heading-m">@messages("case.v2.correspondence.case-contact-edit-heading2")</h3>
 

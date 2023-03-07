@@ -19,13 +19,14 @@
 @import models.forms.DecisionFormData
 @import models.request.AuthenticatedRequest
 @import models.response.ScanStatus
-@import models.viewmodels.NoTabSelected
-@import models.{BTIApplication, Case, StoredAttachment}
+@import models.viewmodels.avar.NoTabSelected
+@import models.{BTIApplication, Case}
+@import avar2.models.StoredAttachment
 @import views.html.forms.components.{edit_ruling_input_checkbox, input_text, input_textarea}
 @import views.html.includes.main
 @import views.html.layouts.full_main_content_layout
 @import views.html.partials.{attachments_edit_list, case_heading, back_link, error_summary}
-@import utils.Dates
+@import java.util.Date
 
 @this(
         main: main,
@@ -59,7 +60,7 @@
                         @messages("pdf.ruling.section.date.submitted")
                     </dt>
                     <dd class="govuk-summary-list__value" id="application_submittedDateValue">
-                        @Dates.format(c.createdDate)
+                        @Date.from(c.createdDate)
                     </dd>
                 </div>
 

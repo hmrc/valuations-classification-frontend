@@ -28,4 +28,6 @@ trait ValuationCaseService {
 
   def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]]
 
+  def findCasesByAssignee(operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]]
+
 }

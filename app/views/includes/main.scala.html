@@ -15,7 +15,7 @@
  *@
 
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.{NoTabSelected, PrimaryNavigationTab}
+@import models.viewmodels.avar.{NoTabSelected, PrimaryNavigationTab}
 @import views.html.includes.govuk_wrapper
 @import config.AppConfig
 
@@ -24,7 +24,6 @@
         govukWrapper: govuk_wrapper,
         primary_navigation: components.primary_navigation
 )
-
 @(
         pageTitle: String,
         backLink: Option[Html] = None,
