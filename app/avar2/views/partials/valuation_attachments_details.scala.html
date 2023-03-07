@@ -21,21 +21,20 @@
 @import models.response.FileStoreInitiateResponse
 @import models.viewmodels.avar.AttachmentsTabViewModel
 @import views.html.components.input_file
-@import views.html.partials.{attachments_list_avar, attachments_state_message, tab_heading, error_summary}
+@import views.html.partials.{tab_heading, error_summary}
+@import avar2.views.html.partials.{valuation_attachments_state_message, valuation_attachments_list_avar}
 
-@(attachments: AttachmentsTabViewModel /* form : Form[String], initiateResponse: FileStoreInitiateResponse, startAtTabIndex : Int = 0*/)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
-Attachments will go here
-@*
+@(attachments: AttachmentsTabViewModel, form : Form[String], initiateResponse: FileStoreInitiateResponse, startAtTabIndex : Int = 0)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
     @error_summary(form.errors, Some(startAtTabIndex))
 
     @tab_heading("attachments", messages("case.menu.attachments"))
 
     <h3 class="govuk-heading-m" aria-hidden="true">@messages("page.title.case.attachments")</h3>
 
-    @attachments_state_message(attachments = attachments.allAttachments, autoRefresh = true, displayStateMessage = false)
+    @valuation_attachments_state_message(attachments = attachments.allAttachments, autoRefresh = true, displayStateMessage = false)
 
-    @attachments_list_avar("classification-team", attachments, startAtTabIndex = Some(startAtTabIndex+31))
-
+    @valuation_attachments_list_avar("classification-team", attachments, startAtTabIndex = Some(startAtTabIndex+31))
+@*
     @if(request.hasPermission(Permission.ADD_ATTACHMENT)) {
         @helper.form(
             action = Call("POST", initiateResponse.uploadRequest.href),

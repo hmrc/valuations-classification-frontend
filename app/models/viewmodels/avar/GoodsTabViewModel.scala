@@ -42,7 +42,7 @@ object GoodsTabViewModel {
       avarApplication.goodDescription,
       avarApplication.confidentialInformation,
       cse.attachments.nonEmpty,
-      cse.attachments.exists(_.operator.isEmpty),
+      cse.attachments.exists(_.caseWorker.isEmpty),
       false,
       avarApplication.envisagedCommodityCode,
       avarApplication.knownLegalProceedings

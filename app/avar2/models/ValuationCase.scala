@@ -161,7 +161,7 @@ object Contact{
 case class Attachment(
                        id: String,
                        public: Boolean = false,
-                       operator: Option[CaseWorker],
+                       caseWorker: Option[CaseWorker],
                        timestamp: Instant              = Instant.now(),
                        description: Option[String]     = None,
                        shouldPublishToRulings: Boolean = false
