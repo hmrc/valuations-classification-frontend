@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package models
-package viewmodels.avar
+package avar2.models.viewmodels
+
+import models.{Case, CaseStatus, CommodityCode, Decision}
 
 import java.time.Instant
 
 case class RulingTabViewModel(
-  caseReference: String,
-  caseStatus: CaseStatus.Value,
-  caseCreatedDate: Instant,
-  caseHasExpiredRuling: Boolean,
-  suggestedCommodityCode: Option[String],
-  goodsDescription: String,
-  bindingCommodityCode: Option[CommodityCode],
-  decision: Option[Decision]
+                               caseReference: String,
+                               caseStatus: CaseStatus.CaseStatus,
+                               caseCreatedDate: Instant,
+                               caseHasExpiredRuling: Boolean,
+                               suggestedCommodityCode: Option[String],
+                               goodsDescription: String,
+                               bindingCommodityCode: Option[CommodityCode],
+                               decision: Option[Decision]
 )
 
 object RulingTabViewModel {

@@ -20,7 +20,7 @@ import config.AppConfig
 import controllers.{RequestActions, Tab}
 import models.forms._
 import models.request._
-import models.viewmodels.avar._
+import avar2.models.viewmodels._
 import models.viewmodels.miscellaneous.DetailsViewModel
 import models.viewmodels.{AttachmentsTabViewModel => _, _}
 import models.{Case, EventType, NoPagination}
@@ -31,7 +31,7 @@ import play.twirl.api.Html
 import service._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2.miscellaneous_view
+import avar2.views.html.miscellaneous_view
 
 import java.util.UUID
 import javax.inject.{Inject, Singleton}

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package models
-package viewmodels.avar
+package avar2.models.viewmodels
+
+import models.{Case, Event, Paged, SampleReturn, SampleStatus}
 
 case class SampleTabViewModel(
   caseReference: String,

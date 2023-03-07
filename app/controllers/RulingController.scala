@@ -21,7 +21,7 @@ import models._
 import models.forms.v2.LiabilityDetailsForm
 import models.forms.{DecisionForm, DecisionFormData, DecisionFormMapper}
 import models.request.{AuthenticatedCaseRequest, AuthenticatedRequest}
-import models.viewmodels.avar.CaseHeaderViewModel
+import avar2.models.viewmodels.CaseHeaderViewModel
 import avar2.models.StoredAttachment
 import play.api.data.Form
 import play.api.i18n.I18nSupport
@@ -29,7 +29,7 @@ import play.api.mvc._
 import service.{CasesService, FileStoreService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.ruling_details_edit
-import views.html.v2.{edit_liability_ruling, liability_details_edit}
+import avar2.views.html.{edit_liability_ruling, liability_details_edit}
 
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding

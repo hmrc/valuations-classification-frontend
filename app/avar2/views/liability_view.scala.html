@@ -21,7 +21,7 @@
 @import models.request.AuthenticatedRequest
 @import models.response.FileStoreInitiateResponse
 @import models.viewmodels.{C592ViewModel, RulingViewModel, SampleStatusTabViewModel, ActivityViewModel, KeywordsTabViewModel}
-@import models.viewmodels.avar.{CaseViewModel, AttachmentsTabViewModel, AppealTabViewModel, MyCasesTab, PrimaryNavigationTab}
+@import avar2.models.viewmodels.{CaseViewModel, AttachmentsTabViewModel, AppealTabViewModel, MyCasesTab, PrimaryNavigationTab}
 @import models.Permission
 @import views.html.helper.CSRF
 @import views.html.partials.notification_banner
@@ -29,7 +29,7 @@
 @import views.html.layouts.full_main_content_layout
 
 @this(
-        case_heading: views.html.v2.case_heading,
+        case_heading: avar2.views.html.case_heading,
         c592_tab: views.html.partials.liabilities.c592_tab,
         ruling_tab: views.html.partials.liabilities.ruling_tab,
         sample_status: views.html.partials.liabilities.sample.sample_details_liability,
@@ -37,8 +37,8 @@
         attachments_details: views.html.partials.liabilities.attachments_details,
         case_action_buttons_partial: views.html.partials.liabilities.case_action_buttons_partial,
         advanced_search_cases: views.html.partials.liabilities.advanced_search_cases,
-        keywords_tab: views.html.v2.keywords_details,
-        appeal_tab: views.html.v2.appeal_tab,
+        keywords_tab: avar2.views.html.keywords_details,
+        appeal_tab: avar2.views.html.appeal_tab,
         main: main,
         fullMainContent: full_main_content_layout
 

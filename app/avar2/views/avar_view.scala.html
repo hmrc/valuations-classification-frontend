@@ -17,8 +17,8 @@
 @import config.AppConfig
 @import helper.CSRF
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.avar.AvarViewModel
-@import avar2.views.html.includes.main
+@import avar2.models.viewmodels.AvarViewModel
+@import views.html.includes.main
 @import avar2.views.html.layouts.full_main_content_layout
 @import avar2.views.html.components.{valuation_case_heading, valuation_application_details, valuation_case_trader}
 @import models.response.FileStoreInitiateResponse
@@ -28,7 +28,7 @@
         main: main,
         fullMainContent: full_main_content_layout,
         advanced_search_cases: views.html.partials.liabilities.advanced_search_cases,
-        keywords_details: views.html.v2.keywords_details,
+        keywords_details: avar2.views.html.keywords_details,
 )
 
 @(avarViewModel: AvarViewModel,uploadForm: Form[String])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
@@ -53,7 +53,7 @@
     additionalCSS = Some(additionalCSS)
 ) {
     <div class="column-two-thirds operation-dashboard-header">
-    @valuation_case_heading(avarViewModel.caseViewModel.caseHeader, messageKey = Some("case.heading.details"))
+        @valuation_case_heading(avarViewModel.caseViewModel.caseHeader, messageKey = Some("case.heading.details"))
     </div>
     <div class="govuk-button-group">
         @*

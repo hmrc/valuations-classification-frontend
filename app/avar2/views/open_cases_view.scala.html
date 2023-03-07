@@ -16,7 +16,7 @@
 
 @import config.AppConfig
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.avar.{AVaRTab, CasesTabViewModel, OpenCasesTab, SubNavigationTab}
+@import avar2.models.viewmodels.{AVaRTab, CasesTabViewModel, OpenCasesTab, AvarSubNavigationTab}
 @import avar2.views.html.components.{cases_tab, open_cases_secondary_navigation}
 @import avar2.views.html.includes.main
 @import avar2.views.html.layouts.full_main_content_layout
@@ -27,7 +27,7 @@
 )
 
 
-@(cases : CasesTabViewModel, activeSubNav : SubNavigationTab = AVaRTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@(cases : CasesTabViewModel, activeSubNav : AvarSubNavigationTab = AVaRTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
  pageTitle = messages(s"cases.opencases.avar.title"),

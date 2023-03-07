@@ -21,7 +21,7 @@ import config.AppConfig
 import javax.inject.Inject
 import models.forms.v2.{MiscDetailsForm, MiscellaneousForm}
 import models.request.AuthenticatedRequest
-import models.viewmodels.avar.CaseViewModel
+import avar2.models.viewmodels.CaseViewModel
 import models.{Case, MiscApplication, Permission}
 import play.api.data.Form
 import play.api.i18n.I18nSupport
@@ -31,7 +31,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.{case_not_found, release_case, resource_not_found}
-import views.html.v2.{confirmation_case_creation, create_misc, misc_details_edit}
+import avar2.views.html.{confirmation_case_creation, create_misc, misc_details_edit}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.Future.successful

@@ -19,15 +19,15 @@
 @import controllers.routes.CreateCorrespondenceController
 @import helper._
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.avar.{CaseHeaderViewModel, NoTabSelected}
+@import avar2.models.viewmodels.{CaseHeaderViewModel, NoTabSelected}
 @import models.{Case, CorrespondenceApplication}
 @import views.html.components.confirm_or_cancel_buttons
 @import views.html.forms.components._
-@import views.html.includes.main
+@import avar2.views.html.includes.main
 @import views.html.partials.{back_link, error_summary}
 
 @this(
-        case_heading: views.html.v2.case_heading,
+        case_heading: avar2.views.html.case_heading,
         main: main,
         backLink: back_link
 )

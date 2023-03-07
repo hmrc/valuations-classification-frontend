@@ -16,13 +16,13 @@
 
 @import models.request.AuthenticatedRequest
 @import config.AppConfig
-@import  models.viewmodels.avar.CasesTab
+@import avar2.models.viewmodels.CasesTab
 @import avar2.controllers.routes.AssignCaseController
-@import controllers.v2.routes.AvarController2
+@import avar2.models.viewmodels.CaseStatusViewModel
 
 @import avar2.controllers.AvarController
 @import avar2.controllers.AvarController
-@import models.viewmodels.avar.CaseStatusViewModel
+@import avar2.models.viewmodels.CaseStatusViewModel
 @(caseTab : CasesTab, captionMessage: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 <table id="@{caseTab.tabMessageKey}-table" class="govuk-table">

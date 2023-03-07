@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package models.viewmodels.avar
+package avar2.models.viewmodels
 
 import avar2.models.{AgentDetails, Contact, EORIDetails, ValuationCase}
 import models.{ApplicationType, CaseStatus, Event, Paged}

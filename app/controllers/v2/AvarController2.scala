@@ -21,11 +21,11 @@ import cats.data.OptionT
 import config.AppConfig
 import controllers.RequestActions
 import models.viewmodels.CaseViewModel
-import models.viewmodels.avar.{ApplicantTabViewModel, GoodsTabViewModel}
+import avar2.models.viewmodels.{ApplicantTabViewModel, GoodsTabViewModel}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2.avar_view
+import avar2.views.html.avar_view
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext

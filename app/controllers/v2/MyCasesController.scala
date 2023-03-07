@@ -24,13 +24,13 @@ import config.AppConfig
 import controllers.RequestActions
 import models.{NoPagination, Permission}
 import models.request.AuthenticatedRequest
-import models.viewmodels.avar._
+import avar2.models.viewmodels._
 import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import service.{CasesService, EventsService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2.my_cases_view
+import avar2.views.html.my_cases_view
 
 import scala.concurrent.ExecutionContext
 
@@ -49,7 +49,7 @@ class MyCasesController @Inject() (
 
   implicit val ec: ExecutionContext = mat.executionContext
 
-  def displayMyCases(activeSubNav: SubNavigationTab = AssignedToMeTab): Action[AnyContent] =
+  def displayMyCases(activeSubNav: AvarSubNavigationTab = AssignedToMeTab): Action[AnyContent] =
     (verify.authenticated andThen verify.mustHave(Permission.VIEW_MY_CASES)).async {
       implicit request: AuthenticatedRequest[AnyContent] =>
         for {

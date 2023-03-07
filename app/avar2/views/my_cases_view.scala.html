@@ -19,17 +19,17 @@
 
 @import views.html.components.heading
 @import views.html.components.my_cases_tab
-@import models.viewmodels.avar.{ApplicationTabViewModel, MyCasesTab, SubNavigationTab, AssignedToMeTab}
+@import avar2.models.viewmodels.{ApplicationTabViewModel, MyCasesTab, AvarSubNavigationTab, AssignedToMeTab}
 @import views.html.includes.main
-@import views.html.layouts.full_main_content_layout
+@import avar2.views.html.layouts.full_main_content_layout
 
 @this(
         main: main,
         fullMainContent: full_main_content_layout,
-        my_cases_secondary_nav: views.html.components.my_cases_secondary_navigation
+        my_cases_secondary_nav: avar2.views.html.components.my_cases_secondary_navigation
 )
 
-@(myCases : ApplicationTabViewModel, activeSubNav : SubNavigationTab = AssignedToMeTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@(myCases : ApplicationTabViewModel, activeSubNav : AvarSubNavigationTab = AssignedToMeTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
  pageTitle = messages(myCases.headingMessageKey),

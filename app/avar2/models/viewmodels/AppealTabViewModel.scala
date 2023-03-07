@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package models
-package viewmodels.avar
+package avar2.models.viewmodels
+
+import models.{Appeal, Case, CaseStatus}
 
 case class AppealTabViewModel(
-  caseReference: String,
-  caseStatus: CaseStatus.Value,
-  appeals: List[Appeal],
-  applicationForExtendedUse: Boolean
+                               caseReference: String,
+                               caseStatus: CaseStatus.CaseStatus,
+                               appeals: List[Appeal],
+                               applicationForExtendedUse: Boolean
 )
 
 object AppealTabViewModel {

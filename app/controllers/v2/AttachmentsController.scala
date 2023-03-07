@@ -21,13 +21,13 @@ import config.AppConfig
 import controllers.{RenderCaseAction, RequestActions}
 import models._
 import models.forms.RemoveAttachmentForm
-import models.viewmodels.avar.CaseHeaderViewModel
+import avar2.models.viewmodels.CaseHeaderViewModel
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc._
 import service.CasesService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2.remove_attachment
+import avar2.views.html.remove_attachment
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext

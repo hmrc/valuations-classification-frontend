@@ -19,12 +19,12 @@
 @import models.Case
 
 @import views.html.partials._
-@import models.viewmodels.avar.NoTabSelected
+@import avar2.models.viewmodels.NoTabSelected
 @import views.html.partials.statuses.{appeal_status, case_status}
 @import controllers.routes._
 @import controllers.v2.routes.MyCasesController
 @import models.viewmodels.CompletedByMeTab
-@import utils.Dates
+@import java.util.Date
 @import java.time.Instant
 @import views.html.includes.main
 
@@ -53,7 +53,7 @@
 
         <p class="govuk-body">@Html(messages("ruling.cancelled.status", case_status(c, "case-status")))</p>
 
-        <p class="govuk-body">@messages("ruling.cancelled.information", Dates.format(Instant.now()))</p>
+        <p class="govuk-body">@messages("ruling.cancelled.information", Date.from(Instant.now()))</p>
 
     } else {
         <h2 class="govuk-heading-l">The liability decision has been cancelled </h2>

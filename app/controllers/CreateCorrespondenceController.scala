@@ -30,7 +30,7 @@ import service.{CasesService, QueuesService}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2._
+import avar2.views.html._
 import views.html.{case_not_found, release_case, resource_not_found}
 
 import javax.inject.{Inject, Singleton}

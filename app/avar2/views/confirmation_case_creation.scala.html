@@ -18,11 +18,11 @@
 @import models.Case
 @import models.request.AuthenticatedRequest
 @import views.html.includes.main
-@import views.html.v2.confirmation_next_steps
+@import avar2.views.html.confirmation_next_steps
 
 @this(
         main: main,
-        case_heading: views.html.v2.case_heading
+        case_heading: avar2.views.html.case_heading
 )
 
 @(c: Case, queueName: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
