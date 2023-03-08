@@ -14,14 +14,15 @@
  * limitations under the License.
  *@
 
-@import models.request.AuthenticatedRequest
 @import config.AppConfig
 @import avar2.models.viewmodels.ApplicationsTab
 @import java.util.Date
 @import play.twirl.api.TemplateMagic.defining
 @import avar2.views.html.case_status_tab
 
-@(avarTab: ApplicationsTab, assignmentType: String, captionMessage: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+
+@(avarTab: ApplicationsTab, assignmentType: String, captionMessage: String)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 
  <table id="@{avarTab.tabMessageKey}-table" class="govuk-table">
   <caption class="govuk-visually-hidden govuk-table__caption">@messages(captionMessage)</caption>
@@ -72,6 +73,7 @@
       @if(assignmentType == "applicationTab.referredByMe") {
        <td id="@{avarTab.tabMessageKey}-refer-days-@index" class="govuk-table__cell">@{result.referredDaysElapsed}</td>
       }
+      @*
       @if(assignmentType == "applicationTab.completedByMe") {
        <td id="@{avarTab.tabMessageKey}-completed-date-@index" class="govuk-table__cell">
         @for(completedEvent <- avarTab.completedEvent.flatMap(_.get(result.reference))) {
@@ -79,11 +81,14 @@
         }
        </td>
       }
+      *@
       <td id="@{avarTab.tabMessageKey}-status-@index" class="govuk-table__cell">
        @case_status_tab(result, s"${avarTab.tabMessageKey}-status-label-$index")
+       @*
        @for(referralEvent <- avarTab.referralEvent.flatMap(_.get(result.reference))) {
         <span id="@{avarTab.tabMessageKey}-status-refer-to-@index"><p>@{referralEvent.details.asInstanceOf[ReferralCaseStatusChange].referredTo}</p></span>
        }
+       *@
       </td>
      </tr>
     }

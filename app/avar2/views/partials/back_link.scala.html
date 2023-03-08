@@ -14,15 +14,21 @@
  * limitations under the License.
  *@
 
-@import config.AppConfig
-@import avar2.models.CaseWorker
-@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@import uk.gov.hmrc.govukfrontend.views.Aliases.BackLink
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-@(operator: CaseWorker, capitalise : Boolean = false)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
-@{
-    if(operator.id == request.caseWorker.id) {
-        if (capitalise) "You" else "you"
-    } else {
-        operator.safeName
-    }
-}
+@this(
+        govukBackLink: GovukBackLink
+)
+
+@(
+        messageKey: String = "errors.all.back",
+        linkLocation: String = "javascript: window.history.go(-1)"
+)(implicit messages: Messages)
+
+@govukBackLink(BackLink(
+    href=linkLocation,
+    content = Text(messages(messageKey)),
+    attributes = Map("class" -> "govuk-back-link", "id" -> "back-link")
+))

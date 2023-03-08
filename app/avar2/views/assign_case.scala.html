@@ -17,20 +17,20 @@
 @import config.AppConfig
 @import avar2.controllers.routes
 @import avar2.models.ValuationCase
-@import models.request.AuthenticatedRequest
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 @import avar2.models.viewmodels.{AssignedToMeTab, NoTabSelected}
-@import views.forms.components.RadioOption
-@import views.html.forms.components.input_radiogroup
-@import views.html.partials.{back_link, error_summary}
+@import avar2.views.html.partials.{back_link, error_summary}
 @import avar2.models.viewmodels.CaseHeaderViewModel
-
+@import avar2.views.html.components.input_radiogroup
+@import avar2.views.components.RadioOption
 
 @this(
         main: avar2.views.html.includes.main,
         backLink: back_link
 )
 
-@(viewModel: CaseHeaderViewModel, c: ValuationCase, form: Form[Boolean])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+@(viewModel: CaseHeaderViewModel, c: ValuationCase, form: Form[Boolean])(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
     pageTitle = messages("page.title.take.ownership"),

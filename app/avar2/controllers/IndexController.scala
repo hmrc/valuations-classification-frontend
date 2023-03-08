@@ -16,8 +16,10 @@
 
 package avar2.controllers
 
+import avar2.controllers.SessionKeys._
 import avar2.controllers.actions.{AuthenticatedCaseWorkerAction, AuthenticatedCaseWorkerRequest}
 import avar2.models.Role
+import avar2.views.html.read_only_home
 import config.AppConfig
 import play.api.i18n.I18nSupport
 import play.api.mvc._

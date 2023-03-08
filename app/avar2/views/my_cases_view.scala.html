@@ -14,14 +14,12 @@
  * limitations under the License.
  *@
 
-@import models.request.AuthenticatedRequest
 @import config.AppConfig
 
-@import views.html.components.heading
-@import views.html.components.my_cases_tab
 @import avar2.models.viewmodels.{ApplicationTabViewModel, MyCasesTab, AvarSubNavigationTab, AssignedToMeTab}
-@import views.html.includes.main
 @import avar2.views.html.layouts.full_main_content_layout
+@import avar2.views.html.includes.main
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 
 @this(
         main: main,
@@ -29,7 +27,8 @@
         my_cases_secondary_nav: avar2.views.html.components.my_cases_secondary_navigation
 )
 
-@(myCases : ApplicationTabViewModel, activeSubNav : AvarSubNavigationTab = AssignedToMeTab)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+@(myCases : ApplicationTabViewModel, activeSubNav : AvarSubNavigationTab = AssignedToMeTab)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
  pageTitle = messages(myCases.headingMessageKey),
@@ -37,8 +36,10 @@
  subNavigationTab = Some(my_cases_secondary_nav(activeSubNav)),
  optCustomLayout = Some(fullMainContent(_))
 ) {
-
+   fix my cases
+  @*
  @heading(messages(myCases.headingMessageKey))
 
  @my_cases_tab(myCases)
+  *@
 }

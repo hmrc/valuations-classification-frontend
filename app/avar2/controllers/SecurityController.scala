@@ -16,12 +16,13 @@
 
 package avar2.controllers
 
+import avar2.views.html.not_authorized
 import config.AppConfig
 import play.api.i18n.I18nSupport
 import play.api.mvc._
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import avar2.views.html.not_authorised
+
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.Future.successful
 

@@ -16,6 +16,7 @@
 
 package avar2.services
 
+import avar2.models.{CaseWorker, Paged, Pagination, ValuationCase}
 import cats.syntax.all._
 import config.AppConfig
 import play.api.Logging
@@ -41,6 +42,8 @@ class CasesService @Inject()(
 //  rulingConnector: RulingConnector
 )(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends Logging {
+  def getCasesByAssignee(assignee: CaseWorker, pagination: Pagination)(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]] = ???
+  // connector.findCasesByAssignee(assignee, pagination)
 }
 
 
@@ -461,9 +464,8 @@ class CasesService @Inject()(
 //
 //    } yield casesByQueue
 //
-//  def getCasesByAssignee(assignee: Operator, pagination: Pagination)(implicit hc: HeaderCarrier): Future[Paged[Case]] =
-//    connector.findCasesByAssignee(assignee, pagination)
-//
+
+
 //  def getAssignedCases(pagination: Pagination)(implicit hc: HeaderCarrier): Future[Paged[Case]] =
 //    connector.findAssignedCases(pagination)
 //

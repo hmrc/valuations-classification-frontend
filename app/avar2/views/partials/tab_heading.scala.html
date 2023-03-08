@@ -14,15 +14,15 @@
  * limitations under the License.
  *@
 
-@import config.AppConfig
-@import avar2.models.CaseWorker
-@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@(
+        tab: String,
+        heading: String,
+        hintText: Option[String] = None
+)
 
-@(operator: CaseWorker, capitalise : Boolean = false)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
-@{
-    if(operator.id == request.caseWorker.id) {
-        if (capitalise) "You" else "you"
-    } else {
-        operator.safeName
+<div id="@tab-heading">
+    <h2 class="govuk-heading-l">@heading</h2>
+    @if(hintText.isDefined) {
+        <p class="govuk-hint">@hintText.get</p>
     }
-}
+</div>

@@ -20,16 +20,16 @@
 @import avar2.models.viewmodels.MyCasesTab
 @import avar2.models.viewmodels.OpenCasesTab
 
-@import models.request.AuthenticatedRequest
 @import avar2.models.viewmodels.ManagerToolsTab
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 
 @this(
     formWithCSRF: FormWithCSRF
 )
 
 
-@(selectedTab: PrimaryNavigationTab = HomeTab)(implicit request: AuthenticatedRequest[_], messages: Messages)
+@(selectedTab: PrimaryNavigationTab = HomeTab)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages)
 
 <div class="moj-primary-navigation">
     <div class="moj-primary-navigation__container govuk-!-margin-right-2 govuk-!-margin-left-2">
@@ -38,20 +38,21 @@
                 <ul class="moj-primary-navigation__list">
                     <li class="moj-primary-navigation__item">
                         @if(selectedTab == HomeTab) {
-                        <a id ="primary_nav_home_tab" class="moj-primary-navigation__link govuk-link"  aria-current="page" href="@controllers.routes.OperatorDashboardController.onPageLoad">Home</a>
+                        <a id ="primary_nav_home_tab" class="moj-primary-navigation__link govuk-link"  aria-current="page" href="@routes.OperatorDashboardController.onPageLoad">Home</a>
                         } else {
-                        <a id ="primary_nav_home_tab" class="moj-primary-navigation__link govuk-link"  href="@controllers.routes.OperatorDashboardController.onPageLoad">Home</a>
+                        <a id ="primary_nav_home_tab" class="moj-primary-navigation__link govuk-link"  href="@routes.OperatorDashboardController.onPageLoad">Home</a>
                         }
                     </li>
-                  @if(request.operator.manager){
+                  @if(true /*request.operator.manager*/){
                       <li class="moj-primary-navigation__item">
+                          @*
                       @if(selectedTab == ManagerToolsTab) {
                           <a id="primary_nav_manager_tools_tab" class="moj-primary-navigation__link govuk-link" aria-current="page" href="@routes.ManageUserController.displayManageUsers()">
                               @messages("operator.dashboard.classification.manager-tools")</a>
                       } else {
                           <a id="primary_nav_manager_tools_tab" class="moj-primary-navigation__link govuk-link" href="@routes.ManageUserController.displayManageUsers()">
                               @messages("operator.dashboard.classification.manager-tools")</a>
-                      }
+                      }*@
                       </li>
                       <li class="moj-primary-navigation__item">
                       @if(selectedTab == OpenCasesTab) {
@@ -102,6 +103,7 @@
             </nav>
         </div>
         <div class="moj-primary-navigation__search">
+            @*
             <div class="moj-search moj-search--ondark moj-search--inline">
                 @formWithCSRF(action = controllers.routes.SearchController.search(), Symbol("novalidate") -> "novalidate") {
                 <div class="govuk-form-group">
@@ -111,6 +113,7 @@
                 <button id="search__button" class="govuk-button moj-search__button" data-module="govuk-button" type="submit">Search cases</button>
                 }
             </div>
+            *@
         </div>
     </div>
 </div>

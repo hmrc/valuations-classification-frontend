@@ -14,11 +14,12 @@
  * limitations under the License.
  *@
 
-@import models.request.AuthenticatedRequest
 @import avar2.models.viewmodels.ApplicantTabViewModel
-@import views.html.partials.{contact_details, tab_heading}
+@import avar2.views.html.partials.tab_heading
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@import avar2.views.html.partials.contact_details
 
-@(applicant: ApplicantTabViewModel, startAtTabIndex : Int = 0)(implicit request: AuthenticatedRequest[_], messages: Messages)
+@(applicant: ApplicantTabViewModel, startAtTabIndex : Int = 0)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages)
 
 @tab_heading("trader", "Applicant")
 

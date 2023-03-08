@@ -19,7 +19,6 @@
 @import play.api.i18n.Messages
 @import avar2.views.html.includes.main
 @import avar2.models.viewmodels.NoTabSelected
-@import avar2.views.components.search_box
 
 @this(
     main: main
@@ -40,7 +39,7 @@
 
     <div id="read_only_home-search" class="govuk-form-group">
         @if(false/*request.hasPermission(Permission.SEARCH) */) {
-            @search_box(
+            @avar2.views.html.components.search_box(
                 label = messages("find.and.view.case.label")
             )
         }

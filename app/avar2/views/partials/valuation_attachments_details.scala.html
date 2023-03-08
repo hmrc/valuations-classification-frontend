@@ -15,17 +15,14 @@
  *@
 
 @import config.AppConfig
-@import controllers.{Tab, routes}
-@import avar2.controllers._
-@import models.{Case, Permission, StoredAttachment}
-@import models.request.AuthenticatedRequest
-@import models.response.FileStoreInitiateResponse
 @import avar2.models.viewmodels.AttachmentsTabViewModel
-@import views.html.components.input_file
-@import views.html.partials.{tab_heading, error_summary}
-@import avar2.views.html.partials.{valuation_attachments_state_message, valuation_attachments_list_avar}
 
-@(attachments: AttachmentsTabViewModel, form : Form[String], initiateResponse: FileStoreInitiateResponse, startAtTabIndex : Int = 0)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@import avar2.views.html.partials.{error_summary,tab_heading,valuation_attachments_state_message, valuation_attachments_list_avar}
+
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@import avar2.models.response.FileStoreInitiateResponse
+
+@(attachments: AttachmentsTabViewModel, form : Form[String], initiateResponse: FileStoreInitiateResponse, startAtTabIndex : Int = 0)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
     @error_summary(form.errors, Some(startAtTabIndex))
 
     @tab_heading("attachments", messages("case.menu.attachments"))

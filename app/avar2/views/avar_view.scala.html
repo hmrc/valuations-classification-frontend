@@ -16,22 +16,20 @@
 
 @import config.AppConfig
 @import helper.CSRF
-@import models.request.AuthenticatedRequest
 @import avar2.models.viewmodels.AvarViewModel
-@import views.html.includes.main
+@import avar2.views.html.includes.main
 @import avar2.views.html.layouts.full_main_content_layout
 @import avar2.views.html.components.{valuation_case_heading, valuation_application_details, valuation_case_trader}
-@import models.response.FileStoreInitiateResponse
 @import avar2.views.html.partials.valuation_attachments_details
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 
 @this(
         main: main,
-        fullMainContent: full_main_content_layout,
-        advanced_search_cases: views.html.partials.liabilities.advanced_search_cases,
-        keywords_details: avar2.views.html.keywords_details,
+        fullMainContent: full_main_content_layout
 )
 
-@(avarViewModel: AvarViewModel,uploadForm: Form[String])(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+@(avarViewModel: AvarViewModel,uploadForm: Form[String])(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 
 
 
@@ -94,8 +92,10 @@
     </div>
 }
 
+    @*
 <script>
         let cacheURL = "@routes.TabCacheController.get(avarViewModel.caseViewModel.caseHeader.referenceNumber, ApplicationType.AVAR).url";
         let csrfToken = "@CSRF.getToken.value";
         window.addEventListener("load", () => fixAnchorInURL(cacheURL, csrfToken), false);
 </script>
+    *@

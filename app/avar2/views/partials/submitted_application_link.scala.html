@@ -14,15 +14,11 @@
  * limitations under the License.
  *@
 
-@import config.AppConfig
-@import avar2.models.CaseWorker
-@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@(caseReference: String, useTabIndex : Option[Int] = None)(implicit messages: Messages)
 
-@(operator: CaseWorker, capitalise : Boolean = false)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
-@{
-    if(operator.id == request.caseWorker.id) {
-        if (capitalise) "You" else "you"
-    } else {
-        operator.safeName
-    }
-}
+<p class="govuk-body">
+ submit the application here
+ @*
+ <a  id="submitted-application-link" class="govuk-link" target="_blank" href="@PdfDownloadController.applicationPdf(caseReference)"> @messages("case.decision.ruling.review.appeal.link") </a>
+ *@
+</p>

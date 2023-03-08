@@ -15,28 +15,28 @@
  *@
 
 @import config.AppConfig
-@import models.request.AuthenticatedRequest
 
 @import avar2.controllers.routes
-@import avar2.controllers.routes.{ManageUserController, ManageKeywordsController}
 @import avar2.controllers.routes.AllOpenCasesController
 @import avar2.models.viewmodels._
 
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 @(
-  casesByTeam: Map[(Option[String], ApplicationType), Int],
   totalCasesAssignedToMe: Int,
   referredCasesAssignedToMe: Int,
   completedCasesAssignedToMe: Int
-)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 
 <div id="dashboard-view" class="centered-content">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <span class="govuk-caption-xl">@request.operator.name.getOrElse("")</span>
+            <span class="govuk-caption-xl">@request.caseWorker.name.getOrElse("")</span>
             <h1 class="govuk-heading-xl">@messages("operator.dashboard.classification.header")</h1>
         </div>
     </div>
-    @if(request.operator.manager) {
+    @if( false /*request.caseWorker.manager*/) {
+      Manager goes here
+      @*
         <h2 class="govuk-heading-m">@messages("cases.menu.manager_tools")</h2>
         <div class="flex-container govuk-body">
             <a id="manager-tools-users-id" class="link-text" href="@ManageUserController.displayManageUsers()">
@@ -125,6 +125,7 @@
         </a>
 
     </div>
+        *@
     }else{
     <h2 class="govuk-heading-m">@messages("cases.menu.my-cases")</h2>
     <div class="flex-container govuk-body">

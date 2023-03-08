@@ -18,13 +18,9 @@ package avar2.controllers
 
 import avar2.controllers.actions.AuthenticatedCaseWorkerAction
 import avar2.forms.TakeOwnerShipForm
-import avar2.models.CaseWorker
 import avar2.services.ValuationCaseService
 import cats.data.OptionT
 import config.AppConfig
-import controllers.RequestActions
-import models.forms.TakeOwnerShipForm
-import avar2.models.Role
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}

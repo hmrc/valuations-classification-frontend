@@ -17,6 +17,7 @@
 package avar2.controllers
 
 import avar2.controllers.actions.{AuthenticatedCaseWorkerAction, AuthenticatedCaseWorkerRequest}
+import avar2.models.{CaseStatus, NoPagination}
 import avar2.services.CasesService
 import avar2.views.html.operator_dashboard_classification
 import config.AppConfig
@@ -44,8 +45,7 @@ class OperatorDashboardController @Inject()(
     verify.async {
     implicit request: AuthenticatedCaseWorkerRequest[AnyContent] =>
       for {
-        casesByAssignee <- casesService.getCasesByAssignee(request.operator, NoPagination())
-        casesByQueue    <- casesService.countCasesByQueue
+        casesByAssignee <- casesService.getCasesByAssignee(request.caseWorker, NoPagination())
         totalCasesAssignedToMe = casesByAssignee.results.count(c => c.status == CaseStatus.OPEN)
         referredCasesAssignedToMe = casesByAssignee.results.count(c =>
           c.status == CaseStatus.REFERRED || c.status == CaseStatus.SUSPENDED
@@ -53,7 +53,6 @@ class OperatorDashboardController @Inject()(
         completedCasesAssignedToMe = casesByAssignee.results.count(c => c.status == CaseStatus.COMPLETED)
       } yield Ok(
         operator_dashboard_classification(
-          casesByQueue,
           totalCasesAssignedToMe,
           referredCasesAssignedToMe,
           completedCasesAssignedToMe

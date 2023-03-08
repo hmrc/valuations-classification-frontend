@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import config.AppConfig
-@import avar2.models.CaseWorker
-@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+package avar2.views.components
 
-@(operator: CaseWorker, capitalise : Boolean = false)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
-@{
-    if(operator.id == request.caseWorker.id) {
-        if (capitalise) "You" else "you"
-    } else {
-        operator.safeName
-    }
+import play.twirl.api.Html
+
+case class RadioOption(
+  value: String,
+  label: String,
+  dataTarget: Option[String]             = None,
+  customHtml: Option[Html]               = None
+) {
+
 }
