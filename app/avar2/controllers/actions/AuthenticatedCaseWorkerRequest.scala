@@ -17,8 +17,6 @@
 package avar2.controllers.actions
 
 import avar2.models.CaseWorker
-import models.Operator
-import models.request.OperatorRequest
 import play.api.mvc.{Request, WrappedRequest}
 
 case class AuthenticatedCaseWorkerRequest[A](caseWorker: CaseWorker, _request: Request[A])

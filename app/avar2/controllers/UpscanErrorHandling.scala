@@ -16,9 +16,9 @@
 
 package avar2.controllers
 
-import models.forms.UploadAttachmentForm
-import models.request.AuthenticatedCaseRequest
-import models.response.UploadError
+import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+import avar2.forms.UploadAttachmentForm
+import avar2.models.response.UploadError
 import play.api.data.Form
 import play.api.mvc.Result
 import play.twirl.api.Html
@@ -34,7 +34,7 @@ trait UpscanErrorHandling { self: FrontendBaseController =>
 
   def handleUploadErrorAndRender(
                                   renderView: Form[String] => Future[Html]
-                                )(implicit request: AuthenticatedCaseRequest[_], ec: ExecutionContext): Future[Result] =
+                                )(implicit request: AuthenticatedCaseWorkerRequest[_], ec: ExecutionContext): Future[Result] =
     request
       .getQueryString(UpscanErrorCodeKey)
       .map { errorCode =>

@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package avar2.models.viewmodels
+package avar2.forms
 
-import avar2.models.response.FileStoreInitiateResponse
+import play.api.data.Form
 
+object TakeOwnerShipForm {
 
-case class AvarViewModel (caseViewModel: CaseViewModel,
+  val form: Form[Boolean] = MandatoryBooleanForm.form("take-ownership")
 
-                          applicantTab: ApplicantTabViewModel,
-
-                          goodsTab: GoodsTabViewModel,
-
-                          attachmentsTab: AttachmentsTabViewModel,
-
-                          initiateResponse: FileStoreInitiateResponse,
-
-                          primaryNavTab: PrimaryNavigationTab = MyCasesTab)
+}

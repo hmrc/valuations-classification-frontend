@@ -16,6 +16,8 @@
 
 package avar2.controllers
 
+import avar2.controllers.actions.AuthenticatedCaseWorkerAction
+import avar2.forms.TakeOwnerShipForm
 import avar2.models.CaseWorker
 import avar2.services.ValuationCaseService
 import cats.data.OptionT
@@ -36,17 +38,16 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class AssignCaseController @Inject()(
-                                        verify: RequestActions,
-                                        valuationCaseService: ValuationCaseService,
-                                        mcc: MessagesControllerComponents,
-                                        val assignCase: assign_case)(implicit ec: ExecutionContext, config: AppConfig) extends FrontendController(mcc)
+                                      verify: AuthenticatedCaseWorkerAction,
+                                      valuationCaseService: ValuationCaseService,
+                                      mcc: MessagesControllerComponents,
+                                      val assignCase: assign_case)(implicit ec: ExecutionContext, config: AppConfig) extends FrontendController(mcc)
   with WithUnsafeDefaultFormBinding with I18nSupport {
 
   private lazy val form: Form[Boolean] = TakeOwnerShipForm.form
 
   def show(reference: String): Action[AnyContent] =
-    verify.authenticated
-      .async { implicit request =>
+    verify.async { implicit request =>
         val result = for{
           vc <- OptionT(valuationCaseService.valuationCase(reference))
         } yield Ok(assignCase(CaseHeaderViewModel.fromCase(vc), vc, form))
@@ -54,10 +55,10 @@ class AssignCaseController @Inject()(
         result.getOrElse(Ok("unknown valuation case"))
       }
 
-  def assignOrViewCase(reference: String): Action[Boolean] =  verify.authenticated.async(parse.form(form)) { implicit request =>
+  def assignOrViewCase(reference: String): Action[Boolean] =  verify.async(parse.form(form)) { implicit request =>
        if(request.body){
          for{
-           _ <- valuationCaseService.assignCase(reference, CaseWorker(id= request.operator.id, role=Role.CLASSIFICATION_OFFICER))
+           _ <- valuationCaseService.assignCase(reference, request.caseWorker)
          } yield Redirect(avar2.controllers.routes.AvarController.show(reference))
        }else{
          Future.successful(Redirect(avar2.controllers.routes.AvarController.show(reference)))

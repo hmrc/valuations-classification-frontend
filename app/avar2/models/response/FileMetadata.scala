@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package avar2.models.viewmodels
+package avar2.models.response
 
-import avar2.models.response.FileStoreInitiateResponse
+case class FileMetadata(
+  id: String,
+  fileName: Option[String],
+  mimeType: Option[String],
+  url: Option[String]            = None,
+  scanStatus: Option[ScanStatus.Value] = None
+)
 
+object ScanStatus extends Enumeration {
+  type ScanStatus = Value
 
-case class AvarViewModel (caseViewModel: CaseViewModel,
-
-                          applicantTab: ApplicantTabViewModel,
-
-                          goodsTab: GoodsTabViewModel,
-
-                          attachmentsTab: AttachmentsTabViewModel,
-
-                          initiateResponse: FileStoreInitiateResponse,
-
-                          primaryNavTab: PrimaryNavigationTab = MyCasesTab)
+  val READY, FAILED = Value
+}

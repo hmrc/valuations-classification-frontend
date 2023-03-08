@@ -16,7 +16,7 @@
 
 package avar2.models.viewmodels
 
-import models.{Appeal, Case, CaseStatus}
+import avar2.models.{Appeal, CaseStatus, ValuationCase}
 
 case class AppealTabViewModel(
                                caseReference: String,
@@ -26,7 +26,7 @@ case class AppealTabViewModel(
 )
 
 object AppealTabViewModel {
-  def fromCase(cse: Case): Option[AppealTabViewModel] =
+  def fromCase(cse: ValuationCase): Option[AppealTabViewModel] =
     if (Set(CaseStatus.COMPLETED, CaseStatus.CANCELLED).contains(cse.status)) {
       val appeals     = cse.decision.map(_.appeal).getOrElse(Seq.empty)
       val extendedUse = cse.decision.flatMap(_.cancellation).exists(_.applicationForExtendedUse)

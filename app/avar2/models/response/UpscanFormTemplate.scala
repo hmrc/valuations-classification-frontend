@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package avar2.models.viewmodels
+package avar2.models.response
 
-import avar2.models.response.FileStoreInitiateResponse
+import play.api.libs.json.{Json, OFormat}
 
+case class UpscanFormTemplate(href: String, fields: Map[String, String])
 
-case class AvarViewModel (caseViewModel: CaseViewModel,
-
-                          applicantTab: ApplicantTabViewModel,
-
-                          goodsTab: GoodsTabViewModel,
-
-                          attachmentsTab: AttachmentsTabViewModel,
-
-                          initiateResponse: FileStoreInitiateResponse,
-
-                          primaryNavTab: PrimaryNavigationTab = MyCasesTab)
+object UpscanFormTemplate {
+  implicit val format: OFormat[UpscanFormTemplate] = Json.format[UpscanFormTemplate]
+}

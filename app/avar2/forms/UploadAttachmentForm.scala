@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package avar2.models.viewmodels
+package avar2.forms
 
-import avar2.models.response.FileStoreInitiateResponse
+import play.api.data.Form
+import play.api.data.Forms._
 
-
-case class AvarViewModel (caseViewModel: CaseViewModel,
-
-                          applicantTab: ApplicantTabViewModel,
-
-                          goodsTab: GoodsTabViewModel,
-
-                          attachmentsTab: AttachmentsTabViewModel,
-
-                          initiateResponse: FileStoreInitiateResponse,
-
-                          primaryNavTab: PrimaryNavigationTab = MyCasesTab)
+object UploadAttachmentForm {
+  val form: Form[String] = Form(
+    mapping(
+      "file" -> text
+    )(identity)(Some(_))
+  )
+}

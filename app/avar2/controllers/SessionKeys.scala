@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package avar2.models.viewmodels
+package avar2.controllers
 
-import avar2.models.response.FileStoreInitiateResponse
-
-
-case class AvarViewModel (caseViewModel: CaseViewModel,
-
-                          applicantTab: ApplicantTabViewModel,
-
-                          goodsTab: GoodsTabViewModel,
-
-                          attachmentsTab: AttachmentsTabViewModel,
-
-                          initiateResponse: FileStoreInitiateResponse,
-
-                          primaryNavTab: PrimaryNavigationTab = MyCasesTab)
+object SessionKeys {
+  val backToQueuesLinkUrl          = "back-to-queues-link-url"
+  val backToQueuesLinkLabel        = "back-to-queues-link-label"
+  val backToSearchResultsLinkUrl   = "back-to-search-results-link-url"
+  val backToSearchResultsLinkLabel = "back-to-search-results-link-label"
+}

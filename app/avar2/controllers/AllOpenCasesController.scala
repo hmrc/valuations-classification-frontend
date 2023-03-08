@@ -16,10 +16,9 @@
 
 package avar2.controllers
 
+import avar2.controllers.actions.AuthenticatedCaseWorkerAction
 import com.google.inject.Inject
 import config.AppConfig
-import controllers.RequestActions
-import models.Permission
 import avar2.models.viewmodels.CasesTabViewModel
 import play.api.i18n.I18nSupport
 import play.api.mvc._
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 
 
 class AllOpenCasesController @Inject() (
-                                         verify: RequestActions,
+                                         verify: AuthenticatedCaseWorkerAction,
                                          valuationCaseService: ValuationCaseService,
                                          mcc: MessagesControllerComponents,
                                          val openCasesView: open_cases_view,
@@ -41,7 +40,8 @@ class AllOpenCasesController @Inject() (
     with I18nSupport {
 
   def displayAllOpenCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab = avar2.models.viewmodels.AVaRTab): Action[AnyContent] =
-    (verify.authenticated andThen verify.mustHave(Permission.VIEW_QUEUE_CASES)).async { implicit request =>
+   // (verify.authenticated andThen verify.mustHave(Permission.VIEW_QUEUE_CASES))
+      verify.async { implicit request =>
       for {
         cases <- valuationCaseService.allOpenvaluationCases()
 

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package avar2.models.viewmodels
+package avar2.forms
 
-import avar2.models.response.FileStoreInitiateResponse
+import avar2.forms.FormConstraints.defined
+import play.api.data.Form
+import play.api.data.Forms._
 
+object MandatoryBooleanForm {
 
-case class AvarViewModel (caseViewModel: CaseViewModel,
+  def form(key: String = "errors"): Form[Boolean] = Form[Boolean](
+    mapping[Boolean, Boolean](
+      // Booleans aren't mandatory by default - Have to do similar to the below to enforce it is submitted
+      "state" -> optional(boolean).verifying(defined(s"$key.form.state.required")).transform(_.get, Some(_))
+    )(identity)(Some(_))
+  )
 
-                          applicantTab: ApplicantTabViewModel,
-
-                          goodsTab: GoodsTabViewModel,
-
-                          attachmentsTab: AttachmentsTabViewModel,
-
-                          initiateResponse: FileStoreInitiateResponse,
-
-                          primaryNavTab: PrimaryNavigationTab = MyCasesTab)
+}

@@ -17,28 +17,25 @@
 package avar2.controllers
 
 import avar2.controllers.AvarController.createViewModel
+import avar2.controllers.actions.AuthenticatedCaseWorkerAction
+import avar2.forms.UploadAttachmentForm
+import avar2.models.response.{FileMetadata, FileStoreInitiateResponse, ScanStatus, UpscanFormTemplate}
 import avar2.models.{Attachment, StoredAttachment, ValuationCase}
 import avar2.services.ValuationCaseService
 import cats.data.OptionT
 import config.AppConfig
-import controllers.RequestActions
 import avar2.models.viewmodels.{ApplicantTabViewModel, AttachmentsTabViewModel, AvarViewModel, CaseViewModel, GoodsTabViewModel}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import avar2.views.html.avar_view
-import models.forms.UploadAttachmentForm
-import models.response.{FileMetadata, FileStoreInitiateResponse, ScanStatus, UpscanFormTemplate}
 import play.api.data.Form
-
-import java.nio.file.FileStore
-import java.time.Instant
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
 @Singleton
 class AvarController @Inject()(
-                                 verify: RequestActions,
+                                verify: AuthenticatedCaseWorkerAction,
                                  mcc: MessagesControllerComponents,
                                  valuationCaseService: ValuationCaseService,
                                  avarView: avar_view,
@@ -51,7 +48,7 @@ class AvarController @Inject()(
   val form: Form[String] = UploadAttachmentForm.form
 
   def show(reference: String): Action[AnyContent] = {
-    verify.authenticated.async { implicit request =>
+    verify.async { implicit request =>
       val outcome = for{
         c <- OptionT(valuationCaseService.valuationCase(reference))
       } yield Ok(avarView(createViewModel(c), form))

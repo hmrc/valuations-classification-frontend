@@ -15,11 +15,12 @@
  *@
 
 @import config.AppConfig
-@import models.request.AuthenticatedRequest
 @import avar2.models.viewmodels.CasesTabViewModel
 @import avar2.views.html.components.{avarCaseTable, heading}
+@import play.api.i18n.Messages
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@(cases : CasesTabViewModel)(implicit request: AuthenticatedCaseWorkerRequest[_], appConfig: AppConfig, messages: Messages)
 
-@(cases : CasesTabViewModel)(implicit request: AuthenticatedRequest[_], appConfig: AppConfig, messages: Messages)
 
     @heading(messages(cases.headingMessageKey))
 

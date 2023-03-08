@@ -16,10 +16,10 @@
 
 package avar2.controllers.actions
 
+import avar2.connector.StrideAuthConnector
 import controllers.routes
 import avar2.models.{CaseWorker, Role}
 import config.AppConfig
-import connector.{BindingvaluationsClassificationConnector, StrideAuthConnector}
 import play.api.mvc.Results._
 import play.api.mvc._
 import play.api.{Configuration, Environment, Logging}
@@ -41,7 +41,6 @@ class AuthenticatedCaseWorkerAction @Inject()(
   override val config: Configuration,
   override val env: Environment,
   override val authConnector: StrideAuthConnector,
-  userConnector: BindingvaluationsClassificationConnector
 )(override implicit val executionContext: ExecutionContext)
     extends ActionBuilder[AuthenticatedCaseWorkerRequest, AnyContent]
     with AuthorisedFunctions
@@ -112,7 +111,7 @@ class AuthenticatedCaseWorkerAction @Inject()(
         )
       case e: AuthorisationException =>
         logger.info("Auth Failed", e)
-        Redirect(routes.SecurityController.unauthorized())
+        Redirect(avar2.controllers.routes.SecurityController.unauthorized())
     }
   }
 }

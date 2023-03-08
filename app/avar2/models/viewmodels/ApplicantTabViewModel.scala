@@ -16,8 +16,7 @@
 
 package avar2.models.viewmodels
 
-import avar2.models.{AgentDetails, Contact, EORIDetails, ValuationCase}
-import models.{ApplicationType, CaseStatus, Event, Paged}
+import avar2.models.{AgentDetails, CaseStatus, Contact, EORIDetails, Paged, ValuationCase}
 
 case class ApplicationTabViewModel(headingMessageKey: String, applicationTabs: List[ApplicationsTab])
 
@@ -32,11 +31,8 @@ case class ApplicantTabViewModel(
 
 case class ApplicationsTab(
                             tabMessageKey: String,
-                            applicationType: ApplicationType,
                             elementId: String,
-                            searchResult: Paged[ValuationCase],
-                            referralEvent: Option[Map[String, Event]]  = None,
-                            completedEvent: Option[Map[String, Event]] = None
+                            searchResult: Paged[ValuationCase]
                           )
 
 object ApplicantTabViewModel {
@@ -53,58 +49,12 @@ object ApplicantTabViewModel {
 
   def avar(
             searchResult: Paged[ValuationCase]                  = Paged.empty,
-            referralEvent: Option[Map[String, Event]]  = None,
-            completedEvent: Option[Map[String, Event]] = None
+
           ) =
     ApplicationsTab(
       "applicationTab.avar",
-      ApplicationType.AVAR,
       "avar_tab",
-      searchResult,
-      referralEvent,
-      completedEvent
-    )
-
-  def liability(
-                 searchResult: Paged[ValuationCase]                  = Paged.empty,
-                 referralEvent: Option[Map[String, Event]]  = None,
-                 completedEvent: Option[Map[String, Event]] = None
-               ) =
-    ApplicationsTab(
-      "applicationTab.liability",
-      ApplicationType.LIABILITY,
-      "liability_tab",
-      searchResult,
-      referralEvent,
-      completedEvent
-    )
-
-  def correspondence(
-                      searchResult: Paged[ValuationCase]                  = Paged.empty,
-                      referralEvent: Option[Map[String, Event]]  = None,
-                      completedEvent: Option[Map[String, Event]] = None
-                    ) =
-    ApplicationsTab(
-      "applicationTab.correspondence",
-      ApplicationType.CORRESPONDENCE,
-      "correspondence_tab",
-      searchResult,
-      referralEvent,
-      completedEvent
-    )
-
-  def miscellaneous(
-                     searchResult: Paged[ValuationCase]                  = Paged.empty,
-                     referralEvent: Option[Map[String, Event]]  = None,
-                     completedEvent: Option[Map[String, Event]] = None
-                   ) =
-    ApplicationsTab(
-      "applicationTab.miscellaneous",
-      ApplicationType.MISCELLANEOUS,
-      "miscellaneous_tab",
-      searchResult,
-      referralEvent,
-      completedEvent
+      searchResult
     )
 
   def assignedToMeCases(cases: Seq[ValuationCase]): ApplicationTabViewModel = {
@@ -121,10 +71,7 @@ object ApplicantTabViewModel {
     ApplicationTabViewModel(
       "applicationTab.assignedToMe",
       List(
-        avar(Paged(assignedCases)),
-        liability(Paged(liabilities)),
-        correspondence(Paged(isCorrespondence)),
-        miscellaneous(Paged(isMiscellaneous))
+        avar(Paged(assignedCases))
       )
     )
   }
@@ -134,19 +81,10 @@ object ApplicantTabViewModel {
     val referredCases =
       cases.filter(aCase => aCase.status == CaseStatus.REFERRED || aCase.status == CaseStatus.SUSPENDED)
 
-    val liabilities = referredCases.filter(_.isLiabilityOrder)
-
-    val isCorrespondence = referredCases.filter(_.isCorrespondence)
-
-    val isMiscellaneous = referredCases.filter(_.isMisc)
-
     ApplicationTabViewModel(
       "applicationTab.referredByMe",
       List(
-        avar(Paged(referredCases)),
-        liability(Paged(liabilities)),
-        correspondence(Paged(isCorrespondence)),
-        miscellaneous(Paged(isMiscellaneous))
+        avar(Paged(referredCases))
       )
     )
   }
@@ -155,20 +93,10 @@ object ApplicantTabViewModel {
 
     val completeByMe = cases.filter(aCase => aCase.status == CaseStatus.COMPLETED)
 
-    val liabilities = completeByMe.filter(_.isLiabilityOrder)
-
-    val isCorrespondence = completeByMe.filter(_.isCorrespondence)
-
-    val isMiscellaneous = completeByMe.filter(_.isMisc)
-
     ApplicationTabViewModel(
       "applicationTab.completedByMe",
       List(
-        avar(Paged(completeByMe), None),
-        liability(Paged(liabilities), None),
-        correspondence(Paged(isCorrespondence), None),
-        miscellaneous(Paged(isMiscellaneous), None)
-      )
+        avar(Paged(completeByMe)))
     )
   }
 
