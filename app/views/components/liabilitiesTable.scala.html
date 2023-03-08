@@ -16,11 +16,11 @@
 
 @import models.request.AuthenticatedRequest
 @import config.AppConfig
-@import models.viewmodels.avar.ApplicationsTab
-@import utils.Dates
+@import avar2.models.viewmodels.ApplicationsTab
+@import java.util.Date
 
 @import play.twirl.api.TemplateMagic.defining
-@import views.html.v2.case_status_tab
+@import avar2.views.html.case_status_tab
 
 @(liabilityTab: ApplicationsTab, assignmentType: String, captionMessage: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 @*

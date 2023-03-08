@@ -24,7 +24,7 @@ import play.api.data.Form
 import play.api.mvc._
 import service.{CasesService, QueuesService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2.confirmation_case_creation
+import avar2.views.html.confirmation_case_creation
 import views.html.{release_case, resource_not_found}
 
 import javax.inject.{Inject, Singleton}

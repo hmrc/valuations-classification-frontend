@@ -21,7 +21,7 @@ import models._
 import models.forms.v2.LiabilityDetailsForm
 import models.forms.{DecisionForm, DecisionFormData, DecisionFormMapper}
 import models.request.{AuthenticatedCaseRequest, AuthenticatedRequest}
-import models.viewmodels.avar.CaseHeaderViewModel
+import avar2.models.viewmodels.CaseHeaderViewModel
 import avar2.models.StoredAttachment
 import play.api.data.Form
 import play.api.i18n.I18nSupport
@@ -29,7 +29,7 @@ import play.api.mvc._
 import service.{CasesService, FileStoreService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.ruling_details_edit
-import views.html.v2.{edit_liability_ruling, liability_details_edit}
+import avar2.views.html.{edit_liability_ruling, liability_details_edit}
 
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
@@ -112,7 +112,7 @@ class RulingController @Inject() (
                       update <- casesService
                                  .updateCase(request.`case`, mapper.mergeFormIntoCase(c, validForm), request.operator)
                     } yield Redirect(
-                      v2.routes.AvarController.displayAvar(update.reference).withFragment(Tab.RULING_TAB.name)
+                      avar2.controllers.routes.AvarControllerV2.displayAvar(update.reference).withFragment(Tab.RULING_TAB.name)
                     )
                 )
 
@@ -128,7 +128,7 @@ class RulingController @Inject() (
                       update <- casesService
                                  .updateCase(request.`case`, c.copy(decision = Some(updatedDecision)), request.operator)
                     } yield Redirect(
-                      v2.routes.LiabilityController
+                      avar2.controllers.routes.LiabilityController
                         .displayLiability(update.reference)
                         .withFragment(Tab.RULING_TAB.name)
                     )

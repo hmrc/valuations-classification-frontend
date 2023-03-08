@@ -30,7 +30,7 @@ import service.{CasesService, QueuesService}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.v2._
+import avar2.views.html._
 import views.html.{case_not_found, release_case, resource_not_found}
 
 import javax.inject.{Inject, Singleton}
@@ -153,7 +153,7 @@ class CreateCorrespondenceController @Inject() (
           updatedCase =>
             casesService
               .updateCase(request.`case`, updatedCase, request.operator)
-              .map(_ => Redirect(v2.routes.CorrespondenceController.displayCorrespondence(reference)))
+              .map(_ => Redirect(avar2.controllers.routes.CorrespondenceController.displayCorrespondence(reference)))
         )
     }
 
@@ -184,7 +184,7 @@ class CreateCorrespondenceController @Inject() (
               .updateCase(request.`case`, updatedCase, request.operator)
               .map(_ =>
                 Redirect(
-                  v2.routes.CorrespondenceController.displayCorrespondence(reference).withFragment(Tab.CONTACT_TAB.name)
+                  avar2.controllers.routes.CorrespondenceController.displayCorrespondence(reference).withFragment(Tab.CONTACT_TAB.name)
                 )
               )
         )

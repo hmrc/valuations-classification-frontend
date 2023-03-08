@@ -18,7 +18,7 @@ package controllers
 
 import config.AppConfig
 import connector.DataCacheConnector
-import controllers.v2.UpscanErrorHandling
+import avar2.controllers.UpscanErrorHandling
 import models.forms.{AddNoteForm, UploadAttachmentForm}
 import models.request.{AuthenticatedCaseRequest, FileStoreInitiateRequest}
 import models.{Attachment, Permission, UserAnswers}

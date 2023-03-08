@@ -21,7 +21,7 @@ import java.util.UUID
 import javax.inject.{Inject, Singleton}
 import connector.DataCacheConnector
 import config.AppConfig
-import controllers.v2.UpscanErrorHandling
+import avar2.controllers.UpscanErrorHandling
 import models.{Attachment, Permission, UserAnswers}
 import models.forms.{AddNoteForm, UploadAttachmentForm}
 import models.request.{AuthenticatedCaseRequest, FileStoreInitiateRequest}

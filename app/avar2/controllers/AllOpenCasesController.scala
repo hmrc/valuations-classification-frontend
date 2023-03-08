@@ -20,7 +20,7 @@ import com.google.inject.Inject
 import config.AppConfig
 import controllers.RequestActions
 import models.Permission
-import models.viewmodels.avar.CasesTabViewModel
+import avar2.models.viewmodels.CasesTabViewModel
 import play.api.i18n.I18nSupport
 import play.api.mvc._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -40,7 +40,7 @@ class AllOpenCasesController @Inject() (
 ) extends FrontendController(mcc)
     with I18nSupport {
 
-  def displayAllOpenCases(activeSubNav: models.viewmodels.avar.SubNavigationTab = models.viewmodels.avar.AVaRTab): Action[AnyContent] =
+  def displayAllOpenCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab = avar2.models.viewmodels.AVaRTab): Action[AnyContent] =
     (verify.authenticated andThen verify.mustHave(Permission.VIEW_QUEUE_CASES)).async { implicit request =>
       for {
         cases <- valuationCaseService.allOpenvaluationCases()

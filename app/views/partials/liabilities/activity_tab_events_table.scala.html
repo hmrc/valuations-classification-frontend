@@ -17,7 +17,7 @@
 @import config.AppConfig
 @import models._
 @import models.request.AuthenticatedRequest
-@import utils.Dates
+@import java.util.Date
 @import views.html.partials.activity._
 @import views.html.partials.{assignee, progressive_disclosure}
 @import models.viewmodels.ActivityViewModel
@@ -153,7 +153,7 @@
                 }
                 </td>
 
-                <td id="activity-events-row-@{index}-date" class="govuk-table__cell">@Dates.format(event.timestamp)</td>
+                <td id="activity-events-row-@{index}-date" class="govuk-table__cell">@Date.from(event.timestamp)</td>
             </tr>
         }
     </tbody>

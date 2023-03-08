@@ -14,12 +14,13 @@
  * limitations under the License.
  *@
 
-@import models.{Case, Permission, StoredAttachment}
+@import models.{Case, Permission}
+@import avar2.models.StoredAttachment
 @import models.request.AuthenticatedRequest
-@import models.response.ScanStatus
-@import models.viewmodels.avar.AttachmentsTabViewModel
+@import avar2.models.viewmodels.AttachmentsTabViewModel
 @import views.html.partials.attachment_avar
-@import controllers.v2.routes.AttachmentsController
+@import models.response.ScanStatus
+@import avar2.controllers.routes.AttachmentsController
 
 
 @(id: String,

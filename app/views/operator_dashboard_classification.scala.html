@@ -17,8 +17,7 @@
 @import config.AppConfig
 @import models.request.AuthenticatedRequest
 @import views.html.includes.main
-@import models.viewmodels.avar.HomeTab
-@import play.twirl.api.Html
+@import avar2.models.viewmodels.HomeTab
 @import layouts.full_main_content_layout
 
 @this(
@@ -45,5 +44,5 @@
  optCustomLayout = Some(fullMainContent(_)),
  additionalCSS = Some(additionalCSS)
 ) {
-  @components.cases_cards(casesByTeam, totalCasesAssignedToMe, referredCasesAssignedToMe, completedCasesAssignedToMe)
+  @avar2.views.html.components.cases_cards(casesByTeam, totalCasesAssignedToMe, referredCasesAssignedToMe, completedCasesAssignedToMe)
 }

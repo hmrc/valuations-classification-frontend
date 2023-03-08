@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.v2
+@import avar2.controllers
 @import models.Permission
 @import avar2.models.StoredAttachment
 @import models.request.AuthenticatedRequest
@@ -85,7 +85,7 @@
                                 caseRef.nonEmpty &&
                                 request.hasPermission(Permission.REMOVE_ATTACHMENTS)) {
                                 <td id="@{id}-row-@{index}-remove"  class="govuk-table__cell">
-                                    <a class="govuk-link" @if(startAtTabIndex.isDefined){tabindex="@{startAtTabIndex.get+2+(2*index)}"} id="@{id}-row-@{index}-remove-link" href='@v2.routes.AttachmentsController.removeAttachment(caseRef, file.id, file.fileName.getOrElse("New Attachment"))'>
+                                    <a class="govuk-link" @if(startAtTabIndex.isDefined){tabindex="@{startAtTabIndex.get+2+(2*index)}"} id="@{id}-row-@{index}-remove-link" href='@avar2.controllers.routes.AttachmentsController.removeAttachment(caseRef, file.id, file.fileName.getOrElse("New Attachment"))'>
                                         <span aria-hidden="true">@messages("case.attachment.remove.file.text")</span>
                                         <span class="govuk-visually-hidden">@messages("case.attachment.remove.file.hidden.text",file.fileName.getOrElse("New Attachment"))</span>
                                     </a>

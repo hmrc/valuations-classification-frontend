@@ -18,7 +18,7 @@
 @import controllers.{Tab, routes}
 @import models.request.AuthenticatedRequest
 @import models.{Application, BTIApplication, Case, EORIDetails, StoredAttachment}
-@import models.viewmodels.avar.GoodsTabViewModel
+@import avar2.models.viewmodels.GoodsTabViewModel
 @import views.html.partials._
 
 @(goods: GoodsTabViewModel, startAtTabIndex: Int = 0)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)

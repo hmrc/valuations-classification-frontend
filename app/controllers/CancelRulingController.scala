@@ -18,7 +18,7 @@ package controllers
 
 import config.AppConfig
 import connector.DataCacheConnector
-import controllers.v2.UpscanErrorHandling
+import avar2.controllers.UpscanErrorHandling
 import models._
 import models.forms.{CancelRulingForm, UploadAttachmentForm}
 import models.request.{AuthenticatedCaseRequest, FileStoreInitiateRequest}

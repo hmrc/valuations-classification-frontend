@@ -17,13 +17,13 @@
 @import config.AppConfig
 @import controllers.routes.CompleteCaseController
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.avar.NoTabSelected
+@import avar2.models.viewmodels.NoTabSelected
 @import models.{BTIApplication, Case}
 @import views.forms.components.RadioOption
 @import views.html.forms.components.input_radiogroup
 @import views.html.includes.main
 @import views.html.partials.{case_heading, back_link, error_summary}
-@import utils.Dates
+@import java.util.Date
 
 @import java.time.LocalDate
 
@@ -55,7 +55,7 @@
 
         <p class="govuk-body govuk-!-margin-top-9">When this case is completed:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>a ruling certificate will be created and will expire on @{Dates.format(endDate)}</li>
+            <li>a ruling certificate will be created and will expire on @{Date.from(endDate.get)}</li>
             <li>a ruling will be added to the holder's account</li>
             <li>a ruling will be published to the Search for Advance Valuations Rulings website</li>
             <li>a notification email will be sent to the holder</li>

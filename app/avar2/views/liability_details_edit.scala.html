@@ -1,0 +1,231 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import config.AppConfig
+@import controllers.Tab
+@import avar2.controllers.routes.LiabilityController
+@import helper._
+@import models.request.AuthenticatedRequest
+@import avar2.models.viewmodels._
+@import models.{Case, LiabilityOrder}
+@import views.html.components.confirm_or_cancel_buttons
+@import views.html.forms.components._
+@import views.html.includes.main
+@import views.html.partials.{case_heading, back_link, error_summary}
+
+@this(
+        main: main,
+        backLink: back_link
+)
+
+
+@(c: Case, form : Form[Case], primaryNavTab : PrimaryNavigationTab = NoTabSelected)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+
+@main(
+    pageTitle = messages("case.liability.edit.title"),
+    customPrimaryNavTab = NoTabSelected,
+    backLink = Some(backLink())
+) {
+
+    @error_summary(form.errors, keySwaps = Map("dateOfReceipt" -> "dateOfReceipt_day", "entryDate" -> "entryDate_day"))
+
+    <div class="govuk-form-group">
+    @case_heading( c, messageKey = Some("case.v2.liability.c592.edit_details.heading"))
+    </div>
+    @defining(c.application.asLiabilityOrder) { liability: LiabilityOrder =>
+        <div class="govuk-form-group">
+
+            @helper.form(action = LiabilityController.postLiabilityDetails(c.reference), 'class -> "form" , Symbol("id") -> "liability-details-edit-form", Symbol("novalidate") -> "novalidate") {
+
+                @CSRF.formField
+
+                <h3 class="govuk-heading-m">@messages("case.v2.liability.c592.details_edit.information")</h3>
+
+                @input_text(
+                    field = form("goodName"),
+                    label = messages("case.liability.edit.goods-name"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_text(
+                    field = form("entryNumber"),
+                    label = messages("case.v2.liability.c592.details_edit.entry_number"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_date(
+                    dayField = form("dateOfReceipt.day"),
+                    monthField = form("dateOfReceipt.month"),
+                    yearField = form("dateOfReceipt.year"),
+                    dateField = form("dateOfReceipt"),
+                    fieldsetId = Some("dateOfReceipt-fieldset"),
+                    hint = Some(messages("case.v2.liability.c592.details_edit.date_of_receipt_hint")),
+                    legend = messages("case.v2.liability.c592.details_edit.date_of_receipt"),
+                    formControlUnBold = true,
+                    inputClass = Some("width-one-third")
+                )
+
+                @input_date(
+                    dayField = form("entryDate.day"),
+                    monthField = form("entryDate.month"),
+                    yearField = form("entryDate.year"),
+                    dateField = form("entryDate"),
+                    fieldsetId = Some("entryDate-fieldset"),
+                    hint = Some(messages("case.v2.liability.c592.details_edit.date_hint")),
+                    legend = messages("case.v2.liability.c592.details_edit.date_p"),
+                    formControlUnBold = true,
+                    inputClass = Some("width-one-third")
+                )
+
+                @input_text(
+                    field = form("btiReference"),
+                    label = messages("case.v2.liability.c592.bti_case"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @repayment_input_checkbox(formData = form)
+
+                <h3 class="govuk-heading-m">@messages("case.v2.liability.c592.trader_information")</h3>
+
+                @input_text(
+                    field = form("traderName"),
+                    label = messages("case.liability.edit.trader-name"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_text(
+                    field = form("traderEmail"),
+                    label = messages("case.v2.liability.c592.trader_email"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_number(
+                    field = form("traderPhone"),
+                    label = messages("case.v2.liability.c592.trader_telephone"),
+                    inputClass = Some("width-one-half"),
+                    labelClass= Some("un-bold")
+                )
+
+                <h3 class="govuk-heading-m">@messages("case.v2.liability.c592.trader_address")</h3>
+
+                @input_text(
+                    field = form("traderBuildingAndStreet"),
+                    label = messages("case.v2.liability.c592.trader_building_and_street"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_text(
+                    field = form("traderTownOrCity"),
+                    label = messages("case.v2.liability.c592.trader_town_or_city"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_text(
+                    field = form("traderCounty"),
+                    label = messages("case.v2.liability.c592.trader_county"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_text(
+                    field = form("traderPostcode"),
+                    label = messages("case.v2.liability.c592.trader_postcode"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_text(
+                    field = form("agentName"),
+                    label = messages("case.v2.liability.c592.agent_name"),
+                    inputClass = Some("width-one-half"),
+                    labelClass= Some("un-bold")
+                )
+
+
+                @if(c.dateOfExtract.isDefined) {
+
+                    @input_text(
+                        field = form("boardsFileNumber"),
+                        label = messages("case.v2.liability.c592.boards_file_number"),
+                        inputClass = Some("width-one-half"),
+                        disableAutoComplete = true
+                    )
+
+                }
+
+                <h3 class="govuk-heading-m">@messages("case.liability.edit.commodity-code.information")</h3>
+
+                @input_text(
+                    field = form("traderCommodityCode"),
+                    label = messages("case.liability.edit.commodity-code.trader"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_text(
+                    field = form("officerCommodityCode"),
+                    label = messages("case.liability.edit.commodity-code.officer"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                <h3 class="govuk-heading-m">@messages("case.liability.edit.contact.information")</h3>
+
+                @input_text(
+                    field = form("contact.contactName"),
+                    label = messages("case.liability.edit.contact.name"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_text(
+                    field = form("contact.contactEmail"),
+                    label = messages("case.liability.edit.contact.email"),
+                    inputClass = Some("width-one-half"),
+                    disableAutoComplete = true
+                )
+
+                @input_number(
+                    field = form("contact.contactPhone"),
+                    label = messages("case.liability.edit.contact.phone"),
+                    inputClass = Some("width-one-half"),
+                    labelClass= Some("un-bold")
+                )
+
+                @input_text(
+                    field = form("port"),
+                    label = messages("case.v2.liability.c592.port"),
+                    inputClass = Some("width-one-half"),
+                    labelClass= Some("un-bold")
+                )
+
+                @confirm_or_cancel_buttons(
+                    id = "edit_liability_details",
+                    confirmText = messages("case.v2.liability.c592.details_edit.save_and_continue_button"),
+                    cancelText = messages("case.v2.liability.c592.details_edit.cancel_button"),
+                    cancelHref = avar2.controllers.routes.LiabilityController.displayLiability(c.reference).withFragment(Tab.C592_TAB.name)
+                )
+            }
+        </div>
+    }
+}

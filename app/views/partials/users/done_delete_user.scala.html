@@ -15,19 +15,14 @@
  *@
 
 @import config.AppConfig
-@import controllers.v2.routes
+@import avar2.controllers.routes
 @import models.request.AuthenticatedRequest
-@import models.viewmodels.avar.NoTabSelected
+@import avar2.models.viewmodels.NoTabSelected
 @import views.html.includes.main
 
-@this(
-        main: main
-)
+@this(main: main)
 
-
-@(
-        user: String
-)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@(user: String)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
 
 @main(
  pageTitle = messages("users.user.delete.done", user),
