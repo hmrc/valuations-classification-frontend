@@ -1,0 +1,110 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import avar2.views.components.RadioOption
+@import play.twirl.api.TwirlFeatureImports.defining
+@(
+        field: Field,
+        options: Seq[RadioOption],
+        allowNone: Boolean = false,
+        inputClass: Option[String] = None,
+        hint: Option[String] = None,
+        label : Option[String] = None,
+        labelClass: Option[String] = None,
+        id: String = "radio_option_group",
+        preSelect : Boolean = true,
+        customErrorMessage : Option[String] = None,
+        customGroupId : Option[String] = None,
+        contentHtml : Option[Html] = None,
+        customOtherOptions: Seq[RadioOption] = Seq(),
+        ariaDescribedBy: Option[String] = None,
+        legendAsPageHeading: Boolean = false,
+        headingCaption: Option[String] = None
+)(implicit messages: Messages)
+
+<div class="govuk-form-group @if(field.hasErrors){govuk-form-group--error}" @{customGroupId.map(x => s"id=$x").getOrElse(s"id=${field.id}")}>
+
+    <fieldset @{ariaDescribedBy.map(aria => s"aria-describedby=$aria")} class="govuk-fieldset">
+
+        @if(legendAsPageHeading) {
+            <legend class="govuk-fieldset__legend @if(legendAsPageHeading){govuk-fieldset__legend--xl}">
+                @if(headingCaption.isDefined){
+                    <span class="govuk-caption-xl">@headingCaption.get</span>
+                }
+                <h1 class="govuk-fieldset__heading">
+                    @label
+                </h1>
+            </legend>
+        } else {
+            <legend class="govuk-fieldset__legend">
+                <span class="@labelClass">@label</span>
+            </legend>
+        }
+        @if(hint.nonEmpty){
+            <span class="govuk-hint" id="@{field.id}-hint">@hint</span>
+        }
+
+        @field.errors.headOption.map { error =>
+            <span class="govuk-error-message" id="error-message-@{field.id}-input">
+                <span class="govuk-visually-hidden">@messages("error.browser.title.prefix")</span>@customErrorMessage.getOrElse( messages(error.message, error.args: _*))
+            </span>
+        }
+
+        @contentHtml.map {content => @content}
+
+        @if(allowNone) {
+            <div class="govuk-radios">
+                <div class="govuk-radios__item">
+                    <input id="@id-none" type="radio" name="@{field.name}" class="govuk-radios__input" value="" @if((field.value.isEmpty || field.value.contains("")) && preSelect){checked="checked"}>
+                    <label id="@id-none-label" class="govuk-label govuk-radios__label" for="@id-none">None</label>
+                </div>
+            </div>
+        }
+
+        <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+            @for(option: RadioOption <- options) {
+                @defining(option.value.replace(" ", "_")) { optionId: String =>
+                    <div class="govuk-radios__item">
+                        <input id="@id-@optionId" type="radio" name="@{field.name}" value="@option.value" @if(option.customHtml.isDefined){data-aria-controls="@{option.dataTarget.get}"} class="govuk-radios__input" @if(field.value.contains(option.value) && preSelect){checked="checked"}>
+                        <label id="@id-@optionId-label" class="govuk-label govuk-radios__label" for="@id-@optionId">@option.label</label>
+                    </div>
+                    @if(option.customHtml.isDefined) {
+                        <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="@{option.dataTarget.get}" aria-hidden="false">
+                            @option.customHtml.get
+                        </div>
+                    }
+                }
+            }
+        </div>
+
+        @if(customOtherOptions.nonEmpty){
+            <div class="govuk-radios__divider">or</div>
+            @for(option: RadioOption <- customOtherOptions) {
+                @defining(option.value.replace(" ", "_")) { optionId: String =>
+                    <div class="govuk-radios__item">
+                        <input id="@id-@optionId" type="radio" name="@{field.name}" value="@option.value" @if(option.customHtml.isDefined){data-aria-controls="@{option.dataTarget.get}"} class="govuk-radios__input" @if(field.value.contains(option.value) && preSelect){checked="checked"}>
+                        <label id="@id-@optionId-label" class="govuk-label govuk-radios__label" for="@id-@optionId">@option.label</label>
+                    </div>
+                    @if(option.customHtml.isDefined) {
+                        <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="@{option.dataTarget.get}" aria-hidden="false">
+                        @option.customHtml.get
+                        </div>
+                    }
+                }
+            }
+        }
+    </fieldset>
+</div>

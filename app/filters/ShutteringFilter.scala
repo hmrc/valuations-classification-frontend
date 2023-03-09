@@ -21,7 +21,7 @@ import com.google.inject.{Inject, Singleton}
 import play.api.mvc.Results.ServiceUnavailable
 import play.api.mvc._
 import config.AppConfig
-import views.html.shutterPage
+import avar2.views.html.shutterPage
 
 import scala.concurrent.Future
 

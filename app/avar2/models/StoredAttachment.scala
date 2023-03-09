@@ -16,8 +16,8 @@
 
 package avar2.models
 
-import models.response.FileMetadata
-import models.response.ScanStatus.ScanStatus
+import avar2.models.response.FileMetadata
+import avar2.models.response.ScanStatus.ScanStatus
 import play.twirl.api.Html
 import utils.Dates
 
@@ -68,7 +68,7 @@ case class StoredAttachment(
 object StoredAttachment {
   def apply(attachment: Attachment, metadata: FileMetadata): StoredAttachment = {
     require(attachment.id == metadata.id, "Cannot combine different attachments")
-    StoredAttachment(
+    new StoredAttachment(
       id                     = attachment.id,
       public                 = attachment.public,
       operator               = attachment.caseWorker,

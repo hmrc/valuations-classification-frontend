@@ -15,12 +15,12 @@
  *@
 
 @import config.AppConfig
-@import models.request.AuthenticatedRequest
 @import avar2.models.CaseWorker
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 
-@(operator: CaseWorker, capitalise : Boolean = false)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@(operator: CaseWorker, capitalise : Boolean = false)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 @{
-    if(operator.id == request.operator.id) {
+    if(operator.id == request.caseWorker.id) {
         if (capitalise) "You" else "you"
     } else {
         operator.safeName

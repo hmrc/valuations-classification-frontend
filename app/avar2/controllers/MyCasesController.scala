@@ -17,27 +17,23 @@
 package avar2.controllers
 
 import akka.stream.Materializer
+import avar2.controllers.actions.{AuthenticatedCaseWorkerAction, AuthenticatedCaseWorkerRequest}
 import avar2.models.CaseWorker
 import avar2.services.ValuationCaseService
 import com.google.inject.Inject
 import config.AppConfig
-import controllers.RequestActions
-import models.{NoPagination, Permission}
-import models.request.AuthenticatedRequest
 import avar2.models.viewmodels._
 import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import service.{CasesService, EventsService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import avar2.views.html.my_cases_view
 
 import scala.concurrent.ExecutionContext
 
 class MyCasesController @Inject() (
-                                    verify: RequestActions,
-                                    casesService: ValuationCaseService,
-                                    eventsService: EventsService,
+                                    verify: AuthenticatedCaseWorkerAction,
+                                    valuationCaseService: ValuationCaseService,
                                     mcc: MessagesControllerComponents,
                                     val myCasesView: my_cases_view
                                   )(
@@ -50,10 +46,11 @@ class MyCasesController @Inject() (
   implicit val ec: ExecutionContext = mat.executionContext
 
   def displayMyCases(activeSubNav: AvarSubNavigationTab = AssignedToMeTab): Action[AnyContent] =
-    (verify.authenticated andThen verify.mustHave(Permission.VIEW_MY_CASES)).async {
-      implicit request: AuthenticatedRequest[AnyContent] =>
+    //(verify.authenticated andThen verify.mustHave(Permission.VIEW_MY_CASES))
+      verify.async {
+      implicit request: AuthenticatedCaseWorkerRequest[AnyContent] =>
         for {
-          cases <- casesService.findCasesByAssignee(CaseWorker.operatorToCaseWorker(request.operator))
+          cases <- valuationCaseService.findCasesByAssignee(request.caseWorker)
           caseReferences = cases.results.map(_.reference).toSet
           myCaseStatuses = activeSubNav match {
             case AssignedToMeTab  => ApplicantTabViewModel.assignedToMeCases(cases.results)

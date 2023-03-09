@@ -17,7 +17,6 @@
 package avar2.models
 
 import cats.syntax.all._
-import models.BinderUtil
 import play.api.mvc.QueryStringBindable
 
 trait Pagination {

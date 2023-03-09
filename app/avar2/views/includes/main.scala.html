@@ -14,17 +14,18 @@
  * limitations under the License.
  *@
 
-@import models.request.AuthenticatedRequest
 @import avar2.models.viewmodels.{NoTabSelected, PrimaryNavigationTab}
 @import avar2.views.html.includes.govuk_wrapper
 @import avar2.views.html.components.valuations_primary_navigation
 @import config.AppConfig
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 
 @this(
         config: AppConfig,
         govukWrapper: govuk_wrapper,
         primary_navigation: valuations_primary_navigation
 )
+
 @(
         pageTitle: String,
         backLink: Option[Html] = None,
@@ -34,7 +35,7 @@
         endOfBodyJS: Option[Html] = None,
         customPrimaryNavTab: PrimaryNavigationTab = NoTabSelected,
         subNavigationTab: Option[Html] = None
-)(contentBlock: Html)(implicit request: AuthenticatedRequest[_], messages: Messages)
+)(contentBlock: Html)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages)
 
 @head = {
 @additionalJS.getOrElse({})
@@ -46,7 +47,7 @@
 
 @beforeContentBlock = {
   <div>
-    @if(request.hasPermission(Permission.VIEW_MY_CASES)) {
+    @if(true /*request.hasPermission(Permission.VIEW_MY_CASES)*/) {
       @primary_navigation(customPrimaryNavTab)
       @subNavigationTab.getOrElse({})
     }

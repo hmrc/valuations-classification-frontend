@@ -17,7 +17,6 @@
 package avar2.models.viewmodels
 
 import avar2.models.{Contact, ValuationCase}
-import models.Case
 
 case class CaseHeaderViewModel(
   businessName: Option[String],
@@ -41,14 +40,4 @@ object CaseHeaderViewModel {
       c.dateOfExtract.isDefined
     )
 
-  def fromOldCase(c: Case): CaseHeaderViewModel = {
-    CaseHeaderViewModel(
-      businessName = c.application.businessName,
-      goodsName = c.application.goodsName,
-      referenceNumber = c.reference,caseSource = None,
-      contact = avar2.models.Contact(c.application.contact.name, c.application.contact.email, c.application.contact.phone),
-      caseStatus = CaseStatusViewModel(None, None, None),
-      isMigrated = false
-      )
-  }
 }

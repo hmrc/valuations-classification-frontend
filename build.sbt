@@ -50,23 +50,6 @@ lazy val microservice = (project in file("."))
       "play.twirl.api.HtmlFormat"
     )
   )
-  .settings(
-    RoutesKeys.routesImport ++= Seq(
-      "models.Sort",
-      "models.Search",
-      "models.ApplicationType",
-      "models.viewmodels.AssignedToMeTab",
-      "models.viewmodels.AVaRTab",
-      "models.viewmodels.SubNavigationTab",
-      "models.viewmodels.ManagerToolsReportsTab",
-      "models.viewmodels.ManagerToolsUsersTab",
-      "models.viewmodels.ManagerToolsKeywordsTab",
-      "avar2.models.viewmodels.AvarSubNavigationTab",
-      "avar2.models.viewmodels.ManagerToolsReportsTab",
-      "avar2.models.viewmodels.ManagerToolsUsersTab",
-      "avar2.models.viewmodels.ManagerToolsKeywordsTab"
-    )
-  )
   .configs(IntegrationTest)
   .settings(inConfig(IntegrationTest)(ScalafmtPlugin.scalafmtConfigSettings))
   .settings(inConfig(TemplateItTest)(Defaults.itSettings): _*)

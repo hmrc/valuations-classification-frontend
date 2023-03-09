@@ -15,17 +15,14 @@
  *@
 
 @import avar2.models.{StoredAttachment}
-@import models.request.AuthenticatedRequest
-@import models.response.ScanStatus
 @import avar2.models.viewmodels.AttachmentsTabViewModel
 @import avar2.views.html.partials.valuation_attachment_avar
-@import avar2.controllers.routes.AttachmentsController
-
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 
 @(id: String,
   attachments: AttachmentsTabViewModel,
   startAtTabIndex : Option[Int] = None
-)(implicit request: AuthenticatedRequest[_], messages: Messages)
+)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages)
 
 @if(attachments.allAttachments.nonEmpty){
     <table id="@{id}-table" class="govuk-table">
@@ -65,7 +62,7 @@
                         @if(file.scanStatus.isEmpty) {
                             <span id="@id" class="govuk-tag govuk-tag--blue">@messages("case.attachment.upload.status-processing")</span>
                             <span id="@id" class="refresh-content">@messages("case.attachment.refresh.content")</span>
-                        } else if(file.scanStatus.contains(ScanStatus.FAILED)) {
+                        } else if(file.scanStatus.contains(avar2.models.response.ScanStatus.FAILED)) {
                         <span id="@id" class="govuk-tag govuk-tag--red">@messages("case.attachment.upload.status-failed")</span>
                         } else {
                         @{(file.public, file.shouldPublishToRulings) match {
@@ -78,6 +75,7 @@
                         }}
                         }
                     </td>
+                  @*
                     <td id="@{id}-row-@{index}-remove" class="govuk-table__cell">
                         @if(attachments.caseReference.nonEmpty
                                 && file.operator.isDefined
@@ -89,6 +87,7 @@
                                 </a>
                         }
                     </td>
+                  *@
                 </tr>
             }
         </tbody>

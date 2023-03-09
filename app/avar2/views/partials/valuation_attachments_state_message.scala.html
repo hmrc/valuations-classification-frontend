@@ -15,8 +15,9 @@
  *@
 
 @import avar2.models.StoredAttachment
-@import models.response.ScanStatus
 @import utils.Dates
+@import avar2.models.response.ScanStatus
+
 @(attachments: Seq[StoredAttachment], autoRefresh: Boolean = false, displayStateMessage : Boolean = true)(implicit messages: Messages)
 
 @if(displayStateMessage) {

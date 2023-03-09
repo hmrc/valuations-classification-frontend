@@ -15,12 +15,12 @@
  *@
 
 @import config.AppConfig
-@import models.request.AuthenticatedRequest
 @import avar2.views.html.includes.main
 @import avar2.models.viewmodels.HomeTab
 @import play.twirl.api.Html
 @import avar2.views.html.layouts.full_main_content_layout
 @import avar2.views.html.components
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 
 @this(
         main: main,
@@ -29,11 +29,10 @@
 
 
 @(
-        casesByTeam: Map[(Option[String], ApplicationType), Int],
         totalCasesAssignedToMe: Int,
         referredCasesAssignedToMe: Int,
         completedCasesAssignedToMe: Int
-)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 
 
 @additionalCSS = {
@@ -46,5 +45,5 @@
  optCustomLayout = Some(fullMainContent(_)),
  additionalCSS = Some(additionalCSS)
 ) {
-  @components.cases_cards(casesByTeam, totalCasesAssignedToMe, referredCasesAssignedToMe, completedCasesAssignedToMe)
+  @components.cases_cards(totalCasesAssignedToMe, referredCasesAssignedToMe, completedCasesAssignedToMe)
 }

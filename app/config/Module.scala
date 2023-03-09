@@ -18,17 +18,15 @@ package config
 
 import avar2.services.{ArsValuationCaseService, ValuationCaseService}
 import com.google.inject.AbstractModule
-import connector.{DataCacheConnector, MongoCacheConnector}
-import controllers.actions._
 
 class Module extends AbstractModule {
 
   override def configure(): Unit = {
 
     // Bind the actions for DI
-    bind(classOf[DataRetrievalAction]).to(classOf[DataRetrievalActionImpl]).asEagerSingleton()
-    bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
-    bind(classOf[DataCacheConnector]).to(classOf[MongoCacheConnector]).asEagerSingleton()
+//    bind(classOf[DataRetrievalAction]).to(classOf[DataRetrievalActionImpl]).asEagerSingleton()
+//    bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
+//    bind(classOf[DataCacheConnector]).to(classOf[MongoCacheConnector]).asEagerSingleton()
     bind(classOf[ValuationCaseService]).to(classOf[ArsValuationCaseService]).asEagerSingleton()
   }
 }

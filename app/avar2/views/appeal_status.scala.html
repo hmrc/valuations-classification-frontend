@@ -14,8 +14,10 @@
  * limitations under the License.
  *@
 
-@import models._
-
+@import avar2.models.Decision
+@import avar2.models.Appeal
+@import avar2.models.AppealStatus
+@import play.twirl.api.TwirlFeatureImports.defining
 @(decision: Option[Decision], id: String)
 
 @defining(Appeal.highestAppealFromDecision(decision)) { appeal: Option[Appeal] =>

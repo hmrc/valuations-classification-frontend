@@ -1,0 +1,26 @@
+->          /hmrc-frontend                                       hmrcfrontend.Routes
+
+# microservice specific routes
+
+GET         /assets/*file                                       controllers.Assets.at(path="/public", file)
+
+GET         /unauthorized                                       avar2.controllers.SecurityController.unauthorized()
+
+GET         /keep-alive                                         avar2.controllers.SecurityController.keepAlive()
+
+GET         /                                                   avar2.controllers.IndexController.get()
+
+
+
+GET         /cases                                              controllers.Default.redirect(to = avar2.controllers.routes.IndexController.get.url)
+GET         /cases/:reference                                   avar2.controllers.AvarController.show(reference: String)
+
+GET         /cases/:reference/assign                            avar2.controllers.AssignCaseController.show(reference: String)
+POST        /cases/:reference/assign                            avar2.controllers.AssignCaseController.assignOrViewCase(reference: String)
+
+GET        /operator-dashboard-classification                   avar2.controllers.OperatorDashboardController.onPageLoad
+
+
+GET        /my-cases                                            avar2.controllers.MyCasesController.displayMyCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AssignedToMeTab)
+
+GET        /all-open-cases                                      avar2.controllers.AllOpenCasesController.displayAllOpenCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AVaRTab)

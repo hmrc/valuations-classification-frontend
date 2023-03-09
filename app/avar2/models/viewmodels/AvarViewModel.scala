@@ -16,7 +16,7 @@
 
 package avar2.models.viewmodels
 
-import models.response.FileStoreInitiateResponse
+import avar2.models.response.FileStoreInitiateResponse
 
 
 case class AvarViewModel (caseViewModel: CaseViewModel,

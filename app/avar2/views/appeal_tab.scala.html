@@ -16,12 +16,15 @@
 
 @import config.AppConfig
 @import avar2.models.viewmodels.AppealTabViewModel
-@import models.request.AuthenticatedRequest
-@import views.html.partials.tab_heading
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@import avar2.views.html.partials.tab_heading
+@import avar2.models.Appeal
+@import play.twirl.api.TwirlFeatureImports.defining
+@import avar2.models.AppealType
+@import avar2.models.AppealStatus
 
 @this()
-
-@(appealTabViewModel: AppealTabViewModel)(implicit request: AuthenticatedRequest[_], messages: Messages, appConfig: AppConfig)
+@(appealTabViewModel: AppealTabViewModel)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 
 @tab_heading("appeal", messages("case.menu.appeal"))
 
@@ -45,9 +48,12 @@
     @AppealStatus.format(appeal.`type`, appeal.status)
     </td>
     <td class="govuk-table__cell">
+      Appeal case here
+      @*
     @if(request.hasPermission(Permission.APPEAL_CASE)) {
      <a id="appeal_details-@{index}-change-status" class="govuk-link" aria-label="Change status of @AppealType.format(appeal.`type`) " href="@routes.AppealCaseController.changeStatus(appealTabViewModel.caseReference, appeal.id)">Change</a>
     }
+      *@
     </td>
    </tr>
   }
@@ -55,6 +61,7 @@
  </table>
 }
 
+@*
 @if(request.hasPermission(Permission.APPEAL_CASE)) {
  <a id="appeal_details-add_new" class="govuk-button" role="button" href="@routes.AppealCaseController.chooseType(appealTabViewModel.caseReference)">@messages("case.v2.liability.appeal_tab.add_review_or_appeal")</a>
 }
@@ -82,3 +89,4 @@
   </dl>
  </div>
 }
+ *@
