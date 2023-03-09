@@ -20,6 +20,8 @@
 @import avar2.views.html.layouts.full_main_content_layout
 @import avar2.views.html.includes.main
 @import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@import avar2.views.html.components.heading
+@import avar2.views.html.components.my_cases_tab
 
 @this(
         main: main,
@@ -36,10 +38,7 @@
  subNavigationTab = Some(my_cases_secondary_nav(activeSubNav)),
  optCustomLayout = Some(fullMainContent(_))
 ) {
-   fix my cases
-  @*
  @heading(messages(myCases.headingMessageKey))
 
  @my_cases_tab(myCases)
-  *@
 }
