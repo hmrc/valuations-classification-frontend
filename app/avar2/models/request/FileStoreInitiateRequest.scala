@@ -14,29 +14,19 @@
  * limitations under the License.
  */
 
-package avar2.models.response
+package avar2.models.request
 
 import play.api.libs.json.{Json, OFormat}
 
-object ScanStatus extends Enumeration {
-  type ScanStatus = Value
-
-  val READY, FAILED = Value
-
-  implicit val fmt = Json.formatEnum(this)
-}
-
-
-case class FileMetadata(
-  id: String,
-  fileName: Option[String],
-  mimeType: Option[String],
-  url: Option[String]            = None,
-  scanStatus: Option[ScanStatus.Value] = None
+case class FileStoreInitiateRequest(
+  id: Option[String]                  = None,
+  successRedirect: Option[String]     = None,
+  errorRedirect: Option[String]       = None,
+  expectedContentType: Option[String] = None,
+  publishable: Boolean                = true,
+  maxFileSize: Int
 )
 
-object FileMetadata{
-  implicit val fmt: OFormat[FileMetadata] = Json.format[FileMetadata]
+object FileStoreInitiateRequest {
+  implicit val format: OFormat[FileStoreInitiateRequest] = Json.format[FileStoreInitiateRequest]
 }
-
-
