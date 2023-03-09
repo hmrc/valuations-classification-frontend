@@ -33,7 +33,7 @@ import scala.concurrent.ExecutionContext
 
 class MyCasesController @Inject() (
                                     verify: AuthenticatedCaseWorkerAction,
-                                    casesService: ValuationCaseService,
+                                    valuationCaseService: ValuationCaseService,
                                     mcc: MessagesControllerComponents,
                                     val myCasesView: my_cases_view
                                   )(
@@ -50,7 +50,7 @@ class MyCasesController @Inject() (
       verify.async {
       implicit request: AuthenticatedCaseWorkerRequest[AnyContent] =>
         for {
-          cases <- casesService.findCasesByAssignee(request.caseWorker)
+          cases <- valuationCaseService.findCasesByAssignee(request.caseWorker)
           caseReferences = cases.results.map(_.reference).toSet
           myCaseStatuses = activeSubNav match {
             case AssignedToMeTab  => ApplicantTabViewModel.assignedToMeCases(cases.results)
