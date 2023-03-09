@@ -38,12 +38,12 @@ class CasesService @Inject()(
 //  countriesService: CountriesService,
 //  reportingService: ReportingService,
 //  pdfService: PdfService,
-//  connector: BindingTariffClassificationConnector,
+ //  connector: BindingTariffClassificationConnector,
 //  rulingConnector: RulingConnector
 )(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends Logging {
-  def getCasesByAssignee(assignee: CaseWorker, pagination: Pagination)(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]] = ???
-  // connector.findCasesByAssignee(assignee, pagination)
+  def getCasesByAssignee(assignee: CaseWorker, pagination: Pagination)(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]] = Future.successful(Paged(Seq.empty))
+    //connector.findCasesByAssignee(assignee, pagination)
 }
 
 
