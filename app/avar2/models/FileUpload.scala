@@ -14,29 +14,24 @@
  * limitations under the License.
  */
 
-package avar2.models.response
+package avar2.models
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.Files.TemporaryFile
+import play.api.libs.json.Json
+import play.api.mvc.MultipartFormData.FilePart
 
-object ScanStatus extends Enumeration {
-  type ScanStatus = Value
-
-  val READY, FAILED = Value
-
-  implicit val fmt = Json.formatEnum(this)
-}
-
-
-case class FileMetadata(
-  id: String,
-  fileName: Option[String],
-  mimeType: Option[String],
-  url: Option[String]            = None,
-  scanStatus: Option[ScanStatus.Value] = None
+case class FileUpload(
+  content: TemporaryFile,
+  fileName: String,
+  contentType: String
 )
 
-object FileMetadata{
-  implicit val fmt: OFormat[FileMetadata] = Json.format[FileMetadata]
+object FileUpload {
+
+  def fromFilePart(filePart: FilePart[TemporaryFile]): FileUpload =
+    FileUpload(
+      filePart.ref,
+      filePart.filename,
+      filePart.contentType.getOrElse(throw new IllegalArgumentException("Missing file type"))
+    )
 }
-
-
