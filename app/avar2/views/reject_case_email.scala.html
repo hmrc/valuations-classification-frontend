@@ -25,6 +25,8 @@
 @import avar2.models.viewmodels.NoTabSelected
 @import avar2.views.html.partials.error_summary
 @import avar2.views.html.components.{confirm_or_cancel_buttons, warning}
+@import avar2.views.html.case_heading
+@import avar2.models.viewmodels.CaseHeaderViewModel
 
 @this(
         main: main,
@@ -40,9 +42,9 @@
     backLink = Some(backLink())
 ) {
     @error_summary(uploadForm.errors)
-@*
-    @case_heading(c, messageKey = Some("change_case_status.rejected.email.heading"))
-*@
+
+    @case_heading(CaseHeaderViewModel.fromCase(c), messageKey = Some("change_case_status.rejected.email.heading"))
+
     @helper.form(
         action = Call("POST", initiateResponse.uploadRequest.href),
         Symbol("id") -> "refer_case",

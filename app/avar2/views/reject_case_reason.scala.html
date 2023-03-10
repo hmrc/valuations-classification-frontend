@@ -28,6 +28,7 @@
 @import avar2.views.html.components.{input_radiogroup,warning, input_textarea}
 @import avar2.views.components.RadioOption
 @import avar2.views.html.case_heading
+@import avar2.models.viewmodels.CaseHeaderViewModel
 
 @this(
         main: main,
@@ -44,9 +45,8 @@
 ) {
     @error_summary(form.errors, keySwaps = Map("reason" ->  s"reason-${RejectReason.values.toSeq.sorted.headOption.map(_.toString).getOrElse("")}"))
 
-  @*
-    @case_heading(c, messageKey = Some("change_case_status.rejected.reason.heading"))
-   *@
+    @case_heading(CaseHeaderViewModel.fromCase(c), messageKey = Some("change_case_status.rejected.reason.heading"))
+
     @helper.form(
         action = routes.RejectCaseController.postRejectCaseReason(c.reference),
         'enctype -> "multipart/form-data",

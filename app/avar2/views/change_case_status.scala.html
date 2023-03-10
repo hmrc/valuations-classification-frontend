@@ -24,6 +24,8 @@
 @import avar2.views.html.partials.back_link
 @import avar2.models.CaseStatusRadioInput
 @import avar2.views.html.components.{confirm_or_cancel_buttons, input_radio}
+@import avar2.views.html.case_heading
+@import avar2.models.viewmodels.CaseHeaderViewModel
 
 @this(
         main: main,
@@ -39,9 +41,9 @@
     backLink = Some(backLink())
 ) {
     @error_summary(form.errors, keySwaps = Map("caseStatus" -> CaseStatusRadioInput.changeCaseStatusOptionsFor().headOption.map(ir => ir.id).getOrElse("")))
-@*
-    @case_heading(c, messageKey = Some("change_case_status_legend"))
-*@
+
+    @case_heading(CaseHeaderViewModel.fromCase(c), messageKey = Some("change_case_status_legend"))
+
     @helper.form(action = routes.ChangeCaseStatusController.onSubmit(c.reference), Symbol("novalidate") -> "novalidate") {
 
         @helper.CSRF.formField
