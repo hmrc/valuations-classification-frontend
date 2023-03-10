@@ -1,0 +1,71 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import config.AppConfig
+@import avar2.controllers.routes
+@import avar2.views.html.includes.main
+@import avar2.views.html.partials.back_link
+@import avar2.views.html.partials.status_change_upload
+@import avar2.models.ValuationCase
+@import avar2.models.response.FileStoreInitiateResponse
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@import avar2.models.viewmodels.NoTabSelected
+@import avar2.views.html.partials.error_summary
+@import avar2.views.html.components.{confirm_or_cancel_buttons, warning}
+
+@this(
+        main: main,
+        backLink: back_link
+)
+
+
+@(c: ValuationCase, uploadForm: Form[String], initiateResponse: FileStoreInitiateResponse)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
+
+@main(
+    pageTitle = messages("page.title.reject.case.email", c.application.goodName),
+    customPrimaryNavTab = NoTabSelected,
+    backLink = Some(backLink())
+) {
+    @error_summary(uploadForm.errors)
+@*
+    @case_heading(c, messageKey = Some("change_case_status.rejected.email.heading"))
+*@
+    @helper.form(
+        action = Call("POST", initiateResponse.uploadRequest.href),
+        Symbol("id") -> "refer_case",
+        'enctype -> "multipart/form-data",
+        Symbol("novalidate") -> "novalidate"
+    ) {
+
+        @for((key, value) <- initiateResponse.uploadRequest.fields) {
+            <input type="hidden" name="@key" value="@value" />
+        }
+
+        @status_change_upload(uploadForm("file"), "rejecting")
+
+        @warning(
+            "This case cannot be reopened after it has been rejected.",
+            containerClass = "govuk-layout-wrapper"
+        )
+
+        @confirm_or_cancel_buttons(
+            id = "reject_case",
+            confirmText = messages("change_case_status.confirm"),
+            cancelText = messages("change_case_status.cancel.action"),
+            cancelHref = routes.ChangeCaseStatusController.onPageLoad(c.reference)
+        )
+    }
+}

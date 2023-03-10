@@ -24,3 +24,14 @@ GET        /operator-dashboard-classification                   avar2.controller
 GET        /my-cases                                            avar2.controllers.MyCasesController.displayMyCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AssignedToMeTab)
 
 GET        /all-open-cases                                      avar2.controllers.AllOpenCasesController.displayAllOpenCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AVaRTab)
+
+GET         /cases/:reference/reject                            avar2.controllers.RejectCaseController.rejectCase(reference: String, fileId: String)
+
+GET         /cases/:reference/change-case-status                avar2.controllers.ChangeCaseStatusController.onPageLoad(reference: String)
+POST        /cases/:reference/change-case-status                avar2.controllers.ChangeCaseStatusController.onSubmit(reference: String)
+
+GET         /cases/:reference/reject-reason                     avar2.controllers.RejectCaseController.getRejectCaseReason(reference: String)
+POST        /cases/:reference/reject-reason                     avar2.controllers.RejectCaseController.postRejectCaseReason(reference: String)
+GET         /cases/:reference/reject-email                      avar2.controllers.RejectCaseController.getRejectCaseEmail(reference: String, fileId: Option[String] ?= None)
+GET         /cases/:reference/reject                            avar2.controllers.RejectCaseController.rejectCase(reference: String, fileId: String)
+GET         /cases/:reference/reject/confirmation               avar2.controllers.RejectCaseController.confirmRejectCase(reference: String)
