@@ -16,10 +16,6 @@
 
 @import avar2.models.viewmodels.CaseHeaderViewModel
 
-@this(
-        caseStatus: avar2.views.html.case_status
-)
-
 @(
         caseHeader: CaseHeaderViewModel,
         messageKey: Option[String] = None
@@ -37,7 +33,7 @@
             } else if(messageKey.isDefined){
             @messages(messageKey.get, caseHeader.goodsName)
             }else{
-            @caseHeader.goodsName
+              @caseHeader.goodsName
             }
         </h1>
         @caseHeader.businessName.map { businessName =>
@@ -46,6 +42,6 @@
     </div>
 
     <div id="case-status-body" class="govuk-body">
-        @caseStatus(caseHeader.caseStatus)
+        @avar2.views.html.case_status(caseHeader.caseStatus)
     </div>
 </div>

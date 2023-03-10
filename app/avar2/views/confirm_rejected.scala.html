@@ -1,0 +1,44 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import config.AppConfig
+@import avar2.views.html.includes.main
+@import avar2.models.ValuationCase
+@import avar2.models.viewmodels.NoTabSelected
+@import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
+@import avar2.views.html.confirmation_next_steps
+
+@this(
+        main: main
+)
+
+
+@(vc: ValuationCase)(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
+
+@main(
+    pageTitle = messages("page.title.case.rejected"),
+    customPrimaryNavTab = NoTabSelected
+) {
+    <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">@messages("case.rejected.header", vc.application.goodName)</h1>
+        <div class="govuk-panel__body">The case status is now </br><strong>REJECTED</strong></div>
+    </div>
+
+    @confirmation_next_steps(
+        linkText = messages("back.my_cases"),
+        backHref = avar2.controllers.routes.AllOpenCasesController.displayAllOpenCases()
+    )
+}
