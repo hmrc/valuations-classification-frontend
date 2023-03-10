@@ -16,9 +16,9 @@
 
 package avar2.connector
 
-import avar2.models.{CaseWorker, ValuationCase}
+import avar2.models.{Attachment, CaseWorker, RejectReason, ValuationCase}
 import config.AppConfig
-import avar2.connector.ValuationCaseConnector.AssignCaseRequest
+import avar2.connector.ValuationCaseConnector.{AssignCaseRequest, RejectCaseRequest}
 import play.api.libs.json.{Json, OFormat}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
@@ -38,6 +38,8 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
 
   val assignCaseUrl = openCasesUrl + "/assign"
 
+  val rejectCaseUrl = openCasesUrl + "/reject"
+
 
    def allOpenCases()(implicit hc: HeaderCarrier): Future[List[ValuationCase]] = {
      client.GET[List[ValuationCase]](openCasesUrl)
@@ -54,6 +56,10 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
       client.GET[List[ValuationCase]](casesByAssignee(assignee))
     }
 
+  def rejectCase(reference: String, reason: RejectReason.Value, attachment: Attachment, note: String)(implicit hc: HeaderCarrier): Future[Long] = {
+    client.POST[RejectCaseRequest, Long](rejectCaseUrl, RejectCaseRequest(reference, reason, attachment, note))
+  }
+
 }
 
 object ValuationCaseConnector{
@@ -62,6 +68,12 @@ object ValuationCaseConnector{
 
   object AssignCaseRequest {
     implicit val fmt: OFormat[AssignCaseRequest] = Json.format[AssignCaseRequest]
+  }
+
+  case class RejectCaseRequest(reference: String, reason: RejectReason.Value, attachment: Attachment, note: String)
+
+  object RejectCaseRequest{
+    implicit val fmt: OFormat[RejectCaseRequest] = Json.format[RejectCaseRequest]
   }
 
 }

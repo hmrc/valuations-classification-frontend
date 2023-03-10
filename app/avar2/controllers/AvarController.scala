@@ -61,14 +61,16 @@ class AvarController @Inject()(
 object AvarController{
 
   def createViewModel(c: ValuationCase): AvarViewModel = {
+    def storedAttachmentOf(attachment: Attachment): StoredAttachment = {
+      StoredAttachment.apply(attachment,
+        FileMetadata(id = attachment.id, fileName = Option("the filename"),
+          mimeType = Option("image/jpeg"), url = Option("the file url"),
+          scanStatus = Option(ScanStatus.READY)))
+    }
     val cvm = CaseViewModel.fromValuationCase(c)
     val appvm = ApplicantTabViewModel.fromValuationCase(c)
     val gvm = GoodsTabViewModel.fromValuationCase(c)
-    val workerAttachments: Seq[StoredAttachment] = List(
-        StoredAttachment.apply(Attachment(id = "attachment-id1", caseWorker = None, description = Option("attachment file number 1")),
-                 FileMetadata(id="attachment-id1", fileName=Option("the filename"),
-                    mimeType = Option("image/jpeg"), url = Option("the file url"),
-                                                  scanStatus = Option(ScanStatus.READY))))
+    val workerAttachments = c.attachments.map(storedAttachmentOf)
     val atm: AttachmentsTabViewModel = AttachmentsTabViewModel("case reference","case contact", Seq.empty, workerAttachments)
     val template: UpscanFormTemplate = UpscanFormTemplate("href goes here", Map.empty)
     val response: FileStoreInitiateResponse = FileStoreInitiateResponse("an-id","upscan-reference",template )

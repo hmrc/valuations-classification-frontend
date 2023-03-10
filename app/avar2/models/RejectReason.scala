@@ -16,6 +16,9 @@
 
 package avar2.models
 
+import avar2.models
+import play.api.libs.json.{Format, Json}
+
 object RejectReason extends Enumeration {
   type RejectReason = Value
   val APPLICATION_WITHDRAWN, ATAR_RULING_ALREADY_EXISTS, DUPLICATE_APPLICATION, NO_INFO_FROM_TRADER, OTHER = Value
@@ -28,4 +31,6 @@ object RejectReason extends Enumeration {
       case NO_INFO_FROM_TRADER        => "No information from trader"
       case OTHER                      => "Other"
     }
+
+  implicit val fmt: Format[models.RejectReason.Value] = Json.formatEnum(this)
 }
