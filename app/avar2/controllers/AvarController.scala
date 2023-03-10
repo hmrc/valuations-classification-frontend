@@ -19,17 +19,17 @@ package avar2.controllers
 import avar2.controllers.AvarController.createViewModel
 import avar2.controllers.actions.AuthenticatedCaseWorkerAction
 import avar2.forms.UploadAttachmentForm
-import avar2.models.response.{FileMetadata, FileStoreInitiateResponse, ScanStatus, UpscanFormTemplate}
-import avar2.models.{Attachment, StoredAttachment, ValuationCase}
-import avar2.services.ValuationCaseService
-import cats.data.OptionT
+import avar2.models.response.{FileStoreInitiateResponse, UpscanFormTemplate}
+import avar2.models.viewmodels._
+import avar2.models.{StoredAttachment, ValuationCase}
+import avar2.services.AvarsService
+import avar2.views.html.avar_view
 import config.AppConfig
-import avar2.models.viewmodels.{ApplicantTabViewModel, AttachmentsTabViewModel, AvarViewModel, CaseViewModel, GoodsTabViewModel}
+import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import avar2.views.html.avar_view
-import play.api.data.Form
+
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
@@ -37,7 +37,7 @@ import scala.concurrent.ExecutionContext
 class AvarController @Inject()(
                                 verify: AuthenticatedCaseWorkerAction,
                                  mcc: MessagesControllerComponents,
-                                 valuationCaseService: ValuationCaseService,
+                                 avarsService: AvarsService,
                                  avarView: avar_view,
                                  implicit val appConfig: AppConfig
                                )(implicit ec: ExecutionContext)
@@ -49,29 +49,20 @@ class AvarController @Inject()(
 
   def show(reference: String): Action[AnyContent] = {
     verify.async { implicit request =>
-      val outcome = for{
-        c <- OptionT(valuationCaseService.valuationCase(reference))
-      } yield Ok(avarView(createViewModel(c), form))
-
-      outcome.getOrElse(throw new Exception("failed to load case view"))
+      for{
+        sa <- avarsService.valuationCaseFileMetaData(reference)
+      } yield Ok(avarView(createViewModel(sa._1, sa._2), form))
     }
   }
 }
 
 object AvarController{
 
-  def createViewModel(c: ValuationCase): AvarViewModel = {
-    def storedAttachmentOf(attachment: Attachment): StoredAttachment = {
-      StoredAttachment.apply(attachment,
-        FileMetadata(id = attachment.id, fileName = Option("the filename"),
-          mimeType = Option("image/jpeg"), url = Option("the file url"),
-          scanStatus = Option(ScanStatus.READY)))
-    }
+  def createViewModel(c: ValuationCase, sa: Seq[StoredAttachment]): AvarViewModel = {
     val cvm = CaseViewModel.fromValuationCase(c)
     val appvm = ApplicantTabViewModel.fromValuationCase(c)
     val gvm = GoodsTabViewModel.fromValuationCase(c)
-    val workerAttachments = c.attachments.map(storedAttachmentOf)
-    val atm: AttachmentsTabViewModel = AttachmentsTabViewModel("case reference","case contact", Seq.empty, workerAttachments)
+    val atm: AttachmentsTabViewModel = AttachmentsTabViewModel(c.reference,c.application.contact.name, Seq.empty, sa)
     val template: UpscanFormTemplate = UpscanFormTemplate("href goes here", Map.empty)
     val response: FileStoreInitiateResponse = FileStoreInitiateResponse("an-id","upscan-reference",template )
     AvarViewModel(cvm, appvm, gvm, atm,  response)
