@@ -45,20 +45,16 @@ class ViewAttachmentController @Inject()(
   def get(reference: String, id: String): Action[AnyContent] =
 //    (verify.authenticated andThen verify.casePermissions(reference) andThen verify.mustHave(Permission.VIEW_CASES))
       verify.async { implicit request =>
-        fileService.getFileMetadata(id).flatMap {
-          case meta @ Some(fileSubmitted: FileMetadata) =>
-            val fileStoreResponse = for {
-              url     <- OptionT.fromOption[Future](fileSubmitted.url)
-              content <- OptionT(fileService.downloadFile(url))
-            } yield Ok
-              .streamed(content, None, fileSubmitted.mimeType)
-              .withHeaders(
-                "Content-Disposition" -> s"filename=${fileSubmitted.fileName}"
-              )
-            fileStoreResponse.getOrElse(NotFound(view_attachment_unavailable(meta)))
+        val outcome = for{
+          meta <- OptionT(fileService.getFileMetadata(id))
+          url <- OptionT(Future.successful(meta.url))
+          content <- OptionT(fileService.downloadFile(url))
+        } yield Ok
+          .streamed(content, None, meta.mimeType)
+          .withHeaders(
+            "Content-Disposition" -> s"""filename=${meta.fileName.getOrElse(throw new IllegalArgumentException("filename was not specified"))}"""
+          )
 
-          case None =>
-            Future.successful(NotFound(view_attachment_unavailable(None)))
-        }
+        outcome.getOrElse(throw new Exception("download failed"))
       }
 }
