@@ -35,3 +35,5 @@ POST        /cases/:reference/reject-reason                     avar2.controller
 GET         /cases/:reference/reject-email                      avar2.controllers.RejectCaseController.getRejectCaseEmail(reference: String, fileId: Option[String] ?= None)
 GET         /cases/:reference/reject                            avar2.controllers.RejectCaseController.rejectCase(reference: String, fileId: String)
 GET         /cases/:reference/reject/confirmation               avar2.controllers.RejectCaseController.confirmRejectCase(reference: String)
+
+GET         /attachment/:reference/:id                          avar2.controllers.ViewAttachmentController.get(reference: String, id: String)
