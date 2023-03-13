@@ -28,20 +28,22 @@
             @messages("case.heading.secondary.nosuffix", "AVAR", caseHeader.referenceNumber)
         </div>
         <h1 class="govuk-heading-xl">
-            @if(caseHeader.isMigrated && caseHeader.goodsName.isEmpty){
-            @messages("case.title.migrated.cases", caseHeader.referenceNumber)
-            } else if(messageKey.isDefined){
-            @messages(messageKey.get, caseHeader.goodsName)
-            }else{
-            @caseHeader.goodsName
+            @{
+                if(caseHeader.isMigrated && caseHeader.goodsName.isEmpty) {
+                    messages("case.title.migrated.cases", caseHeader.referenceNumber)
+                } else if(messageKey.isDefined) {
+                    messages(messageKey.get, caseHeader.goodsName)
+                } else {
+                    caseHeader.goodsName
+                }
             }
         </h1>
         @caseHeader.businessName.map { businessName =>
-        <h2 class="govuk-heading-m">@businessName</h2>
+            <h2 class="govuk-heading-m">@businessName</h2>
         }
     </div>
 
     <div id="case-status-body" class="govuk-body">
-        @avar2.views.html.components.valuation_case_status(caseHeader.caseStatus)
+    @avar2.views.html.case_status(caseHeader.caseStatus)
     </div>
 </div>
