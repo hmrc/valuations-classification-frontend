@@ -19,7 +19,7 @@ package avar2.controllers
 import avar2.controllers.actions.{AuthenticatedCaseWorkerAction, AuthenticatedCaseWorkerRequest}
 import avar2.forms.{RejectCaseForm, UploadAttachmentForm}
 import avar2.models.request.FileStoreInitiateRequest
-import avar2.models.{Attachment, CaseRejection, RejectReason}
+import avar2.models.{Attachment, CaseRejection, RejectReason, ValuationCase}
 import avar2.services.{FileStoreService, ValuationCaseService}
 import avar2.views.html.{confirm_rejected, reject_case_email, reject_case_reason}
 import cats.data.OptionT
@@ -39,7 +39,6 @@ class RejectCaseController @Inject()(
                                       verify: AuthenticatedCaseWorkerAction,
                                       valuationCaseService: ValuationCaseService,
                                       fileService: FileStoreService,
-                                   //   dataCacheConnector: DataCacheConnector,
                                       mcc: MessagesControllerComponents,
                                       val reject_case_reason: reject_case_reason,
                                       val reject_case_email: reject_case_email,
@@ -52,8 +51,7 @@ class RejectCaseController @Inject()(
     with WithUnsafeDefaultFormBinding {
 
   private val RejectionCacheKey = "rejection"
-  private def cacheKey(reference: String) =
-    s"reject_case-$reference"
+  private def cacheKey(reference: String) = s"reject_case-$reference"
 
   def getRejectCaseReason(reference: String): Action[AnyContent] =
 //    (verify.authenticated
@@ -67,23 +65,23 @@ class RejectCaseController @Inject()(
       outcome.getOrElse(throw new Exception("failed to load rejection form"))
     }
 
-  def postRejectCaseReason(reference: String): Action[AnyContent] = ???
+  def postRejectCaseReason(reference: String): Action[AnyContent] =
 //    (verify.authenticated andThen
 //      verify.casePermissions(reference) andThen
-//      verify.mustHave(Permission.REJECT_CASE)).async { implicit request =>
-//      RejectCaseForm.form
-//        .bindFromRequest()
-//        .fold(
-//          formWithErrors => successful(BadRequest(reject_case_reason(request.`case`, formWithErrors))),
-//          caseRejection => {
-//            val userAnswers        = UserAnswers(cacheKey(reference))
-//            val updatedUserAnswers = userAnswers.set(RejectionCacheKey, caseRejection)
-//            dataCacheConnector
-//              .save(updatedUserAnswers.cacheMap)
-//              .map(_ => Redirect(routes.RejectCaseController.getRejectCaseEmail(reference)))
-//          }
-//        )
-//    }
+//      verify.mustHave(Permission.REJECT_CASE)).async
+    verify.async { implicit request =>
+      valuationCaseService.valuationCase(reference).flatMap {
+        case Some(vc: ValuationCase) => {
+          RejectCaseForm.form
+            .bindFromRequest()
+            .fold(
+              formWithErrors => Future.successful(BadRequest(reject_case_reason(vc, formWithErrors))),
+              _ => Future.successful(Redirect(routes.RejectCaseController.getRejectCaseEmail(reference)))
+            )
+        }
+        case None => throw new Exception("failed to load case view")
+      }
+    }
 
   def renderRejectCaseEmail(
     reference: String,

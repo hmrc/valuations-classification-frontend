@@ -19,7 +19,7 @@
 @import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 @import avar2.views.html.components.change_case_status_button
 @import avar2.views.html.components.reopen_case_button
-@import views.html.helper.CSRF
+@import avar2.controllers.routes
 
 
 @this()
@@ -42,7 +42,7 @@
     @change_case_status_button(
         "action-this-case",
         messages("case.v2.liability.action_this_case.button"),
-        avar2.controllers.routes.ReleaseOrSuppressCaseController.onPageLoad(caseViewModel.caseHeader.referenceNumber)
+        routes.ReleaseOrSuppressCaseController.onPageLoad(caseViewModel.caseHeader.referenceNumber)
     )
 }
 
@@ -50,8 +50,7 @@
     @change_case_status_button(
         "change-case-status",
         messages("case.v2.liability.change_case_status.button"),
-        Call("", "")
-//        ChangeCaseStatusController.onPageLoad(caseViewModel.caseHeader.referenceNumber)
+        routes.ChangeCaseStatusController.onPageLoad(caseViewModel.caseHeader.referenceNumber)
     )
 }
 
