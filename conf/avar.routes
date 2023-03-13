@@ -18,12 +18,11 @@ GET         /cases/:reference                                   avar2.controller
 GET         /cases/:reference/assign                            avar2.controllers.AssignCaseController.show(reference: String)
 POST        /cases/:reference/assign                            avar2.controllers.AssignCaseController.assignOrViewCase(reference: String)
 
-GET        /operator-dashboard-classification                   avar2.controllers.OperatorDashboardController.onPageLoad
+GET         /operator-dashboard-classification                  avar2.controllers.OperatorDashboardController.onPageLoad
 
+GET         /my-cases                                           avar2.controllers.MyCasesController.displayMyCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AssignedToMeTab)
 
-GET        /my-cases                                            avar2.controllers.MyCasesController.displayMyCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AssignedToMeTab)
-
-GET        /all-open-cases                                      avar2.controllers.AllOpenCasesController.displayAllOpenCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AVaRTab)
+GET         /all-open-cases                                     avar2.controllers.AllOpenCasesController.displayAllOpenCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AVaRTab)
 
 GET         /cases/:reference/reject                            avar2.controllers.RejectCaseController.rejectCase(reference: String, fileId: String)
 
@@ -33,5 +32,10 @@ POST        /cases/:reference/change-case-status                avar2.controller
 GET         /cases/:reference/reject-reason                     avar2.controllers.RejectCaseController.getRejectCaseReason(reference: String)
 POST        /cases/:reference/reject-reason                     avar2.controllers.RejectCaseController.postRejectCaseReason(reference: String)
 GET         /cases/:reference/reject-email                      avar2.controllers.RejectCaseController.getRejectCaseEmail(reference: String, fileId: Option[String] ?= None)
-GET         /cases/:reference/reject                            avar2.controllers.RejectCaseController.rejectCase(reference: String, fileId: String)
 GET         /cases/:reference/reject/confirmation               avar2.controllers.RejectCaseController.confirmRejectCase(reference: String)
+
+GET         /cases/:reference/release-or-suppress-case          avar2.controllers.ReleaseOrSuppressCaseController.onPageLoad(reference: String)
+POST        /cases/:reference/release-or-suppress-case          avar2.controllers.ReleaseOrSuppressCaseController.onSubmit(reference: String)
+
+GET         /cases/:reference/release                           avar2.controllers.ReleaseCaseController.releaseCase(reference: String)
+POST        /cases/:reference/release                           avar2.controllers.ReleaseCaseController.releaseCaseToQueue(reference: String)

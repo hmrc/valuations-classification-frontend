@@ -60,7 +60,7 @@ object ApplicantTabViewModel {
   def assignedToMeCases(cases: Seq[ValuationCase]): ApplicationTabViewModel = {
 
     val assignedCases =
-      cases.filter(aCase => aCase.status == CaseStatus.OPEN)
+      cases.filter(aCase => aCase.status == CaseStatus.REFERRED)
 
     val liabilities = assignedCases.filter(_.isLiabilityOrder)
 

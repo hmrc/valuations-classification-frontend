@@ -52,13 +52,17 @@ case class CaseViewModel(
 
 object CaseViewModel {
   def fromValuationCase(c: ValuationCase): CaseViewModel = {
-    val headerVM: CaseHeaderViewModel = CaseHeaderViewModel(
-      Option(c.application.holder.businessName), c.application.goodName,c.reference,None, c.application.contact,
-      CaseStatusViewModel(None,None,None),false)
-    CaseViewModel(headerVM,false,false,false,false,false,c.status)
+    CaseViewModel(
+      caseHeader = CaseHeaderViewModel.fromCase(c),
+      hasPermissions = true,
+      showChangeCaseStatus = true,
+      showTakeOffReferral = true,
+      showReopen = true,
+      showAppealTab = true,
+      caseStatus = c.status)
   }
 
-  def fromCase(c: ValuationCase, operator: CaseWorker): CaseViewModel = {
+  def fromCase(c: ValuationCase, caseWorker: CaseWorker): CaseViewModel = {
 
 //    def releaseOrSuppressPermissions: Boolean =
 //      operator.permissions.contains(Permission.RELEASE_CASE) || operator.permissions.contains(Permission.SUPPRESS_CASE)
@@ -85,11 +89,11 @@ object CaseViewModel {
 
     CaseViewModel(
       CaseHeaderViewModel.fromCase(c),
-      hasPermissions       = false,
-      showChangeCaseStatus = false,
-      showTakeOffReferral  = false,
-      showReopen           = false,
-      showAppealTab        = false,
+      hasPermissions       = true,
+      showChangeCaseStatus = true,
+      showTakeOffReferral  = true,
+      showReopen           = true,
+      showAppealTab        = true,
       caseStatus           = c.status
     )
   }

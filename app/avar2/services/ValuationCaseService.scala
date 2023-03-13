@@ -27,6 +27,8 @@ trait ValuationCaseService {
 
   def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long]
 
+  def unAssignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long]
+
   def allOpenvaluationCases()(implicit hc: HeaderCarrier): Future[Paged[ValuationCase]]
 
   def valuationCase(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]]
