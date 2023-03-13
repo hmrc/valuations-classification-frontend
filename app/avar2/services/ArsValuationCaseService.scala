@@ -38,7 +38,6 @@ class ArsValuationCaseService @Inject() (connector: ValuationCaseConnector)(impl
     connector.assignCase(reference, operator)
 
   override def unAssignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] = {
-    println("WE are unassigning.....")
     connector.unAssignCase(reference, operator)
   }
 
