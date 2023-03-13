@@ -18,7 +18,7 @@ package avar2.connector
 
 import avar2.models.{Attachment, CaseWorker, RejectReason, ValuationCase}
 import config.AppConfig
-import avar2.connector.ValuationCaseConnector.{AssignCaseRequest, RejectCaseRequest}
+import avar2.connector.ValuationCaseConnector.{AssignCaseRequest, AssignNewCaseRequest, RejectCaseRequest}
 import play.api.libs.json.{Json, OFormat}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
@@ -28,6 +28,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class ValuationCaseConnector @Inject() (config: AppConfig,
                              client: HttpClient)(implicit ec: ExecutionContext) {
 
+
   val serviceUrl = config.advanceValuationRulingsUrl + "/advance-valuation-rulings"
 
   val openCasesUrl = serviceUrl + "/valuation"
@@ -35,6 +36,8 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
   def casesByAssignee(assignee: String) = s"$serviceUrl/valuations/$assignee"
 
   val assignCaseUrl = openCasesUrl + "/assign"
+
+  val assignNewCaseUrl = openCasesUrl + "/assign-new"
 
 
   val rejectCaseUrl = openCasesUrl + "/reject"
@@ -72,9 +75,18 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
     client.POST[RejectCaseRequest, Long](rejectCaseUrl, RejectCaseRequest(reference, reason, attachment, note))
   }
 
+  def assignNewCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] =
+    client.POST[AssignNewCaseRequest, Long](assignNewCaseUrl, AssignNewCaseRequest(reference, operator))
+
 }
 
 object ValuationCaseConnector{
+
+  case class AssignNewCaseRequest(reference: String, caseWorker: CaseWorker)
+
+  object AssignNewCaseRequest {
+    implicit val fmt: OFormat[AssignNewCaseRequest] = Json.format[AssignNewCaseRequest]
+  }
 
   case class AssignCaseRequest(reference: String, caseWorker: CaseWorker)
 
