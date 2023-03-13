@@ -59,19 +59,10 @@ object ApplicantTabViewModel {
 
   def assignedToMeCases(cases: Seq[ValuationCase]): ApplicationTabViewModel = {
 
-    val assignedCases =
-      cases.filter(aCase => aCase.status == CaseStatus.REFERRED)
-
-    val liabilities = assignedCases.filter(_.isLiabilityOrder)
-
-    val isCorrespondence = assignedCases.filter(_.isCorrespondence)
-
-    val isMiscellaneous = assignedCases.filter(_.isMisc)
-
     ApplicationTabViewModel(
       "applicationTab.assignedToMe",
       List(
-        avar(Paged(assignedCases))
+        avar(Paged(cases))
       )
     )
   }
