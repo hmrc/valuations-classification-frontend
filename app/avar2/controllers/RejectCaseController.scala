@@ -76,11 +76,7 @@ class RejectCaseController @Inject()(
             .bindFromRequest()
             .fold(
               formWithErrors => Future.successful(BadRequest(reject_case_reason(vc, formWithErrors))),
-              caseRejection => {
-//                val userAnswers        = UserAnswers(cacheKey(reference))
-//                val updatedUserAnswers = userAnswers.set(RejectionCacheKey, caseRejection)
-                Future.successful(Redirect(routes.RejectCaseController.getRejectCaseEmail(reference)))
-              }
+              _ => Future.successful(Redirect(routes.RejectCaseController.getRejectCaseEmail(reference)))
             )
         }
         case None => throw new Exception("failed to load case view")
