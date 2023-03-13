@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.routes
+@import avar2.controllers.routes
 @import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
 @import avar2.models.viewmodels.CaseHeaderViewModel
 @import avar2.views.html.includes.main
@@ -22,7 +22,7 @@
 @import avar2.models.viewmodels.NoTabSelected
 @import avar2.models.ValuationCase
 @import config.AppConfig
-@import avar2.views.html.case_heading
+@import avar2.views.html.components.valuation_case_heading
 
 @this(main: main, backLink: back_link)
 
@@ -37,10 +37,9 @@
     backLink = Some(backLink())
 ) {
 
+    @valuation_case_heading(CaseHeaderViewModel.fromCase(c), messageKey = Some("release_case.header"))
 
-    @case_heading(CaseHeaderViewModel.fromCase(c), messageKey = Some("release_case.header"))
-
-    @helper.form(action = avar2.controllers.routes.ReleaseCaseController.releaseCaseToQueue(c.reference), Symbol("id") -> s"release-case-form", Symbol("novalidate") -> "novalidate") {
+    @helper.form(action = routes.ReleaseCaseController.releaseCaseToQueue(c.reference), Symbol("id") -> s"release-case-form", Symbol("novalidate") -> "novalidate") {
         @helper.CSRF.formField
 
         <div class="govuk-form-group @if(form("queue").hasErrors){govuk-form-group--error}" id="@{form("queue").id}" >
@@ -66,7 +65,7 @@
 
         <button class="govuk-button" id="release-case-button" type="submit"> @messages("release-case.submit.button") </button>
         <p class="govuk-body">
-            <a id="cancel-button" href="@avar2.controllers.routes.AvarController.show(c.reference).path" class="govuk-link">Cancel this action</a>
+            <a id="cancel-button" href="@routes.AvarController.show(c.reference).path" class="govuk-link">Cancel this action</a>
         </p>
     }
 
