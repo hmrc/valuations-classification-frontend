@@ -25,6 +25,7 @@ import config.AppConfig
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.WithUnsafeDefaultFormBinding
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -75,9 +76,9 @@ class ReleaseOrSuppressCaseController @Inject()(
         {
           case CaseStatusRadioInput.Release =>
             Future.successful(Redirect(routes.ReleaseCaseController.releaseCase(reference)))
-//            Redirect(routes.SuppressCaseController.getSuppressCaseReason(reference))
           case CaseStatusRadioInput.Suppress =>
             Future.successful(Redirect(routes.ReleaseCaseController.releaseCase(reference))) //TODO: Revert to and implement SuppressCaseController
+//            Future.successful(Redirect(routes.SuppressCaseController.getSuppressCaseReason(reference)))
         }
       )
   }
