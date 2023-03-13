@@ -19,7 +19,7 @@ package avar2.controllers
 import avar2.controllers.actions.AuthenticatedCaseWorkerAction
 import avar2.models.viewmodels.CasesTabViewModel
 import avar2.services.ValuationCaseService
-import avar2.views.html.open_cases_view
+import avar2.views.html.new_cases_view
 import com.google.inject.Inject
 import config.AppConfig
 import play.api.i18n.I18nSupport
@@ -33,7 +33,7 @@ class AllNewCasesController @Inject()(
                                          verify: AuthenticatedCaseWorkerAction,
                                          valuationCaseService: ValuationCaseService,
                                          mcc: MessagesControllerComponents,
-                                         val openCasesView: open_cases_view,
+                                         val newCasesView: new_cases_view,
                                          implicit val appConfig: AppConfig,
                                          implicit val ec: ExecutionContext
 ) extends FrontendController(mcc)
@@ -45,8 +45,8 @@ class AllNewCasesController @Inject()(
       for {
         cases <- valuationCaseService.allNewValuationCases()
 
-        openCases = CasesTabViewModel.create(cases)
+        newCases = CasesTabViewModel.create(cases)
 
-      } yield Ok(openCasesView(openCases, activeSubNav))
+      } yield Ok(newCasesView(newCases, activeSubNav))
     }
 }

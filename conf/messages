@@ -1092,6 +1092,7 @@ operator.dashboard.classification.my-cases.completedByMe=Completed by me
 operator.dashboard.classification.my-cases.onCompletedProgress.plural = {0} cases completed
 operator.dashboard.classification.my-cases.onCompletedProgress.singular={0} case completed
 operator.dashboard.classification.all-open-cases =Open cases
+operator.dashboard.classification.all-new-cases =New cases
 operator.dashboard.classification.all-open-cases.avar = AVaR
 operator.dashboard.classification.all-new-cases.avar = AVaR
 operator.dashboard.classification.all-open-cases.list-all = List of all open Advance Valuations Ruling cases
@@ -1129,6 +1130,8 @@ cases.opencases.avar.title=AVaR cases
 cases.opencases.liability.title=Liability cases
 cases.opencases.correspondence.title=Correspondence cases
 cases.opencases.miscellaneous.title=Miscellaneous cases
+
+cases.newcases.avar.title=AVaR cases
 
 cases.opencases.avar.heading=AVaR cases
 cases.opencases.liability.heading=Liability cases
