@@ -18,6 +18,9 @@ GET         /cases/:reference                                   avar2.controller
 GET         /cases/:reference/assign                            avar2.controllers.AssignCaseController.show(reference: String)
 POST        /cases/:reference/assign                            avar2.controllers.AssignCaseController.assignOrViewCase(reference: String)
 
+GET         /cases/:reference/assign-new                        avar2.controllers.AssignNewCaseController.show(reference: String)
+POST        /cases/:reference/assign-new                        avar2.controllers.AssignNewCaseController.assignOrViewCase(reference: String)
+
 GET         /operator-dashboard-classification                  avar2.controllers.OperatorDashboardController.onPageLoad
 
 GET         /my-cases                                           avar2.controllers.MyCasesController.displayMyCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AssignedToMeTab)
