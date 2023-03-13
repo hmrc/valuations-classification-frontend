@@ -17,7 +17,7 @@
 @import config.AppConfig
 
 @import avar2.controllers.routes
-@import avar2.controllers.routes.AllOpenCasesController
+@import avar2.controllers.routes
 @import avar2.models.viewmodels._
 
 @import avar2.controllers.actions.AuthenticatedCaseWorkerRequest
@@ -179,7 +179,7 @@
     </div>
     <h2 class="govuk-heading-m ">@messages("operator.dashboard.classification.all-open-cases")</h2>
     <div class="flex-container govuk-body">
-        <a id="bti-cases-id" class="link-text" href="@AllOpenCasesController.displayAllOpenCases(AVaRTab)">
+        <a id="bti-cases-id" class="link-text" href="@routes.AllOpenCasesController.displayAllOpenCases(AVaRTab)">
             <div class="card">
                 <h3 class="card-heading govuk-!-font-size-19">
                     @messages("operator.dashboard.classification.all-open-cases.avar")</h3>
@@ -187,5 +187,14 @@
             </div>
         </a>
     </div>
+        <div class="flex-container govuk-body">
+            <a id="bti-cases-id" class="link-text" href="@routes.AllNewCasesController.displayAllNewCases(AVaRTab)">
+                <div class="card">
+                    <h3 class="card-heading govuk-!-font-size-19">
+                    @messages("operator.dashboard.classification.all-new-cases.avar")</h3>
+                    <p class="card-body">@messages("operator.dashboard.classification.all-new-cases.list-all")</p>
+                </div>
+            </a>
+        </div>
     }
 </div>
