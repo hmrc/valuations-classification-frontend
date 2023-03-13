@@ -23,6 +23,7 @@ GET         /operator-dashboard-classification                  avar2.controller
 GET         /my-cases                                           avar2.controllers.MyCasesController.displayMyCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AssignedToMeTab)
 
 GET         /all-open-cases                                     avar2.controllers.AllOpenCasesController.displayAllOpenCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AVaRTab)
+GET         /all-new-cases                                     avar2.controllers.AllNewCasesController.displayAllNewCases(activeSubNav: avar2.models.viewmodels.AvarSubNavigationTab ?= avar2.models.viewmodels.AVaRTab)
 
 GET         /cases/:reference/reject                            avar2.controllers.RejectCaseController.rejectCase(reference: String, fileId: String)
 

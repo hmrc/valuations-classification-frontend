@@ -28,8 +28,6 @@ import scala.concurrent.{ExecutionContext, Future}
 class ValuationCaseConnector @Inject() (config: AppConfig,
                              client: HttpClient)(implicit ec: ExecutionContext) {
 
-
-
   val serviceUrl = config.advanceValuationRulingsUrl + "/advance-valuation-rulings"
 
   val openCasesUrl = serviceUrl + "/valuation"
@@ -44,10 +42,16 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
   val unAssignCaseUrl = openCasesUrl + "/unassign"
 
 
+  val newCasesUrl = serviceUrl + "/valuation/new"
+
 
    def allOpenCases()(implicit hc: HeaderCarrier): Future[List[ValuationCase]] = {
      client.GET[List[ValuationCase]](openCasesUrl)
    }
+
+  def allNewCases()(implicit hc: HeaderCarrier): Future[List[ValuationCase]] = {
+    client.GET[List[ValuationCase]](newCasesUrl)
+  }
 
   def caseByReference(reference: String)(implicit hc: HeaderCarrier): Future[Option[ValuationCase]] =
     client.GET[Option[ValuationCase]](s"$openCasesUrl/$reference")
