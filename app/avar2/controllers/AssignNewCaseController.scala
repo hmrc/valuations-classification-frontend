@@ -20,7 +20,7 @@ import avar2.controllers.actions.AuthenticatedCaseWorkerAction
 import avar2.forms.TakeOwnerShipForm
 import avar2.models.viewmodels.CaseHeaderViewModel
 import avar2.services.ValuationCaseService
-import avar2.views.html.assign_case
+import avar2.views.html.assign_new_case
 import cats.data.OptionT
 import config.AppConfig
 import play.api.data.Form
@@ -37,7 +37,7 @@ class AssignNewCaseController @Inject()(
                                       verify: AuthenticatedCaseWorkerAction,
                                       valuationCaseService: ValuationCaseService,
                                       mcc: MessagesControllerComponents,
-                                      val assignCase: assign_case)(implicit ec: ExecutionContext, config: AppConfig) extends FrontendController(mcc)
+                                      val assignCase: assign_new_case)(implicit ec: ExecutionContext, config: AppConfig) extends FrontendController(mcc)
   with WithUnsafeDefaultFormBinding with I18nSupport {
 
   private lazy val form: Form[Boolean] = TakeOwnerShipForm.form
