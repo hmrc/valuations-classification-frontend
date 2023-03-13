@@ -37,7 +37,13 @@ class ArsValuationCaseService @Inject() (connector: ValuationCaseConnector)(impl
   override def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] =
     connector.assignCase(reference, operator)
 
+
   override def rejectCase(reference: String, reason: RejectReason.Value,
                           attachment: Attachment, note: String, caseWorker: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] =
     connector.rejectCase(reference, reason, attachment, note)
+
+  override def unAssignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] = {
+    connector.unAssignCase(reference, operator)
+  }
+
 }

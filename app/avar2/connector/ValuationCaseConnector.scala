@@ -34,11 +34,15 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
 
   val openCasesUrl = serviceUrl + "/valuation"
 
-  def casesByAssignee(asignee: String) = s"$serviceUrl/valuations/$asignee"
+  def casesByAssignee(assignee: String) = s"$serviceUrl/valuations/$assignee"
 
   val assignCaseUrl = openCasesUrl + "/assign"
 
+
   val rejectCaseUrl = openCasesUrl + "/reject"
+
+  val unAssignCaseUrl = openCasesUrl + "/unassign"
+
 
 
    def allOpenCases()(implicit hc: HeaderCarrier): Future[List[ValuationCase]] = {
@@ -49,7 +53,11 @@ class ValuationCaseConnector @Inject() (config: AppConfig,
     client.GET[Option[ValuationCase]](s"$openCasesUrl/$reference")
 
   def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] = {
-    client.POST[AssignCaseRequest,Long](assignCaseUrl, AssignCaseRequest(reference, operator))
+    client.POST[AssignCaseRequest, Long](assignCaseUrl, AssignCaseRequest(reference, operator))
+  }
+
+  def unAssignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long] = {
+    client.POST[AssignCaseRequest, Long](unAssignCaseUrl, AssignCaseRequest(reference, operator))
   }
 
   def findCasesByAssignee(assignee: String)(implicit hc: HeaderCarrier): Future[List[ValuationCase]] = {
