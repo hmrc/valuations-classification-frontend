@@ -23,7 +23,8 @@ import scala.concurrent.Future
 
 
 trait ValuationCaseService {
-  def rejectCase(reference: String, reason: RejectReason.Value, attachment: Attachment, note: String, caseWorker: CaseWorker): Future[Unit]
+  def rejectCase(reference: String, reason: RejectReason.Value,
+                  attachment: Attachment, note: String, caseWorker: CaseWorker)(implicit hc: HeaderCarrier): Future[Long]
 
   def assignCase(reference: String, operator: CaseWorker)(implicit hc: HeaderCarrier): Future[Long]
 

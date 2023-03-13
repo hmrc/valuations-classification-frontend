@@ -34,8 +34,12 @@ POST        /cases/:reference/reject-reason                     avar2.controller
 GET         /cases/:reference/reject-email                      avar2.controllers.RejectCaseController.getRejectCaseEmail(reference: String, fileId: Option[String] ?= None)
 GET         /cases/:reference/reject/confirmation               avar2.controllers.RejectCaseController.confirmRejectCase(reference: String)
 
+
+GET         /attachment/:reference/:id                          avar2.controllers.ViewAttachmentController.get(reference: String, id: String)
+
 GET         /cases/:reference/release-or-suppress-case          avar2.controllers.ReleaseOrSuppressCaseController.onPageLoad(reference: String)
 POST        /cases/:reference/release-or-suppress-case          avar2.controllers.ReleaseOrSuppressCaseController.onSubmit(reference: String)
 
 GET         /cases/:reference/release                           avar2.controllers.ReleaseCaseController.releaseCase(reference: String)
 POST        /cases/:reference/release                           avar2.controllers.ReleaseCaseController.releaseCaseToQueue(reference: String)
+
