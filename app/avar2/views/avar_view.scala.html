@@ -25,11 +25,12 @@
 
 @this(
         main: main,
-        fullMainContent: full_main_content_layout
+        fullMainContent: full_main_content_layout,
+        case_action_buttons_partial: avar2.views.html.components.case_action_buttons_partial,
 )
 
 
-@(avarViewModel: AvarViewModel,uploadForm: Form[String])(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
+@(avarViewModel: AvarViewModel, uploadForm: Form[String])(implicit request: AuthenticatedCaseWorkerRequest[_], messages: Messages, appConfig: AppConfig)
 
 
 
@@ -54,9 +55,7 @@
         @valuation_case_heading(avarViewModel.caseViewModel.caseHeader, messageKey = Some("case.heading.details"))
     </div>
     <div class="govuk-button-group">
-        @*
-        @advanced_search_cases(avarViewModel.caseViewModel)
-        *@
+        @case_action_buttons_partial(avarViewModel.caseViewModel)
     </div>
 
     <div id="atar_tabs" class="govuk-tabs" data-module="govuk-tabs">
